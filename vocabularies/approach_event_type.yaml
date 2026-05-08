@@ -1,0 +1,15 @@
+# Event types emitted by etl.diff into approach_events.
+
+terms:
+  - code: NEW_OBJECT
+    label: New object
+    definition: An spkid not present in any prior snapshot.
+  - code: NEW_APPROACH
+    label: New close approach
+    definition: A (spkid, approach_date, body) tuple not present in any prior snapshot.
+  - code: REVISED_APPROACH
+    label: Revised close approach
+    definition: A previously-known approach whose distance, velocity, or solution_date has changed between snapshots.
+  - code: RISK_CLASS_CHANGE
+    label: Risk-class change
+    definition: An object whose risk classification (Sentry, Palermo, NEOCC) has changed. Phase 2 only.

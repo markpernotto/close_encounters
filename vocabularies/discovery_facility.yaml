@@ -1,0 +1,25 @@
+# Discovery facility / program vocabulary for NEO discoveries.
+# Populated as the warehouse encounters facilities; this file is the canonical
+# spelling and the place to add deprecated mappings (e.g. renames over time).
+
+programs:
+  - code: CSS
+    label: Catalina Sky Survey
+    institution: University of Arizona, Lunar and Planetary Laboratory
+  - code: ATLAS
+    label: Asteroid Terrestrial-impact Last Alert System
+    institution: University of Hawaii, Institute for Astronomy
+  - code: PS1
+    label: Pan-STARRS
+    institution: University of Hawaii, Institute for Astronomy
+  - code: NEOWISE
+    label: Near-Earth Object Wide-field Infrared Survey Explorer
+    institution: NASA / IPAC
+  - code: LINEAR
+    label: Lincoln Near-Earth Asteroid Research
+    institution: MIT Lincoln Laboratory
+    deprecated: true
+    deprecated_note: Survey ended 2013; historical attributions only.
+  - code: RUBIN_SSP
+    label: Rubin Observatory Solar System Processing
+    institution: Vera C. Rubin Observatory

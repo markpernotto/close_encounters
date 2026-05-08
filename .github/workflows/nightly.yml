@@ -1,0 +1,110 @@
+name: Nightly pipeline
+
+on:
+  schedule:
+    - cron: '30 6 * * *'   # 06:30 UTC daily
+  workflow_dispatch:        # manual trigger from the Actions tab
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write   # commit MANIFEST.jsonl + public/ feeds back to main
+      issues: write     # open an issue on failure
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+      R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+      DBT_HOST: ${{ secrets.DBT_HOST }}
+      DBT_USER: ${{ secrets.DBT_USER }}
+      DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+      DBT_DBNAME: ${{ secrets.DBT_DBNAME }}
+      DBT_PORT: ${{ secrets.DBT_PORT }}
+      DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
+      USER_AGENT_PROJECT: 'neo_citation/0.1 (+https://github.com/markpernotto/close_encounters)'
+      USER_AGENT_EMAIL: ${{ secrets.USER_AGENT_EMAIL }}
+      NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+      ADS_API_TOKEN: ${{ secrets.ADS_API_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Extract CNEOS + SBDB to R2
+        run: python -m etl.extract
+
+      - name: Load snapshot into Postgres
+        run: python -m etl.load
+
+      - name: Diff snapshots into approach_events
+        run: python -m etl.diff
+
+      - name: Evaluate alert rules
+        run: python -m etl.alerts
+
+      # Phase 2 step (uncomment when dbt models land)
+      # - name: dbt run (refresh marts)
+      #   run: cd etl/transform && DBT_PROFILES_DIR=. dbt run
+
+      # Phase 3 step (uncomment when citation resolver lands)
+      # - name: Resolve citation graph
+      #   run: python -m etl.resolve_citations --max-objects 50
+
+      - name: Publish RSS + JSON feeds
+        run: python -m etl.publish
+
+      - name: Commit manifest + feeds
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/MANIFEST.jsonl public/
+          if git diff --staged --quiet; then
+            echo "No changes to commit (likely a re-run on the same snapshot date)."
+          else
+            git commit -m "chore(nightly): update snapshot $(date -u +%Y-%m-%d) [skip ci]"
+            git push
+          fi
+
+      - name: Open issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const today = new Date().toISOString().slice(0, 10);
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Nightly pipeline failed — ${today}`,
+              body: [
+                'The nightly extract → load → diff → alerts → publish pipeline failed.',
+                '',
+                `**Run:** ${runUrl}`,
+                '',
+                'Check the workflow logs for the failing step.',
+              ].join('\n'),
+              labels: ['ops', 'nightly-failure'],
+            });

@@ -1,0 +1,43 @@
+Data License — Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+The data products published by this project (snapshots, derived tables, JSON
+and RSS feeds, and the citation graph) are licensed under the Creative Commons
+Attribution 4.0 International License.
+
+You are free to:
+  - Share — copy and redistribute the material in any medium or format
+  - Adapt — remix, transform, and build upon the material for any purpose,
+    even commercially.
+
+Under the following terms:
+  - Attribution — You must give appropriate credit, provide a link to the
+    license, and indicate if changes were made. You may do so in any reasonable
+    manner, but not in any way that suggests the licensor endorses you or your
+    use.
+  - No additional restrictions — You may not apply legal terms or technological
+    measures that legally restrict others from doing anything the license
+    permits.
+
+License: https://creativecommons.org/licenses/by/4.0/
+
+UPSTREAM ATTRIBUTION (required when redistributing this project's data):
+
+  Close-approach and small-body data are derived from products of NASA's Jet
+  Propulsion Laboratory, California Institute of Technology, including the
+  Center for Near-Earth Object Studies (CNEOS) close-approach database and
+  the JPL Small-Body Database. NASA/JPL/Caltech data is in the public domain;
+  please cite per:
+    https://ssd.jpl.nasa.gov/
+
+  Risk assessments are sourced from NASA Sentry and the European Space Agency
+  Near-Earth Object Coordination Centre (ESA NEOCC). ESA NEOCC has its own
+  attribution requirements; cite per:
+    https://neo.ssa.esa.int/
+
+  Object designations and discovery announcements are sourced from the IAU
+  Minor Planet Center (MPC), Smithsonian Astrophysical Observatory. Cite per:
+    https://www.minorplanetcenter.net/iau/info/Acknowledgements.html
+
+  Bibliographic metadata for scientific publications is sourced from the NASA
+  Astrophysics Data System (ADS), Crossref, and arXiv. Cite each source per
+  their respective guidelines.

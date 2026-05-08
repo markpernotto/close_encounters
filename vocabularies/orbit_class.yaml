@@ -1,0 +1,20 @@
+# Orbit-class vocabulary for near-Earth objects.
+# Source authority: JPL Small-Body Database. Codes per
+# https://ssd.jpl.nasa.gov/sbdb_help.cgi#class
+
+terms:
+  - code: AMO
+    label: Amor
+    definition: Earth-approaching NEAs with orbits exterior to Earth's but interior to Mars'.
+  - code: APO
+    label: Apollo
+    definition: Earth-crossing NEAs with semi-major axes larger than Earth's.
+  - code: ATE
+    label: Aten
+    definition: Earth-crossing NEAs with semi-major axes smaller than Earth's.
+  - code: IEO
+    label: Atira (Interior-Earth Object)
+    definition: NEAs whose orbits are entirely contained inside Earth's orbit.
+  - code: MCA
+    label: Mars-crossing Asteroid
+    definition: Asteroids that cross the orbit of Mars but not Earth.

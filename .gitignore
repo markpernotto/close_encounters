@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+profiles.yml
+# ...except our project-internal profiles.yml, which is parameterized via env_var()
+# and contains no secrets. CI needs this file to be present.
+!etl/transform/profiles.yml
+
+# Node / Vite
+node_modules/
+dist/
+.vite/
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Snapshot data (lives in R2; only manifest is tracked)
+data/snapshots/
+data/archive/
+data/unresolved.csv
+!data/MANIFEST.jsonl
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Build artifacts
+build/
+*.egg
+
+# Private outreach notes — never commit
+docs/OUTREACH.md

@@ -1,0 +1,20 @@
+# Risk-class vocabulary for impact assessments.
+# Sources: NASA Sentry (Torino, Palermo) and ESA NEOCC scales.
+
+scales:
+  - id: torino
+    label: Torino Scale
+    authority: International Astronomical Union / NASA Sentry
+    range: [0, 10]
+    definition: Integer hazard scale 0–10. 0 = no concern; 10 = certain global catastrophe.
+    reference: https://cneos.jpl.nasa.gov/sentry/torino_scale.html
+  - id: palermo
+    label: Palermo Technical Scale
+    authority: NASA Sentry
+    definition: Logarithmic scale comparing impact probability and energy to background risk over the time until impact.
+    reference: https://cneos.jpl.nasa.gov/sentry/palermo_scale.html
+  - id: neocc_risk_list
+    label: ESA NEOCC Risk List ranking
+    authority: ESA Near-Earth Object Coordination Centre
+    definition: European cross-check on NASA risk classification.
+    reference: https://neo.ssa.esa.int/risk-list

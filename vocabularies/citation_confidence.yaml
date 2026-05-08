@@ -1,0 +1,16 @@
+# Citation-resolution confidence levels (Phase 3).
+# Mirrors exoplanet_citation's rubric for cross-project consistency.
+
+levels:
+  - code: high
+    label: High confidence
+    definition: Direct DOI present in the source record, or exact ADS bibcode match.
+  - code: medium
+    label: Medium confidence
+    definition: Crossref structured-search returned exactly one match on author + year + journal.
+  - code: low
+    label: Low confidence
+    definition: Heuristic match with at least one ambiguous field; queued for periodic re-resolution.
+  - code: unresolved
+    label: Unresolved
+    definition: No tier returned a usable result; queued for manual review in docs/UNRESOLVED.md.

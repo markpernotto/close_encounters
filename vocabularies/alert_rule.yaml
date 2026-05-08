@@ -1,0 +1,20 @@
+# Alert-rule vocabulary. Each rule is a pure function in etl.alerts.
+# Public documentation lives in docs/ALERT_RULES.md once Phase 1 ships.
+
+rules:
+  - id: size_and_distance
+    label: Sizeable object inside the lunar distance
+    threshold: estimated diameter ≥ 50 m AND distance ≤ 1 lunar distance
+    rationale: This is the planetary-defense-relevant pass — large enough to matter, close enough to track.
+  - id: very_close_any_size
+    label: Very-close approach regardless of size
+    threshold: distance ≤ 0.5 lunar distance
+    rationale: Anything inside half the Earth-Moon distance is operationally interesting whatever its size.
+  - id: short_arc_late_warning
+    label: Newly-discovered, short observation arc, near-term approach
+    threshold: NEW_OBJECT AND first close approach within 30 days AND observation arc < 14 days
+    rationale: "Found-late" objects whose orbits are still uncertain — these are what discovery surveys care about.
+  - id: risk_class_change
+    label: Risk-class movement
+    threshold: any addition to or upward movement on Sentry / NEOCC risk lists
+    rationale: Phase 2 only.
