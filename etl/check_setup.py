@@ -57,6 +57,7 @@ def check_postgres() -> bool:
                     "orbit_elements_snapshots",
                     "close_approaches_snapshots",
                     "approach_events",
+                    "alerts",
                 }
                 cur.execute(
                     """

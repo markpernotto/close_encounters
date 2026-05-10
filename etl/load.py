@@ -191,6 +191,26 @@ def load_events(conn: psycopg.Connection, events: Iterable[dict[str, Any]]) -> i
 
 
 # ---------------------------------------------------------------------------
+# alerts
+# ---------------------------------------------------------------------------
+
+_ALERT_COLS = (
+    "fired_at", "rule_id", "spkid", "approach_date", "event_dedup_key",
+    "rationale", "payload", "dedup_key",
+)
+
+
+def load_alerts(conn: psycopg.Connection, alerts: Iterable[dict[str, Any]]) -> int:
+    """Insert alerts. ON CONFLICT on dedup_key → no-op (idempotent + append-only)."""
+    sql = f"""
+        INSERT INTO alerts ({", ".join(_ALERT_COLS)})
+        VALUES ({", ".join("%s" for _ in _ALERT_COLS)})
+        ON CONFLICT (dedup_key) DO NOTHING
+    """
+    return _execute_many(conn, sql, alerts, _ALERT_COLS)
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -220,6 +240,7 @@ def _adapt(value: Any) -> Any:
 
 __all__ = [
     "connect",
+    "load_alerts",
     "load_close_approaches",
     "load_events",
     "load_objects",

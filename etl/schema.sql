@@ -109,3 +109,27 @@ CREATE TABLE IF NOT EXISTS approach_events (
 CREATE INDEX IF NOT EXISTS idx_approach_events_observed_at ON approach_events (observed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_approach_events_spkid ON approach_events (spkid);
 CREATE INDEX IF NOT EXISTS idx_approach_events_approach_date ON approach_events (approach_date);
+
+-- ---------------------------------------------------------------------------
+-- alerts — fired threshold-rule matches against approach_events
+-- Append-only by policy. dedup_key keeps re-runs idempotent.
+-- The public noteworthy.rss / noteworthy.json feeds are generated from this
+-- table; corrections to the underlying data emit NEW alerts rather than
+-- mutating prior ones.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS alerts (
+    alert_id               BIGSERIAL PRIMARY KEY,
+    fired_at               TIMESTAMPTZ NOT NULL,
+    rule_id                TEXT NOT NULL,        -- matches vocabularies/alert_rule.yaml
+    spkid                  TEXT NOT NULL,
+    approach_date          TIMESTAMPTZ NOT NULL,
+    event_dedup_key        TEXT NOT NULL,        -- ties back to approach_events.dedup_key
+    rationale              TEXT NOT NULL,        -- human-readable "why this fired"
+    payload                JSONB NOT NULL,
+    -- (rule_id, event_dedup_key) tuple — re-running the evaluator on the
+    -- same event yields the same alerts.
+    dedup_key              TEXT NOT NULL UNIQUE
+);
+CREATE INDEX IF NOT EXISTS idx_alerts_fired_at ON alerts (fired_at DESC);
+CREATE INDEX IF NOT EXISTS idx_alerts_spkid ON alerts (spkid);
+CREATE INDEX IF NOT EXISTS idx_alerts_rule_id ON alerts (rule_id);
