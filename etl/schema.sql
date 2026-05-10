@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS close_approaches_snapshots (
     distance_max_au        DOUBLE PRECISION,     -- 1-sigma maximum
     v_rel_km_s             DOUBLE PRECISION,     -- relative velocity at approach
     v_inf_km_s             DOUBLE PRECISION,     -- velocity at infinity
+    orbit_id               TEXT,                 -- CNEOS orbit determination id; changes signal a revision
     solution_date          DATE NOT NULL,
     raw_row                JSONB,
     source_retrieved_at    TIMESTAMPTZ NOT NULL,
@@ -99,7 +100,11 @@ CREATE TABLE IF NOT EXISTS approach_events (
     event_type             TEXT NOT NULL,        -- NEW_APPROACH, REVISED_APPROACH, NEW_OBJECT, RISK_CLASS_CHANGE
     prev_value             JSONB,
     new_value              JSONB,
-    diff_summary           TEXT
+    diff_summary           TEXT,
+    -- Deterministic key so re-running diff.py is idempotent. Computed by
+    -- etl.diff.compute_dedup_key() from (event_type, spkid, approach_date,
+    -- canonical-json(new_value)).
+    dedup_key              TEXT NOT NULL UNIQUE
 );
 CREATE INDEX IF NOT EXISTS idx_approach_events_observed_at ON approach_events (observed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_approach_events_spkid ON approach_events (spkid);
