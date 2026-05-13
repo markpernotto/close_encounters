@@ -17,6 +17,28 @@ from etl._http import get_json
 CAD_URL = "https://ssd-api.jpl.nasa.gov/cad.api"
 
 
+def fetch_close_approaches_raw(
+    *,
+    date_min: str,
+    date_max: str,
+    dist_max_au: float = 0.05,
+    body: str = "Earth",
+) -> dict[str, Any]:
+    """Fetch the full CNEOS payload (signature + fields + data + count).
+
+    Used by etl.extract to snapshot the raw response to R2 with provenance.
+    Other callers should prefer fetch_close_approaches() which returns
+    flattened row dicts.
+    """
+    params: dict[str, str | int | float] = {
+        "date-min": date_min,
+        "date-max": date_max,
+        "dist-max": dist_max_au,
+        "body": body,
+    }
+    return get_json(CAD_URL, params=params)
+
+
 def fetch_close_approaches(
     *,
     date_min: str,
@@ -26,25 +48,14 @@ def fetch_close_approaches(
 ) -> list[dict[str, Any]]:
     """Fetch close approaches in [date_min, date_max] within dist_max AU of body.
 
-    Args:
-        date_min: ISO date or "now".
-        date_max: ISO date.
-        dist_max_au: maximum approach distance in AU. 0.05 AU ≈ 19.5 LD.
-        body: target body, default "Earth". CNEOS supports Mars, Moon, etc.
-
-    Returns:
-        A list of row dicts with keys matching CNEOS field names: des,
-        orbit_id, jd, cd, dist, dist_min, dist_max, v_rel, v_inf,
-        t_sigma_f, h.
+    Returns row dicts with keys matching CNEOS field names: des, orbit_id,
+    jd, cd, dist, dist_min, dist_max, v_rel, v_inf, t_sigma_f, h.
     """
-    params: dict[str, str | int | float] = {
-        "date-min": date_min,
-        "date-max": date_max,
-        "dist-max": dist_max_au,
-        "body": body,
-    }
-    payload = get_json(CAD_URL, params=params)
-    return _flatten(payload)
+    return _flatten(
+        fetch_close_approaches_raw(
+            date_min=date_min, date_max=date_max, dist_max_au=dist_max_au, body=body
+        )
+    )
 
 
 def _flatten(payload: dict[str, Any]) -> list[dict[str, Any]]:

@@ -1,4 +1,4 @@
-.PHONY: help extract load diff alerts publish pipeline test api web dev web-install web-build dbt-debug dbt-run dbt-test dbt-docs check-setup
+.PHONY: help schema extract diff alerts publish pipeline test api web dev web-install web-build dbt-debug dbt-run dbt-test dbt-docs check-setup
 
 ifneq (,$(wildcard .env))
     include .env
@@ -10,14 +10,14 @@ DBT_DIR := etl/transform
 help:
 	@echo "Targets:"
 	@echo "  check-setup   verify Neon + R2 connectivity and Phase 1 schema"
-	@echo "  extract       fetch CNEOS close-approach + SBDB snapshots and upload to R2"
-	@echo "  load          load latest snapshot from R2 into Postgres"
+	@echo "  schema        apply etl/schema.sql to \$$DATABASE_URL (idempotent)"
+	@echo "  extract       pull CNEOS+SBDB, upload raw to R2, UPSERT into Postgres, update MANIFEST"
 	@echo "  diff          compute approach_events between latest two snapshots"
-	@echo "  alerts        evaluate threshold rules → noteworthy.{rss,json}"
-	@echo "  publish       generate public/{upcoming.rss,noteworthy.rss,upcoming.json,health.json}"
-	@echo "  pipeline      run extract → load → diff → alerts → publish"
-	@echo "  api           run FastAPI locally on :8000 with auto-reload"
-	@echo "  web           run Vite dev server on :5550 (proxies /api → :8000)"
+	@echo "  alerts        evaluate threshold rules against the latest events → alerts table"
+	@echo "  publish       generate public/{upcoming,noteworthy}.{rss,json} + public/health.json"
+	@echo "  pipeline      run extract -> diff -> alerts -> publish"
+	@echo "  api           run FastAPI locally on :8551 with auto-reload"
+	@echo "  web           run Vite dev server on :5551 (proxies /api → :8551)"
 	@echo "  dev           run api + web together (you'll need two terminals)"
 	@echo "  web-install   install npm deps under web/"
 	@echo "  web-build     production build of the React app"
@@ -30,11 +30,11 @@ help:
 check-setup:
 	python -m etl.check_setup
 
+schema:
+	psql "$$DATABASE_URL" -f etl/schema.sql
+
 extract:
 	python -m etl.extract
-
-load:
-	python -m etl.load
 
 diff:
 	python -m etl.diff
@@ -45,10 +45,10 @@ alerts:
 publish:
 	python -m etl.publish
 
-pipeline: extract load diff alerts publish
+pipeline: extract diff alerts publish
 
 api:
-	uvicorn api.index:app --reload --port 8000
+	uvicorn api.index:app --reload --port 8551
 
 web-install:
 	cd web && npm install

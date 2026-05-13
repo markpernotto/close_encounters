@@ -133,17 +133,26 @@ cp .env.example .env  # fill in real values
 # Apply schema (against your Neon DATABASE_URL)
 psql "$DATABASE_URL" -f etl/schema.sql
 
-# Verify Neon + R2 connectivity
+# Verify Neon + R2 (or local-fallback) connectivity
 make check-setup
 
 # Run unit tests (no DB or R2 required)
 make test
 
 # Local API + web (two terminals)
-make api               # http://localhost:8000
+make api               # http://localhost:8551
 make web-install
-make web               # http://localhost:5550
+make web               # http://localhost:5551
 ```
+
+### Snapshot storage backend
+
+By default, raw CNEOS + SBDB payloads are archived to Cloudflare R2. If the
+four `R2_*` env vars aren't set (or `STORAGE_BACKEND=local`), the pipeline
+falls back to writing snapshots into `data/snapshots/local-r2/` on disk —
+useful for local development without a Cloudflare account. See
+`.env.example` for details. Switching backends is purely an env-var change;
+no code changes required.
 
 ## Architecture (Phase 1)
 

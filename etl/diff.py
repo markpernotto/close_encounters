@@ -272,6 +272,19 @@ def _fetch_approaches(conn: psycopg.Connection, snapshot_date) -> list[dict[str,
         return list(cur.fetchall())
 
 
+def main() -> None:
+    import json
+    import sys
+
+    written = run()
+    json.dump({"events_written": written}, sys.stdout)
+    sys.stdout.write("\n")
+
+
+if __name__ == "__main__":
+    main()
+
+
 __all__ = [
     "EVENT_NEW_APPROACH",
     "EVENT_NEW_OBJECT",

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>close encounters — noteworthy alerts</title>
+    <link>https://close-encounters.vercel.app/alerts</link>
+    <description>Threshold-rule alerts: sizeable objects inside the lunar distance, very-close approaches, late-warning new objects. Append-only — corrections are emitted as new alerts.</description>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 13 May 2026 17:37:30 +0000</lastBuildDate>
+    <pubDate>Wed, 13 May 2026 17:37:30 +0000</pubDate>
+
+  </channel>
+</rss>

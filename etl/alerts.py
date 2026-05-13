@@ -354,6 +354,18 @@ def _fetch_latest_evaluation_context(
     return events, objects_by_spkid, approaches_by_key
 
 
+def main() -> None:
+    import sys
+
+    written = run()
+    json.dump({"alerts_written": written}, sys.stdout)
+    sys.stdout.write("\n")
+
+
+if __name__ == "__main__":
+    main()
+
+
 __all__ = [
     "ALL_RULES",
     "DEFAULT_ALBEDO",

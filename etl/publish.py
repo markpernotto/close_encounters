@@ -376,6 +376,18 @@ def _maybe_float(v: Any) -> float | None:
         return None
 
 
+def main() -> None:
+    import sys
+
+    summary = run()
+    json.dump(summary, sys.stdout, indent=2)
+    sys.stdout.write("\n")
+
+
+if __name__ == "__main__":
+    main()
+
+
 __all__ = [
     "DEFAULT_BASE_URL",
     "NOTEWORTHY_LIMIT",

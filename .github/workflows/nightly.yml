@@ -53,16 +53,21 @@ jobs:
           pip install --upgrade pip
           pip install -e ".[dev]"
 
-      - name: Extract CNEOS + SBDB to R2
-        run: python -m etl.extract
+      - name: Apply schema (idempotent)
+        env:
+          PGPASSWORD_SOURCE: ${{ secrets.DATABASE_URL }}
+        run: psql "$DATABASE_URL" -f etl/schema.sql
 
-      - name: Load snapshot into Postgres
-        run: python -m etl.load
+      - name: Extract CNEOS + SBDB → R2 + Postgres
+        # etl.extract performs the full extract → R2 upload → Postgres UPSERT
+        # cycle and updates data/MANIFEST.jsonl.
+        run: python -m etl.extract
 
       - name: Diff snapshots into approach_events
         run: python -m etl.diff
 
       - name: Evaluate alert rules
+        # Fully idempotent on rule_id + event_dedup_key.
         run: python -m etl.alerts
 
       # Phase 2 step (uncomment when dbt models land)
