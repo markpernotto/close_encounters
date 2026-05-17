@@ -1,7 +1,30 @@
 :root {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  color-scheme: light dark;
+  --bg: #fafaf7;
+  --bg-elevated: #ffffff;
+  --fg: #1a1a1a;
+  --fg-muted: #6a6a6a;
+  --border: #dcdcd5;
+  --border-strong: #b8b8af;
+  --accent: #0d4f8c;
+  --accent-hover: #06325e;
+  --warn-bg: #fef3e2;
+  --warn-fg: #8a4b00;
+  --error-bg: #fdecea;
+  --error-fg: #8a1a14;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  color: var(--fg);
+  background: var(--bg);
+  color-scheme: light;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -9,8 +32,269 @@ body {
   min-height: 100vh;
 }
 
-main {
-  max-width: 64rem;
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--accent-hover); }
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.mono { font-family: var(--font-mono); font-size: 0.95em; }
+.muted { color: var(--fg-muted); }
+.num { font-family: var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; }
+
+/* -------- Layout ---------------------------------------------------------- */
+
+.app {
+  max-width: 76rem;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.brand-link {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  text-decoration: none;
+}
+.brand-tag {
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+.site-nav a {
+  color: var(--fg);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a.active,
+.site-nav a[aria-current='page'] {
+  border-bottom-color: var(--accent);
+}
+
+.snapshot-badge {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  margin-left: 0.5rem;
+}
+
+.site-main {
+  min-height: 50vh;
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+.site-footer p { margin: 0.4rem 0; }
+.footer-feeds a { margin-right: 0.25rem; }
+
+/* -------- Page ------------------------------------------------------------ */
+
+.page {
+  margin-bottom: 2rem;
+}
+.page-head {
+  margin-bottom: 1.25rem;
+}
+.page-head h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.7rem;
+  letter-spacing: -0.01em;
+}
+.page-sub {
+  margin: 0;
+  color: var(--fg-muted);
+  max-width: 60ch;
+}
+
+.count {
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+  margin: 0 0 0.75rem;
+}
+
+.loading, .empty {
+  color: var(--fg-muted);
+  padding: 1rem 0;
+}
+.error {
+  background: var(--error-bg);
+  color: var(--error-fg);
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--error-fg);
+  margin: 1rem 0;
+}
+
+/* -------- Approaches table ------------------------------------------------ */
+
+.approaches {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.93rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+}
+.approaches thead {
+  background: #f1f1eb;
+}
+.approaches th, .approaches td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+.approaches th.num, .approaches td.num {
+  text-align: right;
+}
+.approaches tr:last-child td {
+  border-bottom: none;
+}
+.approaches tr:hover td {
+  background: #f5f5ef;
+}
+.sort-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 600;
+  cursor: pointer;
+  color: inherit;
+  text-align: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.sort-btn:hover { color: var(--accent); }
+.sort-btn.active { color: var(--accent); }
+.sort-indicator {
+  font-size: 0.7em;
+  color: var(--fg-muted);
+}
+.sort-btn.active .sort-indicator { color: var(--accent); }
+
+/* -------- Alerts ---------------------------------------------------------- */
+
+.alerts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.alert {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 0.85rem 1rem;
+}
+.alert-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+.alert-rule {
+  font-weight: 600;
+}
+.alert-rationale {
+  margin: 0.25rem 0;
+}
+.alert-foot {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+/* -------- Object detail page --------------------------------------------- */
+
+.object-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.4rem 1.5rem;
+  margin: 1.5rem 0 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+}
+.fact {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0;
+}
+.fact dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+  margin-bottom: 0.15rem;
+}
+.fact dd {
+  margin: 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  background: #ebebe3;
+  border: 1px solid var(--border-strong);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  margin-right: 0.4rem;
+}
+.tag-warn {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+  border-color: var(--warn-fg);
+}
+
+.page h2 {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+/* -------- Responsive ----------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .app { padding: 1rem 1rem 2rem; }
+  .site-nav { margin-left: 0; }
+  .snapshot-badge { margin-left: 0; }
+  .approaches { font-size: 0.85rem; }
+  .approaches th, .approaches td { padding: 0.4rem 0.5rem; }
 }

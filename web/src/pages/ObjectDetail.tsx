@@ -1,0 +1,123 @@
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import ApproachesTable from '../components/ApproachesTable';
+import { ApiError, fetchObject, fetchObjectApproaches } from '../api';
+import type { ApproachListResponse, ObjectDetail as ObjectDetailType } from '../types';
+
+export default function ObjectDetail() {
+  const { designation } = useParams<{ designation: string }>();
+  const [obj, setObj] = useState<ObjectDetailType | null>(null);
+  const [approaches, setApproaches] = useState<ApproachListResponse | null>(null);
+  const [error, setError] = useState<{ status?: number; message: string } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!designation) return;
+    const controller = new AbortController();
+    setLoading(true);
+    Promise.all([
+      fetchObject(designation, controller.signal),
+      fetchObjectApproaches(designation, controller.signal),
+    ])
+      .then(([o, a]) => {
+        setObj(o);
+        setApproaches(a);
+        setError(null);
+      })
+      .catch((e: Error) => {
+        if (e.name === 'AbortError') return;
+        if (e instanceof ApiError) setError({ status: e.status, message: e.message });
+        else setError({ message: e.message });
+      })
+      .finally(() => setLoading(false));
+    return () => controller.abort();
+  }, [designation]);
+
+  if (loading) return <section className="page"><p className="loading">Loading…</p></section>;
+
+  if (error?.status === 404) {
+    return (
+      <section className="page">
+        <p className="error">
+          Object <span className="mono">{designation}</span> not in the current snapshot.
+        </p>
+        <p>
+          <Link to="/">Back to upcoming approaches</Link>
+        </p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="page">
+        <p className="error">Couldn't load object {designation}: {error.message}</p>
+      </section>
+    );
+  }
+
+  if (!obj || !approaches) return null;
+
+  return (
+    <section className="page">
+      <header className="page-head">
+        <h1 className="mono">{obj.full_name || obj.designation}</h1>
+        <p className="page-sub">
+          {obj.orbit_class && <span className="tag">{obj.orbit_class}</span>}
+          {obj.neo && <span className="tag">NEO</span>}
+          {obj.pha && <span className="tag tag-warn">PHA</span>}
+        </p>
+      </header>
+
+      <dl className="object-facts">
+        <Fact label="SPK-ID" value={obj.spkid} mono />
+        <Fact label="Designation" value={obj.designation} mono />
+        <Fact label="Absolute magnitude H" value={obj.absolute_magnitude_h?.toFixed(2)} />
+        <Fact
+          label="Diameter"
+          value={
+            obj.diameter_km
+              ? formatDiameter(obj.diameter_km)
+              : obj.diameter_estimate_km
+                ? `~${formatDiameter(obj.diameter_estimate_km)} (estimated)`
+                : 'unknown'
+          }
+        />
+        <Fact label="Albedo" value={obj.albedo?.toFixed(3)} />
+        <Fact label="Rotation period" value={obj.rotation_period_h ? `${obj.rotation_period_h.toFixed(2)} h` : null} />
+        <Fact label="Spectral class" value={obj.spec_class} />
+        <Fact label="Observation arc" value={obj.observation_arc_days ? `${obj.observation_arc_days} days` : null} />
+        <Fact label="Observations used" value={obj.n_observations?.toLocaleString()} />
+        <Fact label="First observed" value={obj.first_observed} mono />
+        <Fact label="Last observed" value={obj.last_observed} mono />
+        <Fact label="Orbit solution date" value={obj.solution_date} mono />
+      </dl>
+
+      <h2>Close approaches in current snapshot</h2>
+      <ApproachesTable items={approaches.items} />
+    </section>
+  );
+}
+
+function Fact({
+  label,
+  value,
+  mono,
+}: {
+  label: string;
+  value: string | number | null | undefined;
+  mono?: boolean;
+}) {
+  if (value == null || value === '') return null;
+  return (
+    <div className="fact">
+      <dt>{label}</dt>
+      <dd className={mono ? 'mono' : undefined}>{value}</dd>
+    </div>
+  );
+}
+
+function formatDiameter(km: number): string {
+  if (km < 1) return `${Math.round(km * 1000)} m`;
+  return `${km.toFixed(2)} km`;
+}

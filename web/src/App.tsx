@@ -1,14 +1,29 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+import Alerts from './pages/Alerts';
+import Home from './pages/Home';
+import ObjectDetail from './pages/ObjectDetail';
+
 export default function App() {
   return (
-    <main>
-      <h1>close encounters</h1>
-      <p>
-        A public catalog of near-Earth object close approaches, orbit
-        revisions, and the discovery announcements that announced them.
-      </p>
-      <p>
-        <em>Phase 1 in progress.</em>
-      </p>
-    </main>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/alerts" element={<Alerts />} />
+          <Route path="/objects/:designation" element={<ObjectDetail />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
+}
+
+function NotFound() {
+  return (
+    <section className="page">
+      <h1>Not found</h1>
+      <p>That URL doesn't match anything in the current snapshot.</p>
+    </section>
   );
 }
