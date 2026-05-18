@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import os
 from collections.abc import Iterable
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 import psycopg
@@ -22,10 +22,32 @@ def _json_dumps(obj: Any) -> str:
     return json.dumps(obj, default=str)
 
 
-# Register globally so every Json/Jsonb adapter in the process uses our
-# date-aware dumps. Passing `dumps=` to Json() per-call has been inconsistent
-# across psycopg minor versions; set_json_dumps is the documented, stable path.
+# Register globally as a belt: every Json/Jsonb adapter in the process will
+# use our date-aware dumps. We also pre-scrub dates from JSONB payloads in
+# _adapt below as suspenders — that path works regardless of which psycopg
+# dumper instance is in play, including any that may have been created
+# before set_json_dumps() ran.
 set_json_dumps(_json_dumps)
+
+
+def _scrub_dates(value: Any) -> Any:
+    """Walk a value and replace any date/datetime with its ISO string form.
+
+    JSON has no native date type, and psycopg's stock JSON encoder will
+    raise TypeError if it encounters one. Doing this conversion in Python
+    before handing the value to psycopg means we don't depend on any
+    particular adapter behavior — the payload is plain JSON-serializable
+    primitives by the time psycopg sees it.
+    """
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
+    if isinstance(value, dict):
+        return {k: _scrub_dates(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_scrub_dates(v) for v in value]
+    return value
 
 
 def connect(database_url: str | None = None) -> psycopg.Connection:
@@ -246,11 +268,12 @@ def _execute_many(
 def _adapt(value: Any) -> Any:
     """Wrap dict/list values as Json so psycopg can pass them as JSONB.
 
-    The global set_json_dumps() registration above ensures dates inside the
-    payload get serialized as ISO strings.
+    Dates inside the payload are scrubbed to ISO strings before wrapping so
+    the value is plain JSON-serializable regardless of which encoder
+    psycopg ends up using.
     """
     if isinstance(value, (dict, list)):
-        return Json(value)
+        return Json(_scrub_dates(value))
     return value
 
 
