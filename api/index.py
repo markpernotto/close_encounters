@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import os
 from collections.abc import Generator
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from datetime import UTC, datetime, timedelta
+from typing import Annotated, Any
 
 import psycopg
 from dotenv import load_dotenv
@@ -59,13 +59,18 @@ def get_conn() -> Generator[psycopg.Connection, None, None]:
         conn.close()
 
 
+# FastAPI-recommended pattern for shared dependencies — avoids B008 lint hits
+# from calling `Depends()` directly in argument defaults.
+ConnDep = Annotated[psycopg.Connection, Depends(get_conn)]
+
+
 # ---------------------------------------------------------------------------
 # /health
 # ---------------------------------------------------------------------------
 
 
 @app.get("/health", response_model=HealthResponse)
-def health(conn: psycopg.Connection = Depends(get_conn)) -> HealthResponse:
+def health(conn: ConnDep) -> HealthResponse:
     with conn.cursor() as cur:
         cur.execute("SELECT MAX(snapshot_date) FROM close_approaches_snapshots")
         row = cur.fetchone()
@@ -80,11 +85,11 @@ def health(conn: psycopg.Connection = Depends(get_conn)) -> HealthResponse:
 
 @app.get("/api/approaches/upcoming", response_model=ApproachListResponse)
 def approaches_upcoming(
+    conn: ConnDep,
     days: int = Query(default=DEFAULT_UPCOMING_DAYS, ge=1, le=365),
     limit: int = Query(default=DEFAULT_LIMIT, ge=1, le=1000),
-    conn: psycopg.Connection = Depends(get_conn),
 ) -> ApproachListResponse:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     end = now + timedelta(days=days)
     snapshot_date, rows = _fetch_approaches(
         conn,
@@ -108,11 +113,11 @@ def approaches_upcoming(
 
 @app.get("/api/approaches/recent", response_model=ApproachListResponse)
 def approaches_recent(
+    conn: ConnDep,
     days: int = Query(default=DEFAULT_RECENT_DAYS, ge=1, le=365),
     limit: int = Query(default=DEFAULT_LIMIT, ge=1, le=1000),
-    conn: psycopg.Connection = Depends(get_conn),
 ) -> ApproachListResponse:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start = now - timedelta(days=days)
     snapshot_date, rows = _fetch_approaches(
         conn,
@@ -137,7 +142,7 @@ def approaches_recent(
 @app.get("/api/objects/{designation}", response_model=ObjectDetail)
 def get_object(
     designation: str,
-    conn: psycopg.Connection = Depends(get_conn),
+    conn: ConnDep,
 ) -> ObjectDetail:
     row = _fetch_object(conn, designation)
     if not row:
@@ -152,9 +157,9 @@ def get_object(
 
 @app.get("/api/objects/{designation}/approaches", response_model=ApproachListResponse)
 def get_object_approaches(
+    conn: ConnDep,
     designation: str,
     limit: int = Query(default=DEFAULT_LIMIT, ge=1, le=1000),
-    conn: psycopg.Connection = Depends(get_conn),
 ) -> ApproachListResponse:
     obj = _fetch_object(conn, designation)
     if not obj:
@@ -211,9 +216,9 @@ def get_object_approaches(
 
 @app.get("/api/alerts", response_model=AlertListResponse)
 def list_alerts(
+    conn: ConnDep,
     limit: int = Query(default=DEFAULT_ALERTS_LIMIT, ge=1, le=500),
     rule_id: str | None = Query(default=None),
-    conn: psycopg.Connection = Depends(get_conn),
 ) -> AlertListResponse:
     with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
         if rule_id:

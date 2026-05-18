@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 import os
 from collections.abc import Iterable
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from email.utils import format_datetime
 from pathlib import Path
 from typing import Any
@@ -161,7 +161,7 @@ def render_health_json(
 
 def fetch_upcoming(conn: psycopg.Connection, *, window_days: int = UPCOMING_WINDOW_DAYS, now: datetime | None = None) -> list[dict[str, Any]]:
     """All approaches in the latest snapshot that fall within [now, now+window]."""
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     end = now + timedelta(days=window_days)
     with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
         cur.execute(
@@ -249,7 +249,7 @@ def run(
     url = database_url or os.environ["DATABASE_URL"]
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    generated_at = now or datetime.now(timezone.utc)
+    generated_at = now or datetime.now(UTC)
 
     with connect(url) as conn:
         upcoming = fetch_upcoming(conn, now=generated_at)
@@ -363,7 +363,7 @@ def _noteworthy_rss_item(row: dict[str, Any], base_url: str) -> str:
 
 def _iso(d: datetime) -> str:
     if d.tzinfo is None:
-        d = d.replace(tzinfo=timezone.utc)
+        d = d.replace(tzinfo=UTC)
     return d.isoformat()
 
 

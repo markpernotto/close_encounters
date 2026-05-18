@@ -28,13 +28,12 @@ import sys
 import time
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from etl import load
+from etl import load, transform
 from etl import r2 as r2_module
-from etl import transform
 from etl.sources import jpl_cneos, jpl_sbdb
 
 DEFAULT_WINDOW_DAYS = 60
@@ -257,7 +256,7 @@ def run(
     now: datetime | None = None,
 ) -> dict[str, Any]:
     """Run one nightly extract. Returns a summary dict (used as CLI output)."""
-    retrieved_at = now or datetime.now(timezone.utc)
+    retrieved_at = now or datetime.now(UTC)
     snapshot_date = snapshot_date or retrieved_at.date()
 
     if cneos_fetch is None:
