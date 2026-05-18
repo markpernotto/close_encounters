@@ -14,12 +14,18 @@ from datetime import date
 from typing import Any
 
 import psycopg
-from psycopg.types.json import Json
+from psycopg.types.json import Json, set_json_dumps
 
 
 def _json_dumps(obj: Any) -> str:
     """JSON-encode for JSONB columns; converts date/datetime to ISO strings."""
     return json.dumps(obj, default=str)
+
+
+# Register globally so every Json/Jsonb adapter in the process uses our
+# date-aware dumps. Passing `dumps=` to Json() per-call has been inconsistent
+# across psycopg minor versions; set_json_dumps is the documented, stable path.
+set_json_dumps(_json_dumps)
 
 
 def connect(database_url: str | None = None) -> psycopg.Connection:
@@ -238,9 +244,13 @@ def _execute_many(
 
 
 def _adapt(value: Any) -> Any:
-    """Wrap dict/list values as Json so psycopg can pass them as JSONB."""
+    """Wrap dict/list values as Json so psycopg can pass them as JSONB.
+
+    The global set_json_dumps() registration above ensures dates inside the
+    payload get serialized as ISO strings.
+    """
     if isinstance(value, (dict, list)):
-        return Json(value, dumps=_json_dumps)
+        return Json(value)
     return value
 
 

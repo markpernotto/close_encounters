@@ -10,6 +10,9 @@ from __future__ import annotations
 
 from datetime import UTC, date, datetime
 
+import psycopg.types.json as psy_json
+
+import etl.load  # noqa: F401 — import side-effect registers our dumps globally
 from etl.load import _adapt, _json_dumps
 
 
@@ -36,16 +39,15 @@ def test_json_dumps_handles_nested_dates():
 
 
 def test_adapt_wraps_dict_with_date_safe_dumps():
-    """A dict containing a date must round-trip through psycopg's Json
-    adapter without raising. We exercise the adapter's dumps callable
-    directly because we don't want to require a live DB connection."""
+    """A dict containing a date must round-trip through psycopg's actual
+    Json adapter path without raising. We instantiate psycopg's own
+    _JsonDumper to exercise the same flow CI hit — the global
+    set_json_dumps() call inside etl.load must be in effect by import time."""
     payload = {"solution_date": date(2026, 5, 18), "spkid": "20099942"}
     adapted = _adapt(payload)
-    # psycopg.types.json.Json exposes the wrapped object via the public
-    # `.obj` attribute; serializing through the dumps we installed must
-    # succeed and emit an ISO date.
-    serialized = adapted.dumps(adapted.obj)
-    assert "2026-05-18" in serialized
+    dumper = psy_json._JsonDumper(dict, None)
+    serialized = dumper.dump(adapted)
+    assert b"2026-05-18" in serialized
 
 
 def test_adapt_passes_through_non_json_values():
