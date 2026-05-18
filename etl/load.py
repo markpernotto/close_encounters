@@ -7,6 +7,7 @@ transaction boundaries.
 
 from __future__ import annotations
 
+import json
 import os
 from collections.abc import Iterable
 from datetime import date
@@ -14,6 +15,11 @@ from typing import Any
 
 import psycopg
 from psycopg.types.json import Json
+
+
+def _json_dumps(obj: Any) -> str:
+    """JSON-encode for JSONB columns; converts date/datetime to ISO strings."""
+    return json.dumps(obj, default=str)
 
 
 def connect(database_url: str | None = None) -> psycopg.Connection:
@@ -234,7 +240,7 @@ def _execute_many(
 def _adapt(value: Any) -> Any:
     """Wrap dict/list values as Json so psycopg can pass them as JSONB."""
     if isinstance(value, (dict, list)):
-        return Json(value)
+        return Json(value, dumps=_json_dumps)
     return value
 
 
