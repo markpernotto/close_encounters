@@ -1,0 +1,86 @@
+version: 2
+
+models:
+  - name: stg_objects
+    description: >
+      Per-snapshot small-body metadata from JPL SBDB. Grain is
+      (snapshot_date, spkid). Feeds dim_object (SCD-2) in the mart layer.
+    columns:
+      - name: snapshot_date
+        tests: [not_null]
+      - name: spkid
+        tests: [not_null]
+      - name: designation
+        tests: [not_null]
+      - name: solution_date
+        tests: [not_null]
+
+  - name: stg_orbit_elements
+    description: >
+      Orbit-determination revisions, grain (spkid, solution_date). Input
+      to dim_orbit_revision in the mart layer.
+    columns:
+      - name: spkid
+        tests: [not_null]
+      - name: solution_date
+        tests: [not_null]
+
+  - name: stg_close_approaches
+    description: >
+      CNEOS close-approach predictions snapshotted nightly. Grain
+      (snapshot_date, spkid, approach_date, body). The orbit_id column
+      changes across snapshots when JPL revises the orbit determination.
+    columns:
+      - name: snapshot_date
+        tests: [not_null]
+      - name: spkid
+        tests: [not_null]
+      - name: approach_date
+        tests: [not_null]
+      - name: body
+        tests: [not_null]
+      - name: distance_au
+        tests: [not_null]
+
+  - name: stg_approach_events
+    description: Event stream emitted by etl.diff. Idempotent on dedup_key.
+    columns:
+      - name: event_id
+        tests: [not_null, unique]
+      - name: dedup_key
+        tests: [not_null, unique]
+      - name: event_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['NEW_OBJECT', 'NEW_APPROACH', 'REVISED_APPROACH', 'RISK_CLASS_CHANGE']
+      - name: spkid
+        tests: [not_null]
+
+  - name: stg_alerts
+    description: Threshold-rule matches. Append-only.
+    columns:
+      - name: alert_id
+        tests: [not_null, unique]
+      - name: dedup_key
+        tests: [not_null, unique]
+      - name: rule_id
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['size_and_distance', 'very_close_any_size', 'short_arc_late_warning', 'risk_class_change']
+      - name: spkid
+        tests: [not_null]
+
+  - name: stg_risk_assessments
+    description: NASA Sentry + ESA NEOCC risk-list assessments unified under one schema.
+    columns:
+      - name: agency
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['NASA_SENTRY', 'ESA_NEOCC']
+      - name: designation
+        tests: [not_null]
+      - name: assessment_date
+        tests: [not_null]

@@ -70,9 +70,16 @@ jobs:
         # Fully idempotent on rule_id + event_dedup_key.
         run: python -m etl.alerts
 
-      # Phase 2 step (uncomment when dbt models land)
-      # - name: dbt run (refresh marts)
-      #   run: cd etl/transform && DBT_PROFILES_DIR=. dbt run
+      - name: dbt run (refresh staging views)
+        # Phase 2 — staging views over raw landing tables. Marts will land
+        # in Commit 4. Failures here shouldn't block publish (the public
+        # feeds still read from raw tables for now).
+        continue-on-error: true
+        run: cd etl/transform && DBT_PROFILES_DIR=. dbt run
+
+      - name: dbt test (schema validation)
+        continue-on-error: true
+        run: cd etl/transform && DBT_PROFILES_DIR=. dbt test
 
       # Phase 3 step (uncomment when citation resolver lands)
       # - name: Resolve citation graph
