@@ -34,7 +34,7 @@ from typing import Any
 
 from etl import load, transform
 from etl import r2 as r2_module
-from etl.sources import jpl_cneos, jpl_sbdb, jpl_sentry
+from etl.sources import esa_neocc, jpl_cneos, jpl_sbdb, jpl_sentry
 
 DEFAULT_WINDOW_DAYS = 60
 DEFAULT_DIST_MAX_AU = 0.05  # ~19.5 LD
@@ -82,6 +82,12 @@ def r2_key_for_sbdb(snapshot_date: date, spkid: str) -> str:
 
 def r2_key_for_sentry(snapshot_date: date) -> str:
     return f"snapshots/{snapshot_date.isoformat()}/sentry.json"
+
+
+def r2_key_for_neocc(snapshot_date: date) -> str:
+    # NEOCC serves pipe-delimited text; preserve the .txt extension so the
+    # archive accurately reflects the original payload format.
+    return f"snapshots/{snapshot_date.isoformat()}/neocc_risk_list.txt"
 
 
 def sha256_hex(b: bytes) -> str:
@@ -136,6 +142,7 @@ def gather_snapshot(
     sbdb_fetch: Callable[[str], dict[str, Any]],
     put_raw: Callable[[str, bytes], None],
     sentry_fetch: Callable[[], dict[str, Any]] | None = None,
+    neocc_fetch: Callable[[], str] | None = None,
     window_days: int = DEFAULT_WINDOW_DAYS,
     dist_max_au: float = DEFAULT_DIST_MAX_AU,
     sbdb_delay_sec: float = SBDB_REQUEST_DELAY_SEC,
@@ -241,7 +248,35 @@ def gather_snapshot(
             "rows": len(risk_rows),
         }
 
-    # 5. Manifest entry.
+    # 5. ESA NEOCC (Phase 2 cross-agency) — pipe-delimited text, snapshotted
+    # to R2 verbatim with .txt extension. Parsed into risk_assessments rows
+    # alongside the Sentry ones; designation normalization happens in the
+    # source layer so cross-agency joins work.
+    neocc_source_meta: dict[str, Any] | None = None
+    if neocc_fetch is not None:
+        neocc_text = neocc_fetch()
+        neocc_bytes = neocc_text.encode("utf-8")
+        neocc_key = r2_key_for_neocc(snapshot_date)
+        put_raw(neocc_key, neocc_bytes)
+        neocc_records = esa_neocc.parse_risk_list_text(neocc_text)
+        for record in neocc_records:
+            risk_rows.append(
+                transform.normalize_neocc_assessment(
+                    record,
+                    snapshot_date=snapshot_date,
+                    source_retrieved_at=retrieved_at,
+                    spkid=desig_to_spkid.get(str(record.get("designation") or "")),
+                )
+            )
+        neocc_source_meta = {
+            "kind": "neocc",
+            "r2_key": neocc_key,
+            "sha256": sha256_hex(neocc_bytes),
+            "bytes": len(neocc_bytes),
+            "rows": len(neocc_records),
+        }
+
+    # 6. Manifest entry.
     cneos_source = {
         "kind": "cneos",
         "r2_key": cneos_key,
@@ -252,6 +287,8 @@ def gather_snapshot(
     sources = [cneos_source, *sbdb_sources]
     if sentry_source_meta is not None:
         sources.append(sentry_source_meta)
+    if neocc_source_meta is not None:
+        sources.append(neocc_source_meta)
     manifest_entry = {
         "snapshot_date": snapshot_date.isoformat(),
         "retrieved_at": retrieved_at.isoformat(),
@@ -288,6 +325,7 @@ def run(
     cneos_fetch: Callable[..., dict[str, Any]] | None = None,
     sbdb_fetch: Callable[[str], dict[str, Any]] | None = None,
     sentry_fetch: Callable[[], dict[str, Any]] | None = None,
+    neocc_fetch: Callable[[], str] | None = None,
     put_raw: Callable[[str, bytes], None] | None = None,
     db_conn: Any | None = None,
     database_url: str | None = None,
@@ -304,6 +342,8 @@ def run(
         sbdb_fetch = jpl_sbdb.lookup_object
     if sentry_fetch is None:
         sentry_fetch = jpl_sentry.fetch_sentry_summary_raw
+    if neocc_fetch is None:
+        neocc_fetch = esa_neocc.fetch_risk_list_raw
     if put_raw is None:
         client = r2_module.get_client()
 
@@ -316,6 +356,7 @@ def run(
         cneos_fetch=cneos_fetch,
         sbdb_fetch=sbdb_fetch,
         sentry_fetch=sentry_fetch,
+        neocc_fetch=neocc_fetch,
         put_raw=put_raw,
         window_days=window_days,
         dist_max_au=dist_max_au,
@@ -372,6 +413,7 @@ __all__ = [
     "gather_snapshot",
     "merge_manifest",
     "r2_key_for_cneos",
+    "r2_key_for_neocc",
     "r2_key_for_sbdb",
     "r2_key_for_sentry",
     "run",

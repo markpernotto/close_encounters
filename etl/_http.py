@@ -36,3 +36,19 @@ def get_json(url: str, *, params: dict[str, str | int | float] | None = None, ti
         resp = client.get(url, params=params)
         resp.raise_for_status()
         return resp.json()
+
+
+@retry(
+    reraise=True,
+    stop=stop_after_attempt(3),
+    wait=wait_exponential_jitter(initial=1.0, max=10.0),
+    retry=retry_if_exception_type((httpx.TransportError, httpx.HTTPStatusError)),
+)
+def get_text(url: str, *, params: dict[str, str | int | float] | None = None, timeout: float = 30.0) -> str:
+    """GET a URL and return the response body as text. For sources like
+    ESA NEOCC that serve pipe-delimited / fixed-width plain text."""
+    headers = {**default_headers(), "Accept": "text/plain, */*"}
+    with httpx.Client(headers=headers, timeout=timeout) as client:
+        resp = client.get(url, params=params)
+        resp.raise_for_status()
+        return resp.text

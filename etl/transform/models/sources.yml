@@ -1,0 +1,86 @@
+version: 2
+
+# Raw landing tables produced by etl.extract. The dbt layer is read-only
+# against these — never writes back. Staging models view-materialize on
+# top with type coercion and column renames.
+
+sources:
+  - name: raw
+    description: >
+      Raw landing tables in the `public` schema, populated nightly by
+      etl.extract (CNEOS + SBDB + Sentry + NEOCC) and etl.diff / etl.alerts
+      (derived event + alert streams).
+    schema: public
+
+    tables:
+      - name: objects_snapshots
+        description: One row per (snapshot_date, spkid). Physical + orbital metadata from JPL SBDB.
+        columns:
+          - name: snapshot_date
+            tests:
+              - not_null
+          - name: spkid
+            tests:
+              - not_null
+
+      - name: orbit_elements_snapshots
+        description: One row per (spkid, solution_date). Orbital elements with sigmas per orbit-determination revision.
+        columns:
+          - name: spkid
+            tests:
+              - not_null
+          - name: solution_date
+            tests:
+              - not_null
+
+      - name: close_approaches_snapshots
+        description: One row per (snapshot_date, spkid, approach_date, body). CNEOS close-approach predictions.
+        columns:
+          - name: snapshot_date
+            tests:
+              - not_null
+          - name: spkid
+            tests:
+              - not_null
+          - name: approach_date
+            tests:
+              - not_null
+
+      - name: approach_events
+        description: Derived event stream — NEW_OBJECT / NEW_APPROACH / REVISED_APPROACH (+ RISK_CLASS_CHANGE in Phase 2).
+        columns:
+          - name: event_id
+            tests:
+              - unique
+              - not_null
+          - name: dedup_key
+            tests:
+              - unique
+              - not_null
+
+      - name: alerts
+        description: Threshold-rule matches against approach_events. Append-only by policy.
+        columns:
+          - name: alert_id
+            tests:
+              - unique
+              - not_null
+          - name: dedup_key
+            tests:
+              - unique
+              - not_null
+
+      - name: risk_assessments
+        description: Cross-agency impact-risk classifications from NASA Sentry and ESA NEOCC.
+        columns:
+          - name: agency
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['NASA_SENTRY', 'ESA_NEOCC']
+          - name: designation
+            tests:
+              - not_null
+          - name: assessment_date
+            tests:
+              - not_null

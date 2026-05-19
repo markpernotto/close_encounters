@@ -12,6 +12,7 @@ import json
 from datetime import UTC, date, datetime
 from typing import Any
 
+from etl.sources.esa_neocc import NEOCC_RISK_LIST_URL
 from etl.sources.jpl_sbdb import SBDB_URL
 from etl.sources.jpl_sentry import SENTRY_URL
 
@@ -265,6 +266,64 @@ def _parse_year_range(value: Any) -> tuple[int | None, int | None]:
     return only, only
 
 
+# ---------------------------------------------------------------------------
+# ESA NEOCC risk-list row → risk_assessments
+# ---------------------------------------------------------------------------
+
+
+def normalize_neocc_assessment(
+    record: dict[str, Any],
+    *,
+    snapshot_date: date,
+    source_retrieved_at: datetime,
+    spkid: str | None = None,
+) -> dict[str, Any]:
+    """Map a parsed ESA NEOCC risk-list row to a risk_assessments row.
+
+    NEOCC fields are pipe-delimited text; etl.sources.esa_neocc parses
+    them into strings. We coerce types here and normalize designation
+    formatting so cross-agency joins on (designation) work.
+    """
+    designation = str(record.get("designation") or "")
+    diameter_m = _maybe_float(record.get("diameter_m"))
+    year_min, year_max = _parse_year_range(record.get("years"))
+    return {
+        "agency": AGENCY_ESA_NEOCC,
+        "designation": designation,
+        "assessment_date": snapshot_date,
+        "spkid": spkid,
+        "risk_class": _risk_class_for_neocc(record),
+        "torino_scale": _maybe_int(record.get("ts")),
+        "palermo_scale": _maybe_float(record.get("ps_cum")),
+        "palermo_scale_max": _maybe_float(record.get("ps_max")),
+        "impact_probability": _maybe_float(record.get("ip_cum")),
+        "n_impacts": None,  # NEOCC risk list doesn't surface a count directly
+        "potential_impact_year_min": year_min,
+        "potential_impact_year_max": year_max,
+        "energy_mt": None,
+        "diameter_km": diameter_m / 1000.0 if diameter_m is not None else None,
+        "absolute_magnitude_h": None,  # not in the summary
+        "v_inf_km_s": _maybe_float(record.get("v_inf")),
+        "last_observed": None,  # not in the summary
+        "raw_row": record,
+        "source_url": NEOCC_RISK_LIST_URL,
+        "source_retrieved_at": source_retrieved_at,
+        "extraction_version": EXTRACTION_VERSION,
+    }
+
+
+def _risk_class_for_neocc(record: dict[str, Any]) -> str:
+    """Bucket NEOCC records into the same label scheme as Sentry so the
+    risk_class column reads consistently across agencies."""
+    torino = _maybe_int(record.get("ts"))
+    if torino is not None and torino > 0:
+        return f"torino_{torino}"
+    palermo = _maybe_float(record.get("ps_cum"))
+    if palermo is not None and palermo >= -2:
+        return "palermo_elevated"
+    return "background"
+
+
 def _risk_class_for_sentry(record: dict[str, Any]) -> str:
     """Bucket Sentry records into a human-readable risk tier label.
 
@@ -285,9 +344,11 @@ __all__ = [
     "AGENCY_NASA_SENTRY",
     "AU_IN_LD",
     "EXTRACTION_VERSION",
+    "NEOCC_RISK_LIST_URL",
     "SBDB_URL",
     "SENTRY_URL",
     "normalize_close_approach",
+    "normalize_neocc_assessment",
     "normalize_sbdb_object",
     "normalize_sbdb_orbit_elements",
     "normalize_sentry_assessment",
