@@ -1,4 +1,4 @@
-.PHONY: help schema extract diff alerts publish pipeline test api web dev web-install web-build dbt-debug dbt-run dbt-test dbt-docs check-setup
+.PHONY: help schema psql extract diff alerts publish pipeline test api web dev web-install web-build dbt-debug dbt-run dbt-test dbt-docs check-setup
 
 ifneq (,$(wildcard .env))
     include .env
@@ -11,6 +11,7 @@ help:
 	@echo "Targets:"
 	@echo "  check-setup   verify Neon + R2 connectivity and Phase 1 schema"
 	@echo "  schema        apply etl/schema.sql to \$$DATABASE_URL (idempotent)"
+	@echo "  psql          open an interactive psql session against \$$DATABASE_URL"
 	@echo "  extract       pull CNEOS+SBDB, upload raw to R2, UPSERT into Postgres, update MANIFEST"
 	@echo "  diff          compute approach_events between latest two snapshots"
 	@echo "  alerts        evaluate threshold rules against the latest events → alerts table"
@@ -32,6 +33,9 @@ check-setup:
 
 schema:
 	psql "$$DATABASE_URL" -f etl/schema.sql
+
+psql:
+	psql "$$DATABASE_URL"
 
 extract:
 	python -m etl.extract
