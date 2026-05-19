@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd web && npm install && npm run build",
+  "buildCommand": "cd web && npm install && npm run build && (cp -r ../public/. dist/ 2>/dev/null || true)",
   "outputDirectory": "web/dist",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
