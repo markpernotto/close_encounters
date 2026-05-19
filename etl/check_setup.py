@@ -69,6 +69,7 @@ def check_postgres() -> bool:
                 "close_approaches_snapshots",
                 "approach_events",
                 "alerts",
+                "risk_assessments",
             }
             cur.execute(
                 """

@@ -245,6 +245,52 @@ def load_alerts(conn: psycopg.Connection, alerts: Iterable[dict[str, Any]]) -> i
 
 
 # ---------------------------------------------------------------------------
+# risk_assessments
+# ---------------------------------------------------------------------------
+
+_RISK_COLS = (
+    "agency", "designation", "assessment_date", "spkid",
+    "risk_class", "torino_scale", "palermo_scale", "palermo_scale_max",
+    "impact_probability", "n_impacts",
+    "potential_impact_year_min", "potential_impact_year_max",
+    "energy_mt", "diameter_km", "absolute_magnitude_h", "v_inf_km_s",
+    "last_observed", "raw_row", "source_url", "source_retrieved_at",
+    "extraction_version",
+)
+
+
+def load_risk_assessments(
+    conn: psycopg.Connection, rows: Iterable[dict[str, Any]]
+) -> int:
+    """UPSERT risk_assessments rows. Re-running on the same assessment_date
+    refreshes the existing rows (so corrections from the agencies propagate)."""
+    sql = f"""
+        INSERT INTO risk_assessments ({", ".join(_RISK_COLS)})
+        VALUES ({", ".join("%s" for _ in _RISK_COLS)})
+        ON CONFLICT (agency, designation, assessment_date) DO UPDATE SET
+            spkid = EXCLUDED.spkid,
+            risk_class = EXCLUDED.risk_class,
+            torino_scale = EXCLUDED.torino_scale,
+            palermo_scale = EXCLUDED.palermo_scale,
+            palermo_scale_max = EXCLUDED.palermo_scale_max,
+            impact_probability = EXCLUDED.impact_probability,
+            n_impacts = EXCLUDED.n_impacts,
+            potential_impact_year_min = EXCLUDED.potential_impact_year_min,
+            potential_impact_year_max = EXCLUDED.potential_impact_year_max,
+            energy_mt = EXCLUDED.energy_mt,
+            diameter_km = EXCLUDED.diameter_km,
+            absolute_magnitude_h = EXCLUDED.absolute_magnitude_h,
+            v_inf_km_s = EXCLUDED.v_inf_km_s,
+            last_observed = EXCLUDED.last_observed,
+            raw_row = EXCLUDED.raw_row,
+            source_url = EXCLUDED.source_url,
+            source_retrieved_at = EXCLUDED.source_retrieved_at,
+            extraction_version = EXCLUDED.extraction_version
+    """
+    return _execute_many(conn, sql, rows, _RISK_COLS)
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -284,5 +330,6 @@ __all__ = [
     "load_events",
     "load_objects",
     "load_orbit_elements",
+    "load_risk_assessments",
     "resolve_spkids",
 ]

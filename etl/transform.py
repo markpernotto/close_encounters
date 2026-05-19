@@ -13,6 +13,10 @@ from datetime import UTC, date, datetime
 from typing import Any
 
 from etl.sources.jpl_sbdb import SBDB_URL
+from etl.sources.jpl_sentry import SENTRY_URL
+
+AGENCY_NASA_SENTRY = "NASA_SENTRY"
+AGENCY_ESA_NEOCC = "ESA_NEOCC"
 
 EXTRACTION_VERSION = "0.1.0"
 
@@ -202,11 +206,89 @@ def _maybe_date(v: Any) -> date | None:
         return None
 
 
+# ---------------------------------------------------------------------------
+# NASA Sentry summary row → risk_assessments
+# ---------------------------------------------------------------------------
+
+
+def normalize_sentry_assessment(
+    record: dict[str, Any],
+    *,
+    snapshot_date: date,
+    source_retrieved_at: datetime,
+    spkid: str | None = None,
+) -> dict[str, Any]:
+    """Map a Sentry summary record to a risk_assessments row.
+
+    The Sentry summary record has keys: des, fullname, id, h, diameter,
+    n_imp, ip, ps_max, ps_cum, ts_max, v_inf, range, last_obs, last_obs_jd.
+
+    spkid is optional: the Sentry summary doesn't carry one, but if a
+    caller can resolve it via objects_snapshots they can pass it in.
+    """
+    designation = str(record.get("des") or "")
+    year_min, year_max = _parse_year_range(record.get("range"))
+    return {
+        "agency": AGENCY_NASA_SENTRY,
+        "designation": designation,
+        "assessment_date": snapshot_date,
+        "spkid": spkid,
+        "risk_class": _risk_class_for_sentry(record),
+        "torino_scale": _maybe_int(record.get("ts_max")),
+        "palermo_scale": _maybe_float(record.get("ps_cum")),
+        "palermo_scale_max": _maybe_float(record.get("ps_max")),
+        "impact_probability": _maybe_float(record.get("ip")),
+        "n_impacts": _maybe_int(record.get("n_imp")),
+        "potential_impact_year_min": year_min,
+        "potential_impact_year_max": year_max,
+        "energy_mt": None,  # Sentry summary doesn't surface this; per-object endpoint does
+        "diameter_km": _maybe_float(record.get("diameter")),
+        "absolute_magnitude_h": _maybe_float(record.get("h")),
+        "v_inf_km_s": _maybe_float(record.get("v_inf")),
+        "last_observed": _maybe_date(record.get("last_obs")),
+        "raw_row": record,
+        "source_url": SENTRY_URL,
+        "source_retrieved_at": source_retrieved_at,
+        "extraction_version": EXTRACTION_VERSION,
+    }
+
+
+def _parse_year_range(value: Any) -> tuple[int | None, int | None]:
+    """Sentry's `range` field is 'YYYY-YYYY' or 'YYYY'. Parse into a pair."""
+    if not value:
+        return None, None
+    s = str(value)
+    if "-" in s:
+        a, _, b = s.partition("-")
+        return _maybe_int(a), _maybe_int(b)
+    only = _maybe_int(s)
+    return only, only
+
+
+def _risk_class_for_sentry(record: dict[str, Any]) -> str:
+    """Bucket Sentry records into a human-readable risk tier label.
+
+    Most objects on Sentry are Torino 0 / Palermo well below 0. The label
+    is informational; the precise scores live in their own columns.
+    """
+    torino = _maybe_int(record.get("ts_max"))
+    if torino is not None and torino > 0:
+        return f"torino_{torino}"
+    palermo = _maybe_float(record.get("ps_cum"))
+    if palermo is not None and palermo >= -2:
+        return "palermo_elevated"
+    return "background"
+
+
 __all__ = [
+    "AGENCY_ESA_NEOCC",
+    "AGENCY_NASA_SENTRY",
     "AU_IN_LD",
     "EXTRACTION_VERSION",
     "SBDB_URL",
+    "SENTRY_URL",
     "normalize_close_approach",
     "normalize_sbdb_object",
     "normalize_sbdb_orbit_elements",
+    "normalize_sentry_assessment",
 ]

@@ -34,7 +34,7 @@ from typing import Any
 
 from etl import load, transform
 from etl import r2 as r2_module
-from etl.sources import jpl_cneos, jpl_sbdb
+from etl.sources import jpl_cneos, jpl_sbdb, jpl_sentry
 
 DEFAULT_WINDOW_DAYS = 60
 DEFAULT_DIST_MAX_AU = 0.05  # ~19.5 LD
@@ -49,6 +49,7 @@ class GatheredSnapshot:
     object_rows: list[dict[str, Any]]
     orbit_rows: list[dict[str, Any]]
     approach_rows: list[dict[str, Any]]
+    risk_rows: list[dict[str, Any]]
     manifest_entry: dict[str, Any]
     sbdb_pulls: int
     sbdb_errors: list[str] = field(default_factory=list)
@@ -77,6 +78,10 @@ def r2_key_for_cneos(snapshot_date: date) -> str:
 
 def r2_key_for_sbdb(snapshot_date: date, spkid: str) -> str:
     return f"snapshots/{snapshot_date.isoformat()}/sbdb/{spkid}.json"
+
+
+def r2_key_for_sentry(snapshot_date: date) -> str:
+    return f"snapshots/{snapshot_date.isoformat()}/sentry.json"
 
 
 def sha256_hex(b: bytes) -> str:
@@ -130,6 +135,7 @@ def gather_snapshot(
     cneos_fetch: Callable[..., dict[str, Any]],
     sbdb_fetch: Callable[[str], dict[str, Any]],
     put_raw: Callable[[str, bytes], None],
+    sentry_fetch: Callable[[], dict[str, Any]] | None = None,
     window_days: int = DEFAULT_WINDOW_DAYS,
     dist_max_au: float = DEFAULT_DIST_MAX_AU,
     sbdb_delay_sec: float = SBDB_REQUEST_DELAY_SEC,
@@ -207,7 +213,35 @@ def gather_snapshot(
             )
         )
 
-    # 4. Manifest entry.
+    # 4. Sentry (Phase 2) — pull the full risk list and normalize.
+    risk_rows: list[dict[str, Any]] = []
+    sentry_source_meta: dict[str, Any] | None = None
+    if sentry_fetch is not None:
+        sentry_payload = sentry_fetch()
+        sentry_bytes = json.dumps(sentry_payload, sort_keys=True, default=str).encode("utf-8")
+        sentry_key = r2_key_for_sentry(snapshot_date)
+        put_raw(sentry_key, sentry_bytes)
+        # Build a desig→spkid map from already-loaded objects so we can fill
+        # spkid for risk records whose objects we also track via CNEOS.
+        desig_to_spkid_for_risk = desig_to_spkid
+        for record in jpl_sentry._rows(sentry_payload):
+            risk_rows.append(
+                transform.normalize_sentry_assessment(
+                    record,
+                    snapshot_date=snapshot_date,
+                    source_retrieved_at=retrieved_at,
+                    spkid=desig_to_spkid_for_risk.get(str(record.get("des") or "")),
+                )
+            )
+        sentry_source_meta = {
+            "kind": "sentry",
+            "r2_key": sentry_key,
+            "sha256": sha256_hex(sentry_bytes),
+            "bytes": len(sentry_bytes),
+            "rows": len(risk_rows),
+        }
+
+    # 5. Manifest entry.
     cneos_source = {
         "kind": "cneos",
         "r2_key": cneos_key,
@@ -215,11 +249,14 @@ def gather_snapshot(
         "bytes": len(cneos_bytes),
         "rows": len(cneos_rows),
     }
+    sources = [cneos_source, *sbdb_sources]
+    if sentry_source_meta is not None:
+        sources.append(sentry_source_meta)
     manifest_entry = {
         "snapshot_date": snapshot_date.isoformat(),
         "retrieved_at": retrieved_at.isoformat(),
         "extraction_version": transform.EXTRACTION_VERSION,
-        "sources": [cneos_source, *sbdb_sources],
+        "sources": sources,
         "sbdb_pulls": sbdb_pulls,
         "sbdb_errors": sbdb_errors,
     }
@@ -230,6 +267,7 @@ def gather_snapshot(
         object_rows=object_rows,
         orbit_rows=orbit_rows,
         approach_rows=approach_rows,
+        risk_rows=risk_rows,
         manifest_entry=manifest_entry,
         sbdb_pulls=sbdb_pulls,
         sbdb_errors=sbdb_errors,
@@ -249,6 +287,7 @@ def run(
     sbdb_delay_sec: float = SBDB_REQUEST_DELAY_SEC,
     cneos_fetch: Callable[..., dict[str, Any]] | None = None,
     sbdb_fetch: Callable[[str], dict[str, Any]] | None = None,
+    sentry_fetch: Callable[[], dict[str, Any]] | None = None,
     put_raw: Callable[[str, bytes], None] | None = None,
     db_conn: Any | None = None,
     database_url: str | None = None,
@@ -263,6 +302,8 @@ def run(
         cneos_fetch = jpl_cneos.fetch_close_approaches_raw
     if sbdb_fetch is None:
         sbdb_fetch = jpl_sbdb.lookup_object
+    if sentry_fetch is None:
+        sentry_fetch = jpl_sentry.fetch_sentry_summary_raw
     if put_raw is None:
         client = r2_module.get_client()
 
@@ -274,6 +315,7 @@ def run(
         retrieved_at=retrieved_at,
         cneos_fetch=cneos_fetch,
         sbdb_fetch=sbdb_fetch,
+        sentry_fetch=sentry_fetch,
         put_raw=put_raw,
         window_days=window_days,
         dist_max_au=dist_max_au,
@@ -291,6 +333,7 @@ def run(
             n_app, n_skip = load.load_close_approaches(
                 db_conn, gathered.approach_rows, designation_to_spkid={}
             )
+            n_risk = load.load_risk_assessments(db_conn, gathered.risk_rows)
     finally:
         if own_conn:
             db_conn.close()
@@ -306,6 +349,7 @@ def run(
         "orbit_elements_loaded": n_orb,
         "close_approaches_loaded": n_app,
         "close_approaches_skipped": n_skip,
+        "risk_assessments_loaded": n_risk,
     }
 
 
@@ -329,6 +373,7 @@ __all__ = [
     "merge_manifest",
     "r2_key_for_cneos",
     "r2_key_for_sbdb",
+    "r2_key_for_sentry",
     "run",
     "sha256_hex",
     "unique_designations",

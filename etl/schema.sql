@@ -133,3 +133,37 @@ CREATE TABLE IF NOT EXISTS alerts (
 CREATE INDEX IF NOT EXISTS idx_alerts_fired_at ON alerts (fired_at DESC);
 CREATE INDEX IF NOT EXISTS idx_alerts_spkid ON alerts (spkid);
 CREATE INDEX IF NOT EXISTS idx_alerts_rule_id ON alerts (rule_id);
+
+-- ---------------------------------------------------------------------------
+-- risk_assessments — Phase 2: cross-agency impact-risk classifications
+-- One row per (agency, designation, assessment_date). Most Sentry / NEOCC
+-- objects will not be in our 60-day CNEOS pull, so spkid is optional and
+-- joined via designation at the mart layer.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS risk_assessments (
+    agency                 TEXT NOT NULL,        -- 'NASA_SENTRY' | 'ESA_NEOCC'
+    designation            TEXT NOT NULL,
+    assessment_date        DATE NOT NULL,
+    spkid                  TEXT,                 -- nullable; resolved via objects_snapshots when known
+    risk_class             TEXT,                 -- agency-specific bucket (Torino label, ESA list rank, etc.)
+    torino_scale           INT,                  -- 0-10, NASA Sentry only
+    palermo_scale          DOUBLE PRECISION,     -- cumulative log-scale risk; -inf..0 for normal
+    palermo_scale_max      DOUBLE PRECISION,     -- max single-impact PS, NASA Sentry only
+    impact_probability     DOUBLE PRECISION,     -- cumulative
+    n_impacts              INT,                  -- count of projected impact scenarios (Sentry)
+    potential_impact_year_min INT,
+    potential_impact_year_max INT,
+    energy_mt              DOUBLE PRECISION,     -- estimated impact energy (megatons TNT)
+    diameter_km            DOUBLE PRECISION,
+    absolute_magnitude_h   DOUBLE PRECISION,
+    v_inf_km_s             DOUBLE PRECISION,
+    last_observed          DATE,
+    raw_row                JSONB NOT NULL,
+    source_url             TEXT NOT NULL,
+    source_retrieved_at    TIMESTAMPTZ NOT NULL,
+    extraction_version     TEXT NOT NULL,
+    PRIMARY KEY (agency, designation, assessment_date)
+);
+CREATE INDEX IF NOT EXISTS idx_risk_assessments_designation ON risk_assessments (designation);
+CREATE INDEX IF NOT EXISTS idx_risk_assessments_spkid ON risk_assessments (spkid);
+CREATE INDEX IF NOT EXISTS idx_risk_assessments_assessment_date ON risk_assessments (assessment_date DESC);
