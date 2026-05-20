@@ -70,10 +70,18 @@ jobs:
         # Fully idempotent on rule_id + event_dedup_key.
         run: python -m etl.alerts
 
-      - name: dbt run (refresh staging views)
-        # Phase 2 — staging views over raw landing tables. Marts will land
-        # in Commit 4. Failures here shouldn't block publish (the public
-        # feeds still read from raw tables for now).
+      - name: dbt snapshot (SCD-2 history)
+        # Closes valid_to on the prior dim_object row when tracked
+        # attributes change between snapshots; inserts a new versioned
+        # row otherwise.
+        continue-on-error: true
+        run: cd etl/transform && DBT_PROFILES_DIR=. dbt snapshot
+
+      - name: dbt run (refresh marts + staging views)
+        # Phase 2 — staging views + dim/fact/mart layer. Failures here
+        # shouldn't block publish (the public feeds still read from raw
+        # tables this phase; API endpoints will move to the marts in
+        # Commit 5).
         continue-on-error: true
         run: cd etl/transform && DBT_PROFILES_DIR=. dbt run
 

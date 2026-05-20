@@ -1,4 +1,4 @@
-.PHONY: help schema psql extract diff alerts publish pipeline test api web dev web-install web-build dbt-debug dbt-run dbt-test dbt-docs check-setup
+.PHONY: help schema psql extract diff alerts publish pipeline test api web dev web-install web-build dbt-debug dbt-snapshot dbt-run dbt-test dbt-build dbt-docs check-setup
 
 ifneq (,$(wildcard .env))
     include .env
@@ -24,8 +24,10 @@ help:
 	@echo "  web-build     production build of the React app"
 	@echo "  test          run pytest unit tests"
 	@echo "  dbt-debug     verify dbt connects to Neon (Phase 2)"
-	@echo "  dbt-run       run all dbt models (Phase 2)"
-	@echo "  dbt-test      run all dbt tests (Phase 2)"
+	@echo "  dbt-snapshot  refresh SCD-2 snapshots (dim_object history)"
+	@echo "  dbt-run       run all dbt models (staging views + marts)"
+	@echo "  dbt-test      run all dbt tests"
+	@echo "  dbt-build     snapshot -> run -> test (the full Phase 2 refresh)"
 	@echo "  dbt-docs      generate and serve dbt docs locally (Phase 2)"
 
 check-setup:
@@ -72,11 +74,16 @@ test:
 dbt-debug:
 	cd $(DBT_DIR) && DBT_PROFILES_DIR=. dbt debug
 
+dbt-snapshot:
+	cd $(DBT_DIR) && DBT_PROFILES_DIR=. dbt snapshot
+
 dbt-run:
 	cd $(DBT_DIR) && DBT_PROFILES_DIR=. dbt run
 
 dbt-test:
 	cd $(DBT_DIR) && DBT_PROFILES_DIR=. dbt test
+
+dbt-build: dbt-snapshot dbt-run dbt-test
 
 dbt-docs:
 	cd $(DBT_DIR) && DBT_PROFILES_DIR=. dbt docs generate && DBT_PROFILES_DIR=. dbt docs serve

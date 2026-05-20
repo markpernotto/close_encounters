@@ -1,0 +1,79 @@
+version: 2
+
+models:
+  - name: dim_object
+    description: >
+      SCD-2 history of small-body physical parameters. One row per
+      (spkid, valid_from); valid_to NULL marks the currently-active row.
+    columns:
+      - name: spkid
+        tests: [not_null]
+      - name: dbt_scd_id
+        tests: [not_null, unique]
+
+  - name: dim_orbit_revision
+    description: One row per (spkid, solution_date) — orbit-determination revisions.
+    columns:
+      - name: spkid
+        tests: [not_null]
+      - name: solution_date
+        tests: [not_null]
+      - name: a
+        description: Semi-major axis in AU
+      - name: e
+        description: Eccentricity (0–1 for bound orbits)
+
+  - name: fact_close_approach
+    description: >
+      Per-approach fact joined to the orbit revision that JPL was using
+      when the prediction was made, and to the current object dim. One
+      row per (spkid, approach_date, body) in the latest snapshot.
+    columns:
+      - name: spkid
+        tests: [not_null]
+      - name: approach_date
+        tests: [not_null]
+      - name: body
+        tests: [not_null]
+      - name: distance_au
+        tests: [not_null]
+
+  - name: fact_risk_assessment
+    description: >
+      Cross-agency reconciliation: NASA Sentry + ESA NEOCC pivoted into
+      a single row per (designation, assessment_date) with a `coverage`
+      label and a signed delta_palermo for downstream comparison.
+    columns:
+      - name: designation
+        tests: [not_null]
+      - name: assessment_date
+        tests: [not_null]
+      - name: coverage
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['both', 'NASA only', 'ESA only']
+
+  - name: mart_objects_current
+    description: >
+      One row per spkid with the latest-known physical and orbital
+      parameters. Foundation for the Phase 4 sky view: "given an object,
+      where is it right now."
+    columns:
+      - name: spkid
+        tests: [not_null, unique]
+
+  - name: mart_upcoming_approaches
+    description: >
+      Denormalized "next 60 days" view. The API endpoints and the public
+      RSS / JSON feeds can read from this directly without joining.
+    columns:
+      - name: spkid
+        tests: [not_null]
+      - name: approach_date
+        tests: [not_null]
+      - name: visibility_bucket
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['unknown', 'naked_eye', 'binoculars', 'small_telescope', 'large_telescope']
