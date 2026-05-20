@@ -1,6 +1,6 @@
 {
-  "count": 28,
-  "generated_at": "2026-05-19T07:50:37.736991+00:00",
+  "count": 29,
+  "generated_at": "2026-05-20T07:50:37.844227+00:00",
   "items": [
     {
       "absolute_magnitude_h": 23.976,
@@ -15,6 +15,18 @@
       "v_rel_km_s": 15.4102146770743
     },
     {
+      "absolute_magnitude_h": 27.127,
+      "approach_date": "2026-05-20T16:09:00+00:00",
+      "designation": "2026 KP",
+      "diameter_estimate_km": null,
+      "distance_au": 0.00559239799285919,
+      "distance_ld": 2.1764069506729666,
+      "full_name": "(2026 KP)",
+      "orbit_class": "APO",
+      "spkid": "54630377",
+      "v_rel_km_s": 16.1091298478225
+    },
+    {
       "absolute_magnitude_h": 27.42,
       "approach_date": "2026-05-21T00:30:00+00:00",
       "designation": "2026 JD3",
@@ -27,16 +39,16 @@
       "v_rel_km_s": 7.67908861522482
     },
     {
-      "absolute_magnitude_h": 25.119,
+      "absolute_magnitude_h": 25.045,
       "approach_date": "2026-05-21T05:34:00+00:00",
       "designation": "2026 JD4",
       "diameter_estimate_km": null,
-      "distance_au": 0.0109050042065367,
-      "distance_ld": 4.243926663039629,
+      "distance_au": 0.0109029468745294,
+      "distance_ld": 4.243126006204001,
       "full_name": "(2026 JD4)",
       "orbit_class": "APO",
       "spkid": "54630027",
-      "v_rel_km_s": 24.1247514155975
+      "v_rel_km_s": 24.1201271543076
     },
     {
       "absolute_magnitude_h": 25.062,
@@ -51,76 +63,76 @@
       "v_rel_km_s": 14.6490543708229
     },
     {
-      "absolute_magnitude_h": 27.215,
+      "absolute_magnitude_h": 27.212,
       "approach_date": "2026-05-21T23:18:00+00:00",
       "designation": "2026 JA4",
       "diameter_estimate_km": null,
-      "distance_au": 0.0193892370331037,
-      "distance_ld": 7.545755917403482,
+      "distance_au": 0.0193877704236115,
+      "distance_ld": 7.545185153467005,
       "full_name": "(2026 JA4)",
       "orbit_class": "APO",
       "spkid": "54630024",
-      "v_rel_km_s": 7.77010194161407
+      "v_rel_km_s": 7.76964961485707
     },
     {
-      "absolute_magnitude_h": 26.091,
+      "absolute_magnitude_h": 26.112,
       "approach_date": "2026-05-22T01:15:00+00:00",
       "designation": "2026 KF",
       "diameter_estimate_km": null,
-      "distance_au": 0.00439978737707546,
-      "distance_ld": 1.7122758146285815,
+      "distance_au": 0.00439495405613375,
+      "distance_ld": 1.7103948195159655,
       "full_name": "(2026 KF)",
       "orbit_class": "APO",
       "spkid": "54630278",
-      "v_rel_km_s": 14.069109457833
+      "v_rel_km_s": 14.0571603903105
     },
     {
-      "absolute_magnitude_h": 27.454,
+      "absolute_magnitude_h": 27.448,
       "approach_date": "2026-05-22T05:25:00+00:00",
       "designation": "2026 JE1",
       "diameter_estimate_km": null,
-      "distance_au": 0.00746715513901211,
-      "distance_ld": 2.9060106893412434,
+      "distance_au": 0.00746651258891589,
+      "distance_ld": 2.905760626577943,
       "full_name": "(2026 JE1)",
       "orbit_class": "APO",
       "spkid": "54629707",
-      "v_rel_km_s": 4.71738487338538
+      "v_rel_km_s": 4.7170533626119
     },
     {
-      "absolute_magnitude_h": 24.412,
+      "absolute_magnitude_h": 24.438,
       "approach_date": "2026-05-22T19:21:00+00:00",
       "designation": "2026 JC4",
       "diameter_estimate_km": null,
-      "distance_au": 0.038255601836491,
-      "distance_ld": 14.88802439408445,
+      "distance_au": 0.0383033874260995,
+      "distance_ld": 14.906621226695206,
       "full_name": "(2026 JC4)",
       "orbit_class": "APO",
       "spkid": "54630026",
-      "v_rel_km_s": 21.2805391506044
+      "v_rel_km_s": 21.3068148394806
     },
     {
-      "absolute_magnitude_h": 25.786,
-      "approach_date": "2026-05-23T06:14:00+00:00",
+      "absolute_magnitude_h": 25.765,
+      "approach_date": "2026-05-23T06:09:00+00:00",
       "designation": "2026 KK",
       "diameter_estimate_km": null,
-      "distance_au": 0.039210781669017,
-      "distance_ld": 15.259754022288071,
+      "distance_au": 0.0392253824942371,
+      "distance_ld": 15.265436260486275,
       "full_name": "(2026 KK)",
       "orbit_class": "APO",
       "spkid": "54630283",
-      "v_rel_km_s": 8.37075883715713
+      "v_rel_km_s": 8.36503241146062
     },
     {
-      "absolute_magnitude_h": 25.845,
-      "approach_date": "2026-05-23T18:06:00+00:00",
+      "absolute_magnitude_h": 25.885,
+      "approach_date": "2026-05-23T18:07:00+00:00",
       "designation": "2026 JM",
       "diameter_estimate_km": null,
-      "distance_au": 0.013310426396938,
-      "distance_ld": 5.180050590767423,
+      "distance_au": 0.0133049897808579,
+      "distance_ld": 5.177934809837672,
       "full_name": "(2026 JM)",
       "orbit_class": "APO",
       "spkid": "54629689",
-      "v_rel_km_s": 7.82583417800523
+      "v_rel_km_s": 7.82256165547858
     },
     {
       "absolute_magnitude_h": 27.02,
@@ -147,16 +159,16 @@
       "v_rel_km_s": 13.43515448742
     },
     {
-      "absolute_magnitude_h": 23.752,
+      "absolute_magnitude_h": 23.761,
       "approach_date": "2026-05-25T05:12:00+00:00",
       "designation": "2026 JW3",
       "diameter_estimate_km": null,
-      "distance_au": 0.0337106218063111,
-      "distance_ld": 13.119243606131965,
+      "distance_au": 0.0337162312471491,
+      "distance_ld": 13.12142664568759,
       "full_name": "(2026 JW3)",
       "orbit_class": "APO",
       "spkid": "54630020",
-      "v_rel_km_s": 14.8041457868879
+      "v_rel_km_s": 14.806427295236
     },
     {
       "absolute_magnitude_h": 25.833,
@@ -171,28 +183,28 @@
       "v_rel_km_s": 4.7828370400008
     },
     {
-      "absolute_magnitude_h": 22.32,
+      "absolute_magnitude_h": 22.341,
       "approach_date": "2026-05-29T11:00:00+00:00",
       "designation": "2026 HW2",
       "diameter_estimate_km": null,
-      "distance_au": 0.0452594453959932,
-      "distance_ld": 17.61372700391129,
+      "distance_au": 0.0452591398650974,
+      "distance_ld": 17.613608099719187,
       "full_name": "(2026 HW2)",
       "orbit_class": "APO",
       "spkid": "54609727",
-      "v_rel_km_s": 12.4733647977268
+      "v_rel_km_s": 12.4732803881357
     },
     {
       "absolute_magnitude_h": 23.71,
       "approach_date": "2026-05-30T18:30:00+00:00",
       "designation": "2023 BM4",
       "diameter_estimate_km": null,
-      "distance_au": 0.0312585434962479,
-      "distance_ld": 12.164962404323669,
+      "distance_au": 0.0312585482459404,
+      "distance_ld": 12.164964252772899,
       "full_name": "(2023 BM4)",
       "orbit_class": "ATE",
       "spkid": "54340154",
-      "v_rel_km_s": 5.66242204923832
+      "v_rel_km_s": 5.66242437243289
     },
     {
       "absolute_magnitude_h": 24.252,
@@ -283,12 +295,12 @@
       "approach_date": "2026-06-27T11:16:00+00:00",
       "designation": "152637",
       "diameter_estimate_km": null,
-      "distance_au": 0.0171515716911412,
-      "distance_ld": 6.674918325060149,
+      "distance_au": 0.0171515719197541,
+      "distance_ld": 6.67491841402998,
       "full_name": "152637 (1997 NC1)",
       "orbit_class": "ATE",
       "spkid": "20152637",
-      "v_rel_km_s": 8.88668402989171
+      "v_rel_km_s": 8.88668415977122
     },
     {
       "absolute_magnitude_h": 19.35,
