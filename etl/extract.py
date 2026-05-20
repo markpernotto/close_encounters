@@ -50,6 +50,7 @@ class GatheredSnapshot:
     orbit_rows: list[dict[str, Any]]
     approach_rows: list[dict[str, Any]]
     risk_rows: list[dict[str, Any]]
+    discovery_rows: list[dict[str, Any]]
     manifest_entry: dict[str, Any]
     sbdb_pulls: int
     sbdb_errors: list[str] = field(default_factory=list)
@@ -164,6 +165,7 @@ def gather_snapshot(
     sbdb_errors: list[str] = []
     object_rows: list[dict[str, Any]] = []
     orbit_rows: list[dict[str, Any]] = []
+    discovery_rows_collector: list[dict[str, Any]] = []
     desig_to_spkid: dict[str, str] = {}
     sbdb_sources: list[dict[str, Any]] = []
 
@@ -206,6 +208,13 @@ def gather_snapshot(
                 sbdb_payload, source_retrieved_at=retrieved_at
             )
         )
+        # Phase 3: extract discovery attribution from the same SBDB pull.
+        # No extra HTTP — the `discovery` block ships with every lookup.
+        discovery_row = transform.normalize_discovery_attribution(
+            sbdb_payload, source_retrieved_at=retrieved_at
+        )
+        if discovery_row is not None:
+            discovery_rows_collector.append(discovery_row)
 
     # 3. Normalize close approaches with spkids resolved in-process.
     approach_rows: list[dict[str, Any]] = []
@@ -305,6 +314,7 @@ def gather_snapshot(
         orbit_rows=orbit_rows,
         approach_rows=approach_rows,
         risk_rows=risk_rows,
+        discovery_rows=discovery_rows_collector,
         manifest_entry=manifest_entry,
         sbdb_pulls=sbdb_pulls,
         sbdb_errors=sbdb_errors,
@@ -375,6 +385,7 @@ def run(
                 db_conn, gathered.approach_rows, designation_to_spkid={}
             )
             n_risk = load.load_risk_assessments(db_conn, gathered.risk_rows)
+            n_disc = load.load_discovery_attributions(db_conn, gathered.discovery_rows)
     finally:
         if own_conn:
             db_conn.close()
@@ -391,6 +402,7 @@ def run(
         "close_approaches_loaded": n_app,
         "close_approaches_skipped": n_skip,
         "risk_assessments_loaded": n_risk,
+        "discovery_attributions_loaded": n_disc,
     }
 
 

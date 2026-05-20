@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import UTC, date, datetime
 from typing import Any
 
@@ -324,6 +325,119 @@ def _risk_class_for_neocc(record: dict[str, Any]) -> str:
     return "background"
 
 
+# ---------------------------------------------------------------------------
+# SBDB discovery block → discovery_attributions
+# ---------------------------------------------------------------------------
+
+
+# Patterns for survey-program detection. Matched (case-insensitive) against
+# the combined `who` + `discovery` prose. First match wins, so order matters
+# (longer / more-specific names first).
+_DISCOVERY_PROGRAM_PATTERNS: tuple[tuple[str, str], ...] = (
+    ("Mt. Lemmon Survey", "CSS"),
+    ("Mount Lemmon Survey", "CSS"),
+    ("Catalina Sky Survey", "CSS"),
+    ("Catalina", "CSS"),
+    ("Pan-STARRS", "PS1"),
+    ("PanSTARRS", "PS1"),
+    ("ATLAS", "ATLAS"),
+    ("NEOWISE", "NEOWISE"),
+    ("LINEAR", "LINEAR"),
+    ("Spacewatch", "SPACEWATCH"),
+    ("LONEOS", "LONEOS"),
+    ("LSST", "RUBIN_SSP"),
+    ("Rubin", "RUBIN_SSP"),
+    ("Vera C. Rubin", "RUBIN_SSP"),
+)
+
+
+_MPEC_ID = re.compile(r"MPEC\s+(\d{4}-[A-Z]\d{1,3})", re.IGNORECASE)
+_DISCOVERY_DATE = re.compile(r"(\d{4})[-\s]([A-Za-z]{3})[\.\-\s](\d{1,2})")
+
+
+def normalize_discovery_attribution(
+    sbdb: dict[str, Any],
+    *,
+    source_retrieved_at: datetime,
+) -> dict[str, Any] | None:
+    """Map the SBDB `discovery` block into a discovery_attributions row.
+
+    Returns None if SBDB returned no discovery info (rare; some recently-
+    added objects lack the block). Otherwise emits one row keyed by spkid
+    with best-effort parsing of discovery_date and discovery_program; the
+    full raw block is preserved in raw_record for later re-parsing.
+    """
+    obj = sbdb.get("object") or {}
+    spkid = str(obj.get("spkid") or "")
+    if not spkid:
+        return None
+    block = sbdb.get("discovery") or {}
+    if not block:
+        return None
+
+    who = block.get("who") or ""
+    prose = block.get("discovery") or ""
+    return {
+        "spkid": spkid,
+        "discoverer": (who or None),
+        "discovery_facility": (block.get("location") or None),
+        "discovery_program": _extract_discovery_program(who, prose),
+        "discovery_date": _parse_discovery_date(block.get("date") or prose),
+        "mpec_id": _extract_mpec_id(block.get("ref") or "", prose),
+        "site_code": (block.get("site") or None),
+        "citation_text": (block.get("citation") or None),
+        "raw_record": block,
+        "source_url": SBDB_URL,
+        "captured_at": source_retrieved_at,
+    }
+
+
+def _extract_discovery_program(who: str, prose: str) -> str | None:
+    """Survey-name match. `who` is the structured "team" field from SBDB
+    and is the authoritative source — we scan it first. Prose is the
+    fallback for older records where `who` is just an individual's name."""
+    for source in (who, prose):
+        if not source:
+            continue
+        lowered = source.lower()
+        for needle, code in _DISCOVERY_PROGRAM_PATTERNS:
+            if needle.lower() in lowered:
+                return code
+    return None
+
+
+def _extract_mpec_id(ref: str, prose: str) -> str | None:
+    for source in (ref, prose):
+        m = _MPEC_ID.search(source or "")
+        if m:
+            return f"MPEC {m.group(1)}"
+    return None
+
+
+def _parse_discovery_date(value: Any) -> date | None:
+    """SBDB serves discovery dates as 'YYYY-Mon-DD' (e.g. '2004-Jun-19').
+    Some older records use 'YYYY Mon. DD' in the prose. Both are handled;
+    anything else returns None."""
+    if not value:
+        return None
+    s = str(value).strip()
+    # Try the structured forms first
+    for fmt in ("%Y-%b-%d", "%Y %b %d", "%Y %b. %d"):
+        try:
+            return datetime.strptime(s, fmt).date()
+        except ValueError:
+            continue
+    # Last resort: regex search inside arbitrary prose
+    m = _DISCOVERY_DATE.search(s)
+    if m:
+        year, mon, day = m.groups()
+        try:
+            return datetime.strptime(f"{year} {mon} {day}", "%Y %b %d").date()
+        except ValueError:
+            return None
+    return None
+
+
 def _risk_class_for_sentry(record: dict[str, Any]) -> str:
     """Bucket Sentry records into a human-readable risk tier label.
 
@@ -348,6 +462,7 @@ __all__ = [
     "SBDB_URL",
     "SENTRY_URL",
     "normalize_close_approach",
+    "normalize_discovery_attribution",
     "normalize_neocc_assessment",
     "normalize_sbdb_object",
     "normalize_sbdb_orbit_elements",

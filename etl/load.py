@@ -260,6 +260,41 @@ _RISK_COLS = (
 )
 
 
+# ---------------------------------------------------------------------------
+# discovery_attributions
+# ---------------------------------------------------------------------------
+
+_DISCOVERY_COLS = (
+    "spkid", "discoverer", "discovery_facility", "discovery_program",
+    "discovery_date", "mpec_id", "site_code", "citation_text",
+    "raw_record", "source_url", "captured_at",
+)
+
+
+def load_discovery_attributions(
+    conn: psycopg.Connection, rows: Iterable[dict[str, Any]]
+) -> int:
+    """UPSERT discovery_attributions rows keyed by spkid. Discovery info
+    rarely changes for established objects, but SBDB occasionally updates
+    the discovery prose or assigns names, so we re-upsert on every refresh."""
+    sql = f"""
+        INSERT INTO discovery_attributions ({", ".join(_DISCOVERY_COLS)})
+        VALUES ({", ".join("%s" for _ in _DISCOVERY_COLS)})
+        ON CONFLICT (spkid) DO UPDATE SET
+            discoverer = EXCLUDED.discoverer,
+            discovery_facility = EXCLUDED.discovery_facility,
+            discovery_program = EXCLUDED.discovery_program,
+            discovery_date = EXCLUDED.discovery_date,
+            mpec_id = EXCLUDED.mpec_id,
+            site_code = EXCLUDED.site_code,
+            citation_text = EXCLUDED.citation_text,
+            raw_record = EXCLUDED.raw_record,
+            source_url = EXCLUDED.source_url,
+            captured_at = EXCLUDED.captured_at
+    """
+    return _execute_many(conn, sql, rows, _DISCOVERY_COLS)
+
+
 def load_risk_assessments(
     conn: psycopg.Connection, rows: Iterable[dict[str, Any]]
 ) -> int:
@@ -328,6 +363,7 @@ __all__ = [
     "connect",
     "load_alerts",
     "load_close_approaches",
+    "load_discovery_attributions",
     "load_events",
     "load_objects",
     "load_orbit_elements",

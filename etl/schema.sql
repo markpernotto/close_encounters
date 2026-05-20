@@ -177,3 +177,26 @@ CREATE TABLE IF NOT EXISTS risk_assessments (
 CREATE INDEX IF NOT EXISTS idx_risk_assessments_designation ON risk_assessments (designation);
 CREATE INDEX IF NOT EXISTS idx_risk_assessments_spkid ON risk_assessments (spkid);
 CREATE INDEX IF NOT EXISTS idx_risk_assessments_assessment_date ON risk_assessments (assessment_date DESC);
+
+-- ---------------------------------------------------------------------------
+-- discovery_attributions — Phase 3: who first reported each object
+-- One row per spkid. Extracted from the SBDB `discovery` block that every
+-- SBDB lookup already returns; no new HTTP calls. captured_at updates on
+-- every refresh. Tier-2 enrichment (MPEC archive, ADS) will populate the
+-- discovery_publications + object_publications tables that link here.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS discovery_attributions (
+    spkid                  TEXT PRIMARY KEY,
+    discoverer             TEXT,              -- raw `who` field from SBDB
+    discovery_facility     TEXT,              -- e.g. "Kitt Peak", "Mt. Lemmon Survey"
+    discovery_program      TEXT,              -- canonical code: CSS, ATLAS, PS1, NEOWISE, …
+    discovery_date         DATE,
+    mpec_id                TEXT,              -- e.g. "MPEC 2004-O02" if present in SBDB ref
+    site_code              TEXT,              -- MPC observatory code (e.g. "703")
+    citation_text          TEXT,              -- human-readable citation string
+    raw_record             JSONB NOT NULL,
+    source_url             TEXT NOT NULL,
+    captured_at            TIMESTAMPTZ NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_discovery_program ON discovery_attributions (discovery_program);
+CREATE INDEX IF NOT EXISTS idx_discovery_date ON discovery_attributions (discovery_date);

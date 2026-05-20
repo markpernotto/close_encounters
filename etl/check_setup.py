@@ -70,6 +70,7 @@ def check_postgres() -> bool:
                 "approach_events",
                 "alerts",
                 "risk_assessments",
+                "discovery_attributions",
             }
             cur.execute(
                 """
