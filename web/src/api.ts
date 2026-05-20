@@ -7,6 +7,7 @@ import type {
   HealthResponse,
   ObjectDetail,
   OrbitHistoryResponse,
+  PublicationsResponse,
   RiskAssessmentItem,
   RiskOverviewResponse,
 } from './types';
@@ -110,4 +111,14 @@ export function fetchRiskForObject(
   return fetch(`/api/risk/${encodeURIComponent(designation)}`, { signal }).then(
     jsonOrThrow<RiskAssessmentItem>,
   );
+}
+
+export function fetchObjectPublications(
+  designation: string,
+  signal?: AbortSignal,
+): Promise<PublicationsResponse> {
+  return fetch(
+    `/api/objects/${encodeURIComponent(designation)}/publications`,
+    { signal },
+  ).then(jsonOrThrow<PublicationsResponse>);
 }

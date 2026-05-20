@@ -96,6 +96,9 @@ marts where applicable:
 - `GET /api/alerts`
 - `GET /api/risk` — cross-agency coverage overview
 - `GET /api/risk/{designation}` — per-object NASA/ESA side-by-side
+- `GET /api/objects/{designation}/publications` — citation graph for one
+  object (Phase 3); orders by relationship (discovery → follow-up) and
+  surfaces confidence-scored links to MPECs + ADS papers
 
 React + Vite frontend with three pages:
 
@@ -103,9 +106,11 @@ React + Vite frontend with three pages:
   column
 - `/alerts` — noteworthy threshold-rule matches as cards
 - `/risk` — coverage bars + Palermo/Torino scale explainer
-- `/objects/:designation` — full object detail, with an orbit-revision
-  timeline and a cross-agency risk panel when the object is on a risk
-  list
+- `/objects/:designation` — full object detail, including a discovery
+  card (who reported it, when, which program), a cross-agency risk
+  panel (when the object is on a risk list), an orbit-revision
+  timeline, and a citation-graph publications panel grouped by
+  relationship with confidence badges
 
 ### Tests + tooling
 

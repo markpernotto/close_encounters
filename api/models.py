@@ -64,6 +64,13 @@ class ObjectDetail(BaseModel):
     n_observations: int | None
     solution_date: date
     snapshot_date: date
+    # Phase 3 discovery enrichment (nullable; not every object has this populated)
+    discoverer: str | None = None
+    discovery_facility: str | None = None
+    discovery_program: str | None = None
+    discovery_date: date | None = None
+    discovery_mpec_id: str | None = None
+    citation_text: str | None = None
 
 
 class AlertItem(BaseModel):
@@ -137,3 +144,29 @@ class RiskOverviewResponse(BaseModel):
     coverage: dict[str, int] = Field(default_factory=dict)
     elevated_torino: int
     highest_palermo: RiskAssessmentItem | None = None
+
+
+# Phase 3 — citation graph
+
+
+class PublicationItem(BaseModel):
+    publication_id: int
+    doi: str | None = None
+    mpec_id: str | None = None
+    ads_bibcode: str | None = None
+    arxiv_id: str | None = None
+    title: str
+    authors: list[str] | None = None
+    publication_date: date | None = None
+    source_url: str
+    resolved_via: str
+    relationship: str
+    confidence: str
+    confidence_reason: str
+
+
+class PublicationsResponse(BaseModel):
+    spkid: str | None
+    designation: str
+    count: int
+    items: list[PublicationItem]

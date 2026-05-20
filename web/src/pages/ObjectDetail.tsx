@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ApproachesTable from '../components/ApproachesTable';
 import OrbitHistoryTimeline from '../components/OrbitHistoryTimeline';
+import PublicationsPanel from '../components/PublicationsPanel';
 import RiskPanel from '../components/RiskPanel';
 import {
   ApiError,
   fetchObject,
   fetchObjectApproaches,
+  fetchObjectPublications,
   fetchOrbitHistory,
   fetchRiskForObject,
 } from '../api';
@@ -14,6 +16,7 @@ import type {
   ApproachListResponse,
   ObjectDetail as ObjectDetailType,
   OrbitHistoryResponse,
+  PublicationsResponse,
   RiskAssessmentItem,
 } from '../types';
 
@@ -23,6 +26,7 @@ export default function ObjectDetail() {
   const [approaches, setApproaches] = useState<ApproachListResponse | null>(null);
   const [orbitHistory, setOrbitHistory] = useState<OrbitHistoryResponse | null>(null);
   const [risk, setRisk] = useState<RiskAssessmentItem | null>(null);
+  const [publications, setPublications] = useState<PublicationsResponse | null>(null);
   const [error, setError] = useState<{ status?: number; message: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -52,6 +56,11 @@ export default function ObjectDetail() {
         fetchRiskForObject(o.designation, controller.signal)
           .then(setRisk)
           .catch(settleRisk);
+        fetchObjectPublications(o.designation, controller.signal)
+          .then(setPublications)
+          .catch((e: Error) => {
+            if (e.name !== 'AbortError') setPublications(null);
+          });
       })
       .catch((e: Error) => {
         if (e.name === 'AbortError') return;
@@ -122,6 +131,29 @@ export default function ObjectDetail() {
         <Fact label="Orbit solution date" value={obj.solution_date} mono />
       </dl>
 
+      {(obj.discoverer || obj.discovery_date || obj.discovery_program || obj.discovery_facility) && (
+        <section className="discovery-card">
+          <h3>Discovery</h3>
+          <dl className="discovery-facts">
+            <Fact label="Date" value={obj.discovery_date} mono />
+            <Fact
+              label="Program"
+              value={obj.discovery_program}
+              mono
+            />
+            <Fact label="Facility" value={obj.discovery_facility} />
+            <Fact label="Reported by" value={obj.discoverer} />
+            <Fact label="MPEC" value={obj.discovery_mpec_id} mono />
+          </dl>
+          {obj.citation_text && (
+            <blockquote className="citation-quote">
+              {/* SBDB's `citation` is HTML-escaped already; render as plain text */}
+              {obj.citation_text}
+            </blockquote>
+          )}
+        </section>
+      )}
+
       {risk && <RiskPanel risk={risk} />}
 
       <h2>Close approaches in current snapshot</h2>
@@ -135,6 +167,19 @@ export default function ObjectDetail() {
             predictions as observation arcs lengthen.
           </p>
           <OrbitHistoryTimeline revisions={orbitHistory.revisions} />
+        </>
+      )}
+
+      {publications && publications.count > 0 && (
+        <>
+          <h2>Publications</h2>
+          <p className="muted">
+            Citation graph for this object. Confidence reflects how
+            certain we are the publication actually concerns this body
+            (high = designation in title, medium = in abstract, low =
+            matched only via full-text search).
+          </p>
+          <PublicationsPanel items={publications.items} />
         </>
       )}
     </section>

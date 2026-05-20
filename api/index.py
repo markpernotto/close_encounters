@@ -29,6 +29,8 @@ from api.models import (
     ObjectDetail,
     OrbitHistoryResponse,
     OrbitRevisionItem,
+    PublicationItem,
+    PublicationsResponse,
     RiskAssessmentItem,
     RiskOverviewResponse,
 )
@@ -324,6 +326,93 @@ def get_orbit_history(
         designation=obj.get("designation") or designation,
         count=len(rows),
         revisions=[OrbitRevisionItem(**r) for r in rows],
+    )
+
+
+# ---------------------------------------------------------------------------
+# /api/objects/{designation}/publications — Phase 3 citation graph
+# ---------------------------------------------------------------------------
+
+
+@app.get(
+    "/api/objects/{designation}/publications",
+    response_model=PublicationsResponse,
+)
+def get_object_publications(
+    conn: ConnDep,
+    designation: str,
+) -> PublicationsResponse:
+    """Citation graph for a single object: every publication linked to it
+    (discovery announcement, follow-up paper, risk assessment) with the
+    confidence-scored relationship label.
+
+    Ordered: discovery relationships first, then follow_up, sorted within
+    each group by publication_date DESC (newest first)."""
+    obj = _fetch_object_from_mart(conn, designation)
+    if not obj:
+        raise HTTPException(status_code=404, detail=f"object {designation!r} not found")
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute(
+            """
+            SELECT
+                dp.publication_id,
+                dp.doi,
+                dp.mpec_id,
+                dp.ads_bibcode,
+                dp.arxiv_id,
+                dp.title,
+                dp.authors,
+                dp.publication_date,
+                dp.source_url,
+                dp.resolved_via,
+                op.relationship,
+                op.confidence,
+                op.confidence_reason
+            FROM object_publications op
+            JOIN discovery_publications dp
+              ON dp.publication_id = op.publication_id
+            WHERE op.designation = %s
+            ORDER BY
+              CASE op.relationship
+                WHEN 'discovery' THEN 0
+                WHEN 'recovery' THEN 1
+                WHEN 'follow_up' THEN 2
+                WHEN 'risk_assessment' THEN 3
+                ELSE 4
+              END ASC,
+              dp.publication_date DESC NULLS LAST
+            """,
+            (obj["designation"],),
+        )
+        rows = list(cur.fetchall())
+    return PublicationsResponse(
+        spkid=obj.get("spkid"),
+        designation=obj["designation"],
+        count=len(rows),
+        items=[_row_to_publication_item(r) for r in rows],
+    )
+
+
+def _row_to_publication_item(row: dict[str, Any]) -> PublicationItem:
+    authors = row.get("authors")
+    if authors is not None and not isinstance(authors, list):
+        # JSONB column might come back as a string or wrapped form;
+        # normalize defensively.
+        authors = None
+    return PublicationItem(
+        publication_id=row["publication_id"],
+        doi=row.get("doi"),
+        mpec_id=row.get("mpec_id"),
+        ads_bibcode=row.get("ads_bibcode"),
+        arxiv_id=row.get("arxiv_id"),
+        title=row["title"],
+        authors=authors,
+        publication_date=row.get("publication_date"),
+        source_url=row["source_url"],
+        resolved_via=row["resolved_via"],
+        relationship=row["relationship"],
+        confidence=row["confidence"],
+        confidence_reason=row["confidence_reason"],
     )
 
 
@@ -658,6 +747,14 @@ def _row_to_object_detail(row: dict[str, Any]) -> ObjectDetail:
         n_observations=row.get("n_observations"),
         solution_date=solution_date,
         snapshot_date=snapshot_date,
+        # Phase 3 discovery info — present when mart_objects_current
+        # successfully joined to discovery_attributions, else None.
+        discoverer=row.get("discoverer"),
+        discovery_facility=row.get("discovery_facility"),
+        discovery_program=row.get("discovery_program"),
+        discovery_date=row.get("discovery_date"),
+        discovery_mpec_id=row.get("discovery_mpec_id"),
+        citation_text=row.get("citation_text"),
     )
 
 

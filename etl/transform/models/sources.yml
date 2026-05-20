@@ -84,3 +84,50 @@ sources:
           - name: assessment_date
             tests:
               - not_null
+
+      - name: discovery_attributions
+        description: >
+          Phase 3: who first reported each object. Extracted from the SBDB
+          discovery block alongside the existing SBDB lookups. One row per spkid.
+        columns:
+          - name: spkid
+            tests:
+              - not_null
+              - unique
+
+      - name: discovery_publications
+        description: >
+          Phase 3 citation-graph publication side. One row per resolved
+          publication (MPEC, journal paper via ADS, arXiv preprint).
+        columns:
+          - name: publication_id
+            tests:
+              - not_null
+              - unique
+          - name: title
+            tests: [not_null]
+          - name: resolved_via
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['mpec', 'ads', 'crossref', 'sbdb_producer']
+
+      - name: object_publications
+        description: >
+          Phase 3 citation-graph edges. (designation, publication_id,
+          relationship) is the natural key.
+        columns:
+          - name: designation
+            tests: [not_null]
+          - name: publication_id
+            tests: [not_null]
+          - name: relationship
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['discovery', 'recovery', 'follow_up', 'risk_assessment']
+          - name: confidence
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['high', 'medium', 'low']

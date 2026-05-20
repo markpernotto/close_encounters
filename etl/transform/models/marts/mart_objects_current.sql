@@ -57,7 +57,18 @@ SELECT
     orb.ma AS mean_anomaly_deg,
     orb.sigma_e,
     orb.sigma_a,
-    orb.sigma_i
+    orb.sigma_i,
+    -- Phase 3 discovery enrichment (LEFT JOIN — only ~10% of objects have
+    -- this populated; rest are NULL)
+    da.discoverer,
+    da.discovery_facility,
+    da.discovery_program,
+    da.discovery_date,
+    da.mpec_id AS discovery_mpec_id,
+    da.site_code AS discovery_site_code,
+    da.citation_text
 FROM current_obj obj
 LEFT JOIN latest_orbit orb
     ON orb.spkid = obj.spkid AND orb.rn = 1
+LEFT JOIN {{ source('raw', 'discovery_attributions') }} da
+    ON da.spkid = obj.spkid

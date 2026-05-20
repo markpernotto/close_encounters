@@ -63,6 +63,13 @@ export interface ObjectDetail {
   n_observations: number | null;
   solution_date: string;
   snapshot_date: string;
+  // Phase 3
+  discoverer: string | null;
+  discovery_facility: string | null;
+  discovery_program: string | null;
+  discovery_date: string | null;
+  discovery_mpec_id: string | null;
+  citation_text: string | null;
 }
 
 export interface AlertItem {
@@ -134,4 +141,39 @@ export interface RiskOverviewResponse {
   coverage: Record<string, number>;
   elevated_torino: number;
   highest_palermo: RiskAssessmentItem | null;
+}
+
+// Phase 3 — citation graph
+
+export type PublicationRelationship =
+  | 'discovery'
+  | 'recovery'
+  | 'follow_up'
+  | 'risk_assessment';
+
+export type PublicationConfidence = 'high' | 'medium' | 'low';
+
+export type PublicationSource = 'mpec' | 'ads' | 'crossref' | 'sbdb_producer';
+
+export interface PublicationItem {
+  publication_id: number;
+  doi: string | null;
+  mpec_id: string | null;
+  ads_bibcode: string | null;
+  arxiv_id: string | null;
+  title: string;
+  authors: string[] | null;
+  publication_date: string | null;
+  source_url: string;
+  resolved_via: PublicationSource;
+  relationship: PublicationRelationship;
+  confidence: PublicationConfidence;
+  confidence_reason: string;
+}
+
+export interface PublicationsResponse {
+  spkid: string | null;
+  designation: string;
+  count: number;
+  items: PublicationItem[];
 }
