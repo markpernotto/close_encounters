@@ -123,16 +123,20 @@ def approaches_upcoming(
 @app.get("/api/approaches/recent", response_model=ApproachListResponse)
 def approaches_recent(
     conn: ConnDep,
-    days: int = Query(default=DEFAULT_RECENT_DAYS, ge=1, le=365),
+    days: int = Query(default=DEFAULT_RECENT_DAYS, ge=1, le=90),
     limit: int = Query(default=DEFAULT_LIMIT, ge=1, le=1000),
 ) -> ApproachListResponse:
+    """Reads from mart_recent_approaches (Phase 2 followup) — past-90-day
+    view, symmetric companion to mart_upcoming_approaches. Includes
+    apparent_mag_estimate + visibility_bucket. Hard-capped at 90 days to
+    match the mart window; deeper history queries should go directly
+    against close_approaches_snapshots."""
     now = datetime.now(UTC)
     start = now - timedelta(days=days)
-    snapshot_date, rows = _fetch_approaches(
+    snapshot_date, rows = _fetch_recent_mart_approaches(
         conn,
         window_start=start,
         window_end=now,
-        order="DESC",
         limit=limit,
     )
     return ApproachListResponse(
@@ -498,6 +502,36 @@ def _fetch_object_from_mart(
             (designation, designation, designation),
         )
         return cur.fetchone()
+
+
+def _fetch_recent_mart_approaches(
+    conn: psycopg.Connection,
+    *,
+    window_start: datetime,
+    window_end: datetime,
+    limit: int,
+) -> tuple[Any, list[dict[str, Any]]]:
+    """Reads mart_recent_approaches. Mart is the symmetric companion to
+    mart_upcoming_approaches — past 90 days, body='Earth', ordered DESC."""
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute("SELECT MAX(snapshot_date) AS d FROM mart_recent_approaches")
+        row = cur.fetchone()
+        snapshot_date = row["d"] if row else None
+        if snapshot_date is None:
+            return None, []
+        cur.execute(
+            """
+            SELECT *
+            FROM mart_recent_approaches
+            WHERE approach_date >= %s
+              AND approach_date <= %s
+            ORDER BY approach_date DESC
+            LIMIT %s
+            """,
+            (window_start, window_end, limit),
+        )
+        rows = list(cur.fetchall())
+    return snapshot_date, rows
 
 
 def _fetch_mart_approaches(

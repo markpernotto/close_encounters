@@ -68,12 +68,13 @@ existing `discovery` block) and the MPEC fetcher + publication schema.
   exhaustively unit-tested. Append-only by policy.
 - **Publish** — generates `public/{upcoming,noteworthy}.{rss,json}` +
   `public/health.json`. Renderers are pure functions over DB rows.
-- **dbt project** — staging views over every raw landing table; marts
-  including SCD-2 `dim_object` (via dbt snapshot), `dim_orbit_revision`,
+- **dbt project** — staging views over every raw landing table; seven
+  marts: SCD-2 `dim_object` (via dbt snapshot), `dim_orbit_revision`,
   `fact_close_approach` joined to the orbit revision that produced it
   with apparent-magnitude estimation, `fact_risk_assessment`
-  cross-agency pivot, `mart_objects_current`, and
-  `mart_upcoming_approaches` that the API reads from.
+  cross-agency pivot, `mart_objects_current`, and the symmetric
+  `mart_upcoming_approaches` / `mart_recent_approaches` pair that both
+  the API endpoints **and** the public RSS / JSON feeds read from.
 - **Resolve citations** — Phase 3 `etl/resolve_citations.py` fetches MPECs
   referenced in `discovery_attributions`, parses them, and populates
   `discovery_publications` + `object_publications` with confidence-scored
@@ -87,7 +88,7 @@ marts where applicable:
 - `GET /health`
 - `GET /api/approaches/upcoming` (mart-backed, includes
   apparent_mag_estimate + visibility_bucket)
-- `GET /api/approaches/recent`
+- `GET /api/approaches/recent` (mart-backed, 90-day window)
 - `GET /api/objects/{designation}` (mart-backed)
 - `GET /api/objects/{designation}/approaches`
 - `GET /api/objects/{designation}/orbit-history` — every JPL orbit
@@ -191,7 +192,8 @@ ESA NEOCC                            ├─► nightly cron (GitHub Actions, 06:
   dbt snapshot   → dim_object SCD-2 history
   dbt run        → staging views + marts
   dbt test       → schema validation
-  etl.publish    → public/{upcoming,noteworthy}.{rss,json}
+  etl.publish    → reads mart_upcoming_approaches + alerts
+                   → public/{upcoming,noteworthy}.{rss,json}
                    + public/health.json
                                      │
                                      ▼

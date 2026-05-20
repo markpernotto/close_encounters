@@ -66,7 +66,22 @@ models:
   - name: mart_upcoming_approaches
     description: >
       Denormalized "next 60 days" view. The API endpoints and the public
-      RSS / JSON feeds can read from this directly without joining.
+      RSS / JSON feeds read from this directly without joining.
+    columns:
+      - name: spkid
+        tests: [not_null]
+      - name: approach_date
+        tests: [not_null]
+      - name: visibility_bucket
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['unknown', 'naked_eye', 'binoculars', 'small_telescope', 'large_telescope']
+
+  - name: mart_recent_approaches
+    description: >
+      Denormalized "past 90 days" view. Symmetric companion to
+      mart_upcoming_approaches; /api/approaches/recent reads from this.
     columns:
       - name: spkid
         tests: [not_null]

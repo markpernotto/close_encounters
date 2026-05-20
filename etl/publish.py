@@ -59,9 +59,14 @@ def render_upcoming_json(rows: Iterable[dict[str, Any]], *, generated_at: dateti
                 "distance_au": _maybe_float(row.get("distance_au")),
                 "distance_ld": _maybe_float(row.get("distance_ld")),
                 "v_rel_km_s": _maybe_float(row.get("v_rel_km_s")),
+                "diameter_km": _maybe_float(row.get("diameter_km")),
                 "diameter_estimate_km": _maybe_float(row.get("diameter_estimate_km")),
                 "absolute_magnitude_h": _maybe_float(row.get("absolute_magnitude_h")),
                 "orbit_class": row.get("orbit_class"),
+                "apparent_mag_estimate": _maybe_float(row.get("apparent_mag_estimate")),
+                "visibility_bucket": row.get("visibility_bucket"),
+                "neo": row.get("neo"),
+                "pha": row.get("pha"),
             }
         )
     payload["items"] = items
@@ -160,37 +165,24 @@ def render_health_json(
 
 
 def fetch_upcoming(conn: psycopg.Connection, *, window_days: int = UPCOMING_WINDOW_DAYS, now: datetime | None = None) -> list[dict[str, Any]]:
-    """All approaches in the latest snapshot that fall within [now, now+window]."""
+    """All approaches in the latest snapshot that fall within [now, now+window].
+
+    Reads from mart_upcoming_approaches (dbt-built, refreshed before publish
+    runs in the nightly). The mart pre-filters to body='Earth' and the
+    next-60-day window at build time; we narrow further by the caller's
+    `window_days` here. Includes apparent_mag_estimate and visibility_bucket
+    as first-class columns — the public feeds expose both.
+    """
     now = now or datetime.now(UTC)
     end = now + timedelta(days=window_days)
     with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
         cur.execute(
             """
-            WITH latest AS (
-                SELECT MAX(snapshot_date) AS d FROM close_approaches_snapshots
-            )
-            SELECT
-                ca.designation,
-                ca.spkid,
-                os.full_name,
-                ca.approach_date,
-                ca.body,
-                ca.distance_au,
-                ca.distance_ld,
-                ca.v_rel_km_s,
-                ca.v_inf_km_s,
-                os.diameter_estimate_km,
-                os.absolute_magnitude_h,
-                os.orbit_class
-            FROM close_approaches_snapshots ca
-            LEFT JOIN objects_snapshots os
-                   ON os.spkid = ca.spkid
-                  AND os.snapshot_date = ca.snapshot_date
-            WHERE ca.snapshot_date = (SELECT d FROM latest)
-              AND ca.body = 'Earth'
-              AND ca.approach_date >= %s
-              AND ca.approach_date <= %s
-            ORDER BY ca.approach_date ASC
+            SELECT *
+            FROM mart_upcoming_approaches
+            WHERE approach_date >= %s
+              AND approach_date <= %s
+            ORDER BY approach_date ASC
             """,
             (now, end),
         )
@@ -327,6 +319,14 @@ def _upcoming_rss_item(row: dict[str, Any], base_url: str) -> str:
         )
     if row.get("orbit_class"):
         description_pieces.append(f"orbit class {row['orbit_class']}")
+    if row.get("apparent_mag_estimate") is not None:
+        description_pieces.append(
+            f"apparent magnitude ~{row['apparent_mag_estimate']:.1f}"
+        )
+    if row.get("visibility_bucket") and row["visibility_bucket"] != "unknown":
+        description_pieces.append(
+            f"visible: {row['visibility_bucket'].replace('_', ' ')}"
+        )
     description = "; ".join(description_pieces)
 
     guid = f"{base_url}/objects/{row.get('spkid') or designation}#{_iso(approach_date)}"

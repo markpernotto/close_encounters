@@ -43,7 +43,11 @@ models:
         tests: [not_null]
 
   - name: stg_approach_events
-    description: Event stream emitted by etl.diff. Idempotent on dedup_key.
+    description: >
+      Event stream emitted by etl.diff. Idempotent on dedup_key. spkid is
+      nullable as of Phase 2 Commit 7 — RISK_CLASS_CHANGE events identify
+      their object by (designation, agency) and may not have a resolved
+      spkid when the object isn't in our 60-day CNEOS window.
     columns:
       - name: event_id
         tests: [not_null, unique]
@@ -54,8 +58,6 @@ models:
           - not_null
           - accepted_values:
               values: ['NEW_OBJECT', 'NEW_APPROACH', 'REVISED_APPROACH', 'RISK_CLASS_CHANGE']
-      - name: spkid
-        tests: [not_null]
 
   - name: stg_alerts
     description: Threshold-rule matches. Append-only.
