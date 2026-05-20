@@ -289,6 +289,244 @@ button {
   font-size: 1.2rem;
 }
 
+/* -------- Visibility badge (mart-derived) -------------------------------- */
+
+.vis-badge {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  border-radius: 2px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.vis-naked_eye {
+  background: #fff6d4;
+  color: #6a4400;
+  border-color: #b58800;
+}
+.vis-binoculars {
+  background: #ffe8c8;
+  color: #803400;
+  border-color: #c45a00;
+}
+.vis-small_telescope {
+  background: #dde9ff;
+  color: #04356b;
+  border-color: #1f5fa8;
+}
+.vis-large_telescope {
+  background: #ebebe3;
+  color: #555;
+  border-color: var(--border-strong);
+}
+
+/* -------- Orbit-history timeline ----------------------------------------- */
+
+.orbit-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.orbit-rev {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  padding: 0.75rem 1rem;
+}
+.orbit-rev.current {
+  border-left-color: var(--accent);
+}
+.orbit-rev-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.orbit-rev-date {
+  font-weight: 600;
+}
+.orbit-rev-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.15rem 1.5rem;
+  margin: 0;
+}
+.orbit-fact {
+  display: flex;
+  flex-direction: column;
+}
+.orbit-fact dt {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+}
+.orbit-fact dd {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.tag-current {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* -------- Cross-agency risk panel ---------------------------------------- */
+
+.risk-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+.risk-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.risk-head h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.risk-coverage {
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+.risk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .risk-grid { grid-template-columns: 1fr; }
+}
+
+.agency-card {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 0.9rem 1rem;
+  border-left-width: 3px;
+}
+.agency-card header {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.92rem;
+}
+.agency-usa { border-left-color: #04356b; }
+.agency-eu  { border-left-color: #003399; }
+.agency-empty {
+  opacity: 0.65;
+}
+.agency-card dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 1rem;
+  margin: 0;
+}
+.agency-stat {
+  display: contents;
+}
+.agency-stat dt {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  letter-spacing: 0.02em;
+}
+.agency-stat dd {
+  margin: 0;
+  font-size: 0.92rem;
+  text-align: right;
+}
+
+.risk-delta,
+.risk-window {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+/* -------- Coverage bars on /risk ----------------------------------------- */
+
+.coverage-bars {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 50rem;
+}
+.coverage-row {
+  display: grid;
+  grid-template-columns: 8rem 1fr auto auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+.coverage-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.coverage-bar-track {
+  height: 1.2rem;
+  background: #efefe7;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.coverage-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+.coverage-both       { background: #2f6a9c; }
+.coverage-NASA-only  { background: #b85d00; }
+.coverage-ESA-only   { background: #4b6f1c; }
+.coverage-count { min-width: 4rem; text-align: right; }
+.coverage-pct   { min-width: 4rem; text-align: right; }
+
+/* -------- /risk summary cards + scale explainer -------------------------- */
+
+.risk-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+}
+.risk-summary-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+}
+.risk-summary-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+.risk-big-number {
+  font-size: 1.8rem;
+  margin: 0.2rem 0 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+.scale-explainer {
+  max-width: 60rem;
+  margin: 1rem 0 2rem;
+}
+.scale-explainer dt {
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+.scale-explainer dd {
+  margin: 0.25rem 0 0;
+  color: var(--fg-muted);
+}
+
 /* -------- Responsive ----------------------------------------------------- */
 
 @media (max-width: 640px) {

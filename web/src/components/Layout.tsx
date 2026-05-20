@@ -29,6 +29,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             Upcoming
           </NavLink>
           <NavLink to="/alerts">Noteworthy</NavLink>
+          <NavLink to="/risk">Risk</NavLink>
         </nav>
         {snapshotDate && (
           <span className="snapshot-badge" title="Latest snapshot in the warehouse">

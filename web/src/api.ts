@@ -6,6 +6,9 @@ import type {
   ApproachListResponse,
   HealthResponse,
   ObjectDetail,
+  OrbitHistoryResponse,
+  RiskAssessmentItem,
+  RiskOverviewResponse,
 } from './types';
 
 async function jsonOrThrow<T>(resp: Response): Promise<T> {
@@ -82,4 +85,29 @@ export function fetchAlerts(
   if (params.limit) qs.set('limit', String(params.limit));
   if (params.rule_id) qs.set('rule_id', params.rule_id);
   return fetch(`/api/alerts?${qs}`, { signal }).then(jsonOrThrow<AlertListResponse>);
+}
+
+export function fetchOrbitHistory(
+  designation: string,
+  signal?: AbortSignal,
+): Promise<OrbitHistoryResponse> {
+  return fetch(
+    `/api/objects/${encodeURIComponent(designation)}/orbit-history`,
+    { signal },
+  ).then(jsonOrThrow<OrbitHistoryResponse>);
+}
+
+export function fetchRiskOverview(
+  signal?: AbortSignal,
+): Promise<RiskOverviewResponse> {
+  return fetch('/api/risk', { signal }).then(jsonOrThrow<RiskOverviewResponse>);
+}
+
+export function fetchRiskForObject(
+  designation: string,
+  signal?: AbortSignal,
+): Promise<RiskAssessmentItem> {
+  return fetch(`/api/risk/${encodeURIComponent(designation)}`, { signal }).then(
+    jsonOrThrow<RiskAssessmentItem>,
+  );
 }

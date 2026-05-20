@@ -19,10 +19,23 @@ export interface ApproachItem {
   v_rel_km_s: number | null;
   v_inf_km_s: number | null;
   orbit_id: string | null;
+  diameter_km: number | null;
   diameter_estimate_km: number | null;
   absolute_magnitude_h: number | null;
   orbit_class: string | null;
+  // Phase 2 mart additions
+  apparent_mag_estimate: number | null;
+  visibility_bucket: VisibilityBucket | null;
+  neo: boolean | null;
+  pha: boolean | null;
 }
+
+export type VisibilityBucket =
+  | 'naked_eye'
+  | 'binoculars'
+  | 'small_telescope'
+  | 'large_telescope'
+  | 'unknown';
 
 export interface ApproachListResponse {
   count: number;
@@ -66,4 +79,59 @@ export interface AlertItem {
 export interface AlertListResponse {
   count: number;
   items: AlertItem[];
+}
+
+// Phase 2 — orbit-revision history
+
+export interface OrbitRevisionItem {
+  solution_date: string;
+  epoch: number | null;
+  eccentricity: number | null;
+  semi_major_axis_au: number | null;
+  inclination_deg: number | null;
+  sigma_e: number | null;
+  sigma_a: number | null;
+  sigma_i: number | null;
+  valid_from: string | null;
+  valid_to: string | null;
+  is_current: boolean;
+}
+
+export interface OrbitHistoryResponse {
+  spkid: string;
+  designation: string;
+  count: number;
+  revisions: OrbitRevisionItem[];
+}
+
+// Phase 2 — cross-agency risk
+
+export interface AgencyRisk {
+  torino_scale: number | null;
+  palermo_scale: number | null;
+  palermo_scale_max: number | null;
+  impact_probability: number | null;
+  n_impacts: number | null;
+}
+
+export interface RiskAssessmentItem {
+  designation: string;
+  assessment_date: string;
+  coverage: 'both' | 'NASA only' | 'ESA only';
+  nasa: AgencyRisk | null;
+  esa: AgencyRisk | null;
+  delta_palermo: number | null;
+  abs_delta_palermo: number | null;
+  diameter_km: number | null;
+  v_inf_km_s: number | null;
+  potential_impact_year_min: number | null;
+  potential_impact_year_max: number | null;
+}
+
+export interface RiskOverviewResponse {
+  assessment_date: string | null;
+  total: number;
+  coverage: Record<string, number>;
+  elevated_torino: number;
+  highest_palermo: RiskAssessmentItem | null;
 }

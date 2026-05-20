@@ -1,13 +1,28 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ApproachesTable from '../components/ApproachesTable';
-import { ApiError, fetchObject, fetchObjectApproaches } from '../api';
-import type { ApproachListResponse, ObjectDetail as ObjectDetailType } from '../types';
+import OrbitHistoryTimeline from '../components/OrbitHistoryTimeline';
+import RiskPanel from '../components/RiskPanel';
+import {
+  ApiError,
+  fetchObject,
+  fetchObjectApproaches,
+  fetchOrbitHistory,
+  fetchRiskForObject,
+} from '../api';
+import type {
+  ApproachListResponse,
+  ObjectDetail as ObjectDetailType,
+  OrbitHistoryResponse,
+  RiskAssessmentItem,
+} from '../types';
 
 export default function ObjectDetail() {
   const { designation } = useParams<{ designation: string }>();
   const [obj, setObj] = useState<ObjectDetailType | null>(null);
   const [approaches, setApproaches] = useState<ApproachListResponse | null>(null);
+  const [orbitHistory, setOrbitHistory] = useState<OrbitHistoryResponse | null>(null);
+  const [risk, setRisk] = useState<RiskAssessmentItem | null>(null);
   const [error, setError] = useState<{ status?: number; message: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -15,6 +30,13 @@ export default function ObjectDetail() {
     if (!designation) return;
     const controller = new AbortController();
     setLoading(true);
+    const settleHistory = (e: Error) => {
+      if (e.name !== 'AbortError') setOrbitHistory(null);
+    };
+    const settleRisk = (e: Error) => {
+      // 404 here is expected (most objects aren't on a risk list)
+      if (e.name !== 'AbortError') setRisk(null);
+    };
     Promise.all([
       fetchObject(designation, controller.signal),
       fetchObjectApproaches(designation, controller.signal),
@@ -23,6 +45,13 @@ export default function ObjectDetail() {
         setObj(o);
         setApproaches(a);
         setError(null);
+        // Optional fetches — fire after we know the object resolved
+        fetchOrbitHistory(o.designation, controller.signal)
+          .then(setOrbitHistory)
+          .catch(settleHistory);
+        fetchRiskForObject(o.designation, controller.signal)
+          .then(setRisk)
+          .catch(settleRisk);
       })
       .catch((e: Error) => {
         if (e.name === 'AbortError') return;
@@ -93,8 +122,21 @@ export default function ObjectDetail() {
         <Fact label="Orbit solution date" value={obj.solution_date} mono />
       </dl>
 
+      {risk && <RiskPanel risk={risk} />}
+
       <h2>Close approaches in current snapshot</h2>
       <ApproachesTable items={approaches.items} />
+
+      {orbitHistory && orbitHistory.count > 0 && (
+        <>
+          <h2>Orbit-determination history</h2>
+          <p className="muted">
+            Each row is a JPL orbit revision. Newer rows reflect refined
+            predictions as observation arcs lengthen.
+          </p>
+          <OrbitHistoryTimeline revisions={orbitHistory.revisions} />
+        </>
+      )}
     </section>
   );
 }

@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { ApproachItem } from '../types';
+import type { ApproachItem, VisibilityBucket } from '../types';
 
 type SortKey =
   | 'approach_date'
   | 'distance_ld'
   | 'v_rel_km_s'
   | 'diameter_estimate_km'
+  | 'apparent_mag_estimate'
   | 'designation';
 
 type SortDir = 'asc' | 'desc';
@@ -56,6 +57,9 @@ export default function ApproachesTable({ items, initialSort }: Props) {
           <Th sort={sort} k="diameter_estimate_km" onClick={toggleSort} align="right">
             Est. diameter
           </Th>
+          <Th sort={sort} k="apparent_mag_estimate" onClick={toggleSort} align="right">
+            Brightness
+          </Th>
           <th>Orbit class</th>
         </tr>
       </thead>
@@ -74,11 +78,40 @@ export default function ApproachesTable({ items, initialSort }: Props) {
             <td className="num">{formatLD(r.distance_ld)}</td>
             <td className="num">{formatNumber(r.v_rel_km_s, 1)}</td>
             <td className="num">{formatDiameter(r.diameter_estimate_km)}</td>
+            <td>
+              <VisibilityBadge
+                bucket={r.visibility_bucket}
+                magnitude={r.apparent_mag_estimate}
+              />
+            </td>
             <td>{r.orbit_class ?? <span className="muted">—</span>}</td>
           </tr>
         ))}
       </tbody>
     </table>
+  );
+}
+
+function VisibilityBadge({
+  bucket,
+  magnitude,
+}: {
+  bucket: VisibilityBucket | null;
+  magnitude: number | null;
+}) {
+  if (!bucket || bucket === 'unknown') {
+    return <span className="muted">—</span>;
+  }
+  const label: Record<Exclude<VisibilityBucket, 'unknown'>, string> = {
+    naked_eye: 'naked eye',
+    binoculars: 'binoculars',
+    small_telescope: 'small scope',
+    large_telescope: 'large scope',
+  };
+  return (
+    <span className={`vis-badge vis-${bucket}`} title={magnitude != null ? `magnitude ${magnitude.toFixed(1)}` : undefined}>
+      {label[bucket]}
+    </span>
   );
 }
 
