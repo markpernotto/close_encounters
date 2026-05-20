@@ -444,10 +444,13 @@ def _parse_discovery_date(value: Any) -> date | None:
 # ---------------------------------------------------------------------------
 
 RESOLVED_VIA_MPEC = "mpec"
+RESOLVED_VIA_ADS = "ads"
 RELATIONSHIP_DISCOVERY = "discovery"
 RELATIONSHIP_FOLLOW_UP = "follow_up"
+RELATIONSHIP_RISK_ASSESSMENT = "risk_assessment"
 CONFIDENCE_HIGH = "high"
 CONFIDENCE_MEDIUM = "medium"
+CONFIDENCE_LOW = "low"
 
 
 def normalize_mpec_publication(
@@ -530,6 +533,115 @@ def mpec_object_links(
     return rows
 
 
+# ---------------------------------------------------------------------------
+# NASA ADS doc → discovery_publications + object_publications
+# ---------------------------------------------------------------------------
+
+_ADS_BIBCODE_URL = "https://ui.adsabs.harvard.edu/abs/"
+
+
+def normalize_ads_publication(
+    doc: dict[str, Any],
+    *,
+    resolved_at: datetime,
+) -> dict[str, Any] | None:
+    """Map an ADS search-result doc to a discovery_publications row.
+
+    Returns None when the doc lacks a bibcode — without one we have no
+    stable identifier to upsert on.
+    """
+    bibcode = doc.get("bibcode")
+    if not bibcode:
+        return None
+    title_list = doc.get("title") or []
+    title = title_list[0] if title_list else f"ADS bibcode {bibcode}"
+    authors = doc.get("author") or None
+    pub_date = _ads_publication_date(doc)
+    doi_list = doc.get("doi") or []
+    return {
+        "doi": doi_list[0] if doi_list else None,
+        "mpec_id": None,
+        "ads_bibcode": bibcode,
+        "arxiv_id": None,
+        "title": title,
+        "authors": authors,
+        "publication_date": pub_date,
+        "source_url": f"{_ADS_BIBCODE_URL}{bibcode}",
+        "resolved_via": RESOLVED_VIA_ADS,
+        "resolved_at": resolved_at,
+        "raw_record": doc,
+    }
+
+
+def ads_object_link(
+    *,
+    designation: str,
+    publication_id: int,
+    doc: dict[str, Any],
+    extracted_at: datetime,
+    spkid: str | None = None,
+) -> dict[str, Any]:
+    """Build an object_publications row for an ADS-resolved match.
+
+    Confidence is scored heuristically: HIGH when the designation appears
+    in the title, MEDIUM when only in the abstract, LOW otherwise (it
+    came back from full-text search but no clear surface mention).
+    """
+    title = (doc.get("title") or [""])[0] or ""
+    abstract = doc.get("abstract") or ""
+    confidence, reason = _ads_confidence_for(designation, title, abstract)
+    return _object_publication_row(
+        designation=designation,
+        publication_id=publication_id,
+        relationship=RELATIONSHIP_FOLLOW_UP,
+        confidence=confidence,
+        confidence_reason=reason,
+        extracted_from="ads_search",
+        extracted_at=extracted_at,
+        spkid=spkid,
+    )
+
+
+def _ads_publication_date(doc: dict[str, Any]) -> date | None:
+    """ADS records have `year` as a string, and sometimes a `pubdate` field
+    like '2024-12-00' (where '00' = unknown day). We coarsen to first of
+    the year for year-only entries."""
+    pubdate = doc.get("pubdate")
+    if pubdate:
+        # ADS often emits 'YYYY-MM-00' for "month known, day unknown"
+        try:
+            year_str, month_str, _ = (str(pubdate)).split("-", 2)
+            year = int(year_str)
+            month = int(month_str) or 1
+            return date(year, month, 1)
+        except (ValueError, TypeError):
+            pass
+    year = doc.get("year")
+    if year:
+        try:
+            return date(int(year), 1, 1)
+        except (TypeError, ValueError):
+            return None
+    return None
+
+
+def _ads_confidence_for(
+    designation: str, title: str, abstract: str
+) -> tuple[str, str]:
+    """Heuristic score: where does the designation show up?"""
+    needle = designation.strip()
+    if not needle:
+        return CONFIDENCE_LOW, "designation empty; cannot verify"
+    if needle in title:
+        return CONFIDENCE_HIGH, "designation appears in paper title"
+    if needle in abstract:
+        return CONFIDENCE_MEDIUM, "designation appears in paper abstract"
+    return (
+        CONFIDENCE_LOW,
+        "designation matched only via ADS full-text search; not in title/abstract",
+    )
+
+
 def _object_publication_row(
     *,
     designation: str,
@@ -577,11 +689,16 @@ __all__ = [
     "SBDB_URL",
     "SENTRY_URL",
     "CONFIDENCE_HIGH",
+    "CONFIDENCE_LOW",
     "CONFIDENCE_MEDIUM",
     "RELATIONSHIP_DISCOVERY",
     "RELATIONSHIP_FOLLOW_UP",
+    "RELATIONSHIP_RISK_ASSESSMENT",
+    "RESOLVED_VIA_ADS",
     "RESOLVED_VIA_MPEC",
+    "ads_object_link",
     "mpec_object_links",
+    "normalize_ads_publication",
     "normalize_close_approach",
     "normalize_discovery_attribution",
     "normalize_mpec_publication",

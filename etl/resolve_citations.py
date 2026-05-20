@@ -32,9 +32,11 @@ from typing import Any
 import psycopg
 
 from etl import load, transform
-from etl.sources import mpc_mpec
+from etl.sources import mpc_mpec, nasa_ads
 
 MPEC_REQUEST_DELAY_SEC = 1.0
+ADS_REQUEST_DELAY_SEC = 0.5  # ADS rate limit is 5000/day; we stay polite anyway
+ADS_RESULTS_PER_DESIGNATION = 10
 
 
 @dataclass
@@ -43,21 +45,32 @@ class ResolveResult:
     publications_loaded: int = 0
     object_publications_loaded: int = 0
     fetch_errors: list[str] = field(default_factory=list)
+    ads_designations_searched: int = 0
+    ads_publications_loaded: int = 0
 
 
 def run(
     database_url: str | None = None,
     *,
     mpec_fetch: Callable[[str], str] | None = None,
+    ads_search: Callable[..., list[dict[str, Any]]] | None = None,
     mpec_request_delay_sec: float = MPEC_REQUEST_DELAY_SEC,
+    ads_request_delay_sec: float = ADS_REQUEST_DELAY_SEC,
+    skip_ads: bool = False,
     now: datetime | None = None,
 ) -> ResolveResult:
-    """Resolve MPEC citations for any discovery_attributions row that
-    surfaces an mpec_id."""
+    """Resolve citations: MPECs from discovery_attributions, then ADS
+    follow-up papers for every known designation.
+
+    `skip_ads=True` skips the ADS tier entirely — useful when the API
+    token isn't configured or when iterating locally without burning
+    rate-limit budget."""
     url = database_url or os.environ["DATABASE_URL"]
     resolved_at = now or datetime.now(UTC)
     if mpec_fetch is None:
         mpec_fetch = mpc_mpec.fetch_mpec_raw
+    if ads_search is None:
+        ads_search = nasa_ads.search_by_designation
 
     result = ResolveResult()
     with load.connect(url) as conn:
@@ -123,7 +136,69 @@ def run(
             result.publications_loaded += 1
             result.object_publications_loaded += n
 
+        # ADS tier — for every designation in our warehouse, search ADS
+        # for follow-up papers. Each hit becomes a publication +
+        # object_publications link with confidence scored by where the
+        # designation appeared (title > abstract > full-text-only).
+        if not skip_ads:
+            try:
+                _ = nasa_ads._auth_headers()
+            except nasa_ads.AdsAuthError as exc:
+                result.fetch_errors.append(f"ADS skipped: {exc}")
+            else:
+                _resolve_ads_citations(
+                    conn,
+                    designations=list(designation_to_spkid.keys()),
+                    designation_to_spkid=designation_to_spkid,
+                    ads_search=ads_search,
+                    resolved_at=resolved_at,
+                    delay_sec=ads_request_delay_sec,
+                    result=result,
+                )
+
     return result
+
+
+def _resolve_ads_citations(
+    conn: Any,
+    *,
+    designations: list[str],
+    designation_to_spkid: dict[str, str],
+    ads_search: Callable[..., list[dict[str, Any]]],
+    resolved_at: datetime,
+    delay_sec: float,
+    result: ResolveResult,
+) -> None:
+    """For each designation, search ADS for matching papers and link them."""
+    for i, designation in enumerate(designations):
+        if i > 0 and delay_sec > 0:
+            time.sleep(delay_sec)
+        result.ads_designations_searched += 1
+        try:
+            docs = ads_search(designation, limit=ADS_RESULTS_PER_DESIGNATION)
+        except Exception as exc:  # noqa: BLE001
+            result.fetch_errors.append(f"ADS {designation}: {exc!r}")
+            continue
+
+        spkid = designation_to_spkid.get(designation)
+        for doc in docs:
+            publication = transform.normalize_ads_publication(
+                doc, resolved_at=resolved_at
+            )
+            if publication is None:
+                continue
+            with conn.transaction():
+                publication_id = load.load_publication(conn, publication)
+                link = transform.ads_object_link(
+                    designation=designation,
+                    publication_id=publication_id,
+                    doc=doc,
+                    extracted_at=resolved_at,
+                    spkid=spkid,
+                )
+                n = load.load_object_publications(conn, [link])
+                result.ads_publications_loaded += 1
+                result.object_publications_loaded += n
 
 
 def _fetch_attributions_with_mpec_ids(
@@ -169,6 +244,8 @@ def main() -> None:
     summary = {
         "mpec_ids_attempted": result.mpec_ids_attempted,
         "publications_loaded": result.publications_loaded,
+        "ads_designations_searched": result.ads_designations_searched,
+        "ads_publications_loaded": result.ads_publications_loaded,
         "object_publications_loaded": result.object_publications_loaded,
         "fetch_errors": result.fetch_errors,
     }

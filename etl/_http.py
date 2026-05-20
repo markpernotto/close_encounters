@@ -30,9 +30,20 @@ def default_headers() -> dict[str, str]:
     wait=wait_exponential_jitter(initial=1.0, max=10.0),
     retry=retry_if_exception_type((httpx.TransportError, httpx.HTTPStatusError)),
 )
-def get_json(url: str, *, params: dict[str, str | int | float] | None = None, timeout: float = 30.0) -> dict:
-    """GET a URL, raise on 4xx/5xx, return parsed JSON. Retries transient errors."""
-    with httpx.Client(headers=default_headers(), timeout=timeout) as client:
+def get_json(
+    url: str,
+    *,
+    params: dict[str, str | int | float] | None = None,
+    headers: dict[str, str] | None = None,
+    timeout: float = 30.0,
+) -> dict:
+    """GET a URL, raise on 4xx/5xx, return parsed JSON. Retries transient errors.
+
+    `headers` (optional) is merged onto default_headers() — caller-provided
+    keys override defaults, useful for adding bearer auth.
+    """
+    merged = {**default_headers(), **(headers or {})}
+    with httpx.Client(headers=merged, timeout=timeout) as client:
         resp = client.get(url, params=params)
         resp.raise_for_status()
         return resp.json()

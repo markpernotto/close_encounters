@@ -1,0 +1,48 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 42,
+    "params": {
+      "q": "full:\"99942 Apophis\"",
+      "fl": "bibcode,title,author,year,pub,doi,abstract",
+      "rows": "10",
+      "wt": "json"
+    }
+  },
+  "response": {
+    "numFound": 3,
+    "start": 0,
+    "docs": [
+      {
+        "bibcode": "2024Sci...123..456S",
+        "title": ["Spectral characterization of asteroid 99942 Apophis ahead of its 2029 close approach"],
+        "author": ["Smith, Jane", "Tanaka, Hiroshi", "Müller, Anna"],
+        "year": "2024",
+        "pubdate": "2024-09-00",
+        "pub": "Science",
+        "doi": ["10.1126/science.abc1234"],
+        "abstract": "We present spectroscopic observations of 99942 Apophis obtained at the Very Large Telescope between 2023 and 2024, refining its mineralogical classification and bulk density estimates."
+      },
+      {
+        "bibcode": "2023Icar..400.1234D",
+        "title": ["Yarkovsky drift and impact-probability evolution of 99942 Apophis after the 2021 radar campaign"],
+        "author": ["Davis, R.", "Park, S.", "Chesley, S. R."],
+        "year": "2023",
+        "pubdate": "2023-04-00",
+        "pub": "Icarus",
+        "doi": ["10.1016/j.icarus.2023.001234"],
+        "abstract": "The 2021 Goldstone-Green Bank radar observations constrained the Yarkovsky semi-major axis drift of 99942 Apophis, allowing impact probability projections to be tightened through 2089."
+      },
+      {
+        "bibcode": "2022MNRAS.500.5555L",
+        "title": ["Multi-wavelength survey of potentially hazardous asteroids"],
+        "author": ["Lin, K.-Y.", "Garcia, P."],
+        "year": "2022",
+        "pubdate": "2022-11-00",
+        "pub": "MNRAS",
+        "doi": ["10.1093/mnras/stac1234"],
+        "abstract": "Survey results include observations of (99942) Apophis and 24 other PHAs. Spectral types and rotation periods are reported."
+      }
+    ]
+  }
+}
