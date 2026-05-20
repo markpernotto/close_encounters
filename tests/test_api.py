@@ -122,9 +122,15 @@ def approach_row(**overrides) -> dict[str, Any]:
         "v_rel_km_s": 10.7,
         "v_inf_km_s": 10.6,
         "orbit_id": "42",
+        "diameter_km": 0.340,
         "diameter_estimate_km": 0.340,
         "absolute_magnitude_h": 19.7,
         "orbit_class": "ATE",
+        "snapshot_date": SNAPSHOT_DATE,
+        "apparent_mag_estimate": 13.2,
+        "visibility_bucket": "small_telescope",
+        "neo": True,
+        "pha": True,
     }
     base.update(overrides)
     return base
@@ -301,3 +307,159 @@ def test_alerts_handles_empty():
     resp = client.get("/api/alerts")
     assert resp.status_code == 200
     assert resp.json()["count"] == 0
+
+
+# ---------------------------------------------------------------------------
+# /api/objects/{designation}/orbit-history  (Phase 2, mart-backed)
+# ---------------------------------------------------------------------------
+
+
+def orbit_revision_row(**overrides) -> dict[str, Any]:
+    base = {
+        "solution_date": date(2024, 6, 25),
+        "epoch": 2461000.5,
+        "eccentricity": 0.191,
+        "semi_major_axis_au": 0.922,
+        "inclination_deg": 3.34,
+        "sigma_e": 1.3e-9,
+        "sigma_a": 2.4e-9,
+        "sigma_i": 4.0e-8,
+        "valid_from": date(2024, 6, 25),
+        "valid_to": None,
+        "is_current": True,
+    }
+    base.update(overrides)
+    return base
+
+
+def test_orbit_history_returns_list_for_known_object():
+    # 1) _fetch_object_from_mart  2) the dim_orbit_revision query
+    scripted = [
+        object_row(),
+        [
+            orbit_revision_row(solution_date=date(2024, 1, 1),
+                               valid_from=date(2024, 1, 1),
+                               valid_to=date(2024, 6, 25),
+                               is_current=False),
+            orbit_revision_row(),  # current
+        ],
+    ]
+    client = make_client(scripted)
+    resp = client.get("/api/objects/99942/orbit-history")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["count"] == 2
+    assert body["spkid"] == "20099942"
+    assert body["revisions"][0]["is_current"] is False
+    assert body["revisions"][1]["is_current"] is True
+
+
+def test_orbit_history_404_for_unknown_object():
+    scripted = [None]
+    client = make_client(scripted)
+    resp = client.get("/api/objects/never-existed/orbit-history")
+    assert resp.status_code == 404
+
+
+# ---------------------------------------------------------------------------
+# /api/risk  (overview)
+# ---------------------------------------------------------------------------
+
+
+def risk_row(**overrides) -> dict[str, Any]:
+    base = {
+        "designation": "99942",
+        "assessment_date": date(2026, 5, 19),
+        "coverage": "both",
+        "nasa_torino_scale": 0,
+        "nasa_palermo_scale": -2.69,
+        "nasa_palermo_scale_max": -2.99,
+        "nasa_impact_probability": 8.5e-7,
+        "nasa_n_impacts": 4,
+        "esa_torino_scale": 0,
+        "esa_palermo_scale": -2.70,
+        "esa_palermo_scale_max": -2.82,
+        "esa_impact_probability": 7.34e-7,
+        "delta_palermo": 0.01,
+        "abs_delta_palermo": 0.01,
+        "diameter_km": 0.340,
+        "v_inf_km_s": 27.54,
+        "potential_impact_year_min": 2056,
+        "potential_impact_year_max": 2113,
+    }
+    base.update(overrides)
+    return base
+
+
+def test_risk_overview_aggregates_coverage_and_top_palermo():
+    # Scripted queries in order: MAX(assessment_date), coverage breakdown,
+    # elevated torino count, top palermo row
+    scripted = [
+        {"d": date(2026, 5, 19)},
+        [
+            {"coverage": "both", "n": 1789},
+            {"coverage": "NASA only", "n": 357},
+            {"coverage": "ESA only", "n": 187},
+        ],
+        {"n": 0},
+        risk_row(),
+    ]
+    client = make_client(scripted)
+    resp = client.get("/api/risk")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["assessment_date"] == "2026-05-19"
+    assert body["total"] == 1789 + 357 + 187
+    assert body["coverage"] == {"both": 1789, "NASA only": 357, "ESA only": 187}
+    assert body["elevated_torino"] == 0
+    assert body["highest_palermo"]["designation"] == "99942"
+
+
+def test_risk_overview_handles_empty_db():
+    scripted = [{"d": None}]
+    client = make_client(scripted)
+    resp = client.get("/api/risk")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["total"] == 0
+    assert body["coverage"] == {}
+    assert body["assessment_date"] is None
+
+
+# ---------------------------------------------------------------------------
+# /api/risk/{designation}
+# ---------------------------------------------------------------------------
+
+
+def test_risk_per_object_returns_both_agency_blocks():
+    scripted = [risk_row()]
+    client = make_client(scripted)
+    resp = client.get("/api/risk/99942")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["designation"] == "99942"
+    assert body["coverage"] == "both"
+    assert body["nasa"]["palermo_scale"] == -2.69
+    assert body["esa"]["palermo_scale"] == -2.70
+    assert body["delta_palermo"] == 0.01
+
+
+def test_risk_per_object_nasa_only_returns_no_esa_block():
+    scripted = [risk_row(coverage="NASA only", esa_torino_scale=None,
+                         esa_palermo_scale=None, esa_palermo_scale_max=None,
+                         esa_impact_probability=None,
+                         delta_palermo=None, abs_delta_palermo=None)]
+    client = make_client(scripted)
+    resp = client.get("/api/risk/99942")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["coverage"] == "NASA only"
+    assert body["nasa"] is not None
+    assert body["esa"] is None
+
+
+def test_risk_per_object_404_when_not_on_risk_list():
+    scripted = [None]
+    client = make_client(scripted)
+    resp = client.get("/api/risk/2026-not-tracked")
+    assert resp.status_code == 404

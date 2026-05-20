@@ -27,9 +27,15 @@ class ApproachItem(BaseModel):
     v_rel_km_s: float | None
     v_inf_km_s: float | None
     orbit_id: str | None = None
+    diameter_km: float | None = None
     diameter_estimate_km: float | None = None
     absolute_magnitude_h: float | None = None
     orbit_class: str | None = None
+    # Phase 2 mart additions
+    apparent_mag_estimate: float | None = None
+    visibility_bucket: str | None = None
+    neo: bool | None = None
+    pha: bool | None = None
 
 
 class ApproachListResponse(BaseModel):
@@ -74,3 +80,60 @@ class AlertItem(BaseModel):
 class AlertListResponse(BaseModel):
     count: int
     items: list[AlertItem]
+
+
+# Phase 2 — orbit-revision history
+
+
+class OrbitRevisionItem(BaseModel):
+    solution_date: date
+    epoch: float | None = None
+    eccentricity: float | None = None
+    semi_major_axis_au: float | None = None
+    inclination_deg: float | None = None
+    sigma_e: float | None = None
+    sigma_a: float | None = None
+    sigma_i: float | None = None
+    valid_from: date | None = None
+    valid_to: date | None = None
+    is_current: bool
+
+
+class OrbitHistoryResponse(BaseModel):
+    spkid: str
+    designation: str
+    count: int
+    revisions: list[OrbitRevisionItem]
+
+
+# Phase 2 — cross-agency risk
+
+
+class AgencyRisk(BaseModel):
+    torino_scale: int | None = None
+    palermo_scale: float | None = None
+    palermo_scale_max: float | None = None
+    impact_probability: float | None = None
+    n_impacts: int | None = None
+
+
+class RiskAssessmentItem(BaseModel):
+    designation: str
+    assessment_date: date
+    coverage: str
+    nasa: AgencyRisk | None = None
+    esa: AgencyRisk | None = None
+    delta_palermo: float | None = None
+    abs_delta_palermo: float | None = None
+    diameter_km: float | None = None
+    v_inf_km_s: float | None = None
+    potential_impact_year_min: int | None = None
+    potential_impact_year_max: int | None = None
+
+
+class RiskOverviewResponse(BaseModel):
+    assessment_date: date | None
+    total: int
+    coverage: dict[str, int] = Field(default_factory=dict)
+    elevated_torino: int
+    highest_palermo: RiskAssessmentItem | None = None

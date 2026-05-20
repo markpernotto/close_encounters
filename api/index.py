@@ -20,12 +20,17 @@ from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query
 
 from api.models import (
+    AgencyRisk,
     AlertItem,
     AlertListResponse,
     ApproachItem,
     ApproachListResponse,
     HealthResponse,
     ObjectDetail,
+    OrbitHistoryResponse,
+    OrbitRevisionItem,
+    RiskAssessmentItem,
+    RiskOverviewResponse,
 )
 
 load_dotenv()
@@ -89,9 +94,13 @@ def approaches_upcoming(
     days: int = Query(default=DEFAULT_UPCOMING_DAYS, ge=1, le=365),
     limit: int = Query(default=DEFAULT_LIMIT, ge=1, le=1000),
 ) -> ApproachListResponse:
+    """Reads from mart_upcoming_approaches (Phase 2) — joined view with
+    apparent_mag_estimate + visibility_bucket included. Mart is filtered
+    to the latest snapshot's next 60 days at build time; the days param
+    further narrows from there, so days > 60 silently caps at 60."""
     now = datetime.now(UTC)
     end = now + timedelta(days=days)
-    snapshot_date, rows = _fetch_approaches(
+    snapshot_date, rows = _fetch_mart_approaches(
         conn,
         window_start=now,
         window_end=end,
@@ -141,10 +150,12 @@ def approaches_recent(
 
 @app.get("/api/objects/{designation}", response_model=ObjectDetail)
 def get_object(
-    designation: str,
     conn: ConnDep,
+    designation: str,
 ) -> ObjectDetail:
-    row = _fetch_object(conn, designation)
+    """Reads from mart_objects_current (Phase 2) — one row per spkid with
+    current best parameters joined to the latest orbit revision."""
+    row = _fetch_object_from_mart(conn, designation)
     if not row:
         raise HTTPException(status_code=404, detail=f"object {designation!r} not found")
     return _row_to_object_detail(row)
@@ -161,46 +172,30 @@ def get_object_approaches(
     designation: str,
     limit: int = Query(default=DEFAULT_LIMIT, ge=1, le=1000),
 ) -> ApproachListResponse:
-    obj = _fetch_object(conn, designation)
+    """Reads from fact_close_approach (Phase 2) — latest-snapshot approaches
+    for the object, joined to orbit revision + apparent magnitude."""
+    obj = _fetch_object_from_mart(conn, designation)
     if not obj:
         raise HTTPException(status_code=404, detail=f"object {designation!r} not found")
-    snapshot_date = obj["snapshot_date"]
     with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
         cur.execute(
             """
             SELECT
-                ca.spkid,
-                ca.designation,
-                %s::text AS full_name,
-                ca.approach_date,
-                ca.body,
-                ca.distance_au,
-                ca.distance_ld,
-                ca.distance_min_au,
-                ca.distance_max_au,
-                ca.v_rel_km_s,
-                ca.v_inf_km_s,
-                ca.orbit_id,
-                %s::float8 AS diameter_estimate_km,
-                %s::float8 AS absolute_magnitude_h,
-                %s::text   AS orbit_class
-            FROM close_approaches_snapshots ca
-            WHERE ca.snapshot_date = %s
-              AND ca.spkid = %s
-            ORDER BY ca.approach_date ASC
+                spkid, designation, full_name, approach_date, body,
+                distance_au, distance_ld, distance_min_au, distance_max_au,
+                v_rel_km_s, v_inf_km_s, orbit_id,
+                diameter_km, diameter_estimate_km, absolute_magnitude_h,
+                orbit_class, neo, pha, apparent_mag_estimate,
+                snapshot_date
+            FROM fact_close_approach
+            WHERE spkid = %s
+            ORDER BY approach_date ASC
             LIMIT %s
             """,
-            (
-                obj.get("full_name"),
-                obj.get("diameter_estimate_km"),
-                obj.get("absolute_magnitude_h"),
-                obj.get("orbit_class"),
-                snapshot_date,
-                obj["spkid"],
-                limit,
-            ),
+            (obj["spkid"], limit),
         )
         rows = list(cur.fetchall())
+    snapshot_date = rows[0].get("snapshot_date") if rows else None
     return ApproachListResponse(
         count=len(rows),
         window_days=0,
@@ -286,6 +281,137 @@ def list_alerts(
 
 
 # ---------------------------------------------------------------------------
+# /api/objects/{designation}/orbit-history — Phase 2
+# ---------------------------------------------------------------------------
+
+
+@app.get(
+    "/api/objects/{designation}/orbit-history",
+    response_model=OrbitHistoryResponse,
+)
+def get_orbit_history(
+    conn: ConnDep,
+    designation: str,
+) -> OrbitHistoryResponse:
+    """Returns every orbit-determination revision JPL has published for the
+    object, oldest first. valid_to is the next revision's solution_date
+    (NULL for the current orbit)."""
+    obj = _fetch_object_from_mart(conn, designation)
+    if not obj:
+        raise HTTPException(status_code=404, detail=f"object {designation!r} not found")
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute(
+            """
+            SELECT solution_date, epoch,
+                   e AS eccentricity,
+                   a AS semi_major_axis_au,
+                   i AS inclination_deg,
+                   sigma_e, sigma_a, sigma_i,
+                   valid_from, valid_to, is_current
+            FROM dim_orbit_revision
+            WHERE spkid = %s
+            ORDER BY solution_date ASC
+            """,
+            (obj["spkid"],),
+        )
+        rows = list(cur.fetchall())
+    return OrbitHistoryResponse(
+        spkid=obj["spkid"],
+        designation=obj.get("designation") or designation,
+        count=len(rows),
+        revisions=[OrbitRevisionItem(**r) for r in rows],
+    )
+
+
+# ---------------------------------------------------------------------------
+# /api/risk + /api/risk/{designation} — Phase 2 cross-agency
+# ---------------------------------------------------------------------------
+
+
+@app.get("/api/risk", response_model=RiskOverviewResponse)
+def get_risk_overview(conn: ConnDep) -> RiskOverviewResponse:
+    """Daily snapshot of cross-agency risk coverage: how many objects are
+    on both NASA Sentry and ESA NEOCC, how many on only one, and the
+    single highest-Palermo object for context."""
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute("SELECT MAX(assessment_date) AS d FROM fact_risk_assessment")
+        row = cur.fetchone()
+        latest = row["d"] if row else None
+        if latest is None:
+            return RiskOverviewResponse(
+                assessment_date=None, total=0, coverage={}, elevated_torino=0
+            )
+        cur.execute(
+            """
+            SELECT coverage, COUNT(*)::int AS n
+            FROM fact_risk_assessment
+            WHERE assessment_date = %s
+            GROUP BY coverage
+            """,
+            (latest,),
+        )
+        coverage = {r["coverage"]: r["n"] for r in cur.fetchall()}
+        cur.execute(
+            """
+            SELECT COUNT(*)::int AS n
+            FROM fact_risk_assessment
+            WHERE assessment_date = %s
+              AND (COALESCE(nasa_torino_scale, 0) > 0
+                   OR COALESCE(esa_torino_scale, 0) > 0)
+            """,
+            (latest,),
+        )
+        elevated_torino = cur.fetchone()["n"]
+        cur.execute(
+            """
+            SELECT *
+            FROM fact_risk_assessment
+            WHERE assessment_date = %s
+            ORDER BY GREATEST(
+                COALESCE(nasa_palermo_scale, -999),
+                COALESCE(esa_palermo_scale, -999)
+            ) DESC NULLS LAST
+            LIMIT 1
+            """,
+            (latest,),
+        )
+        top = cur.fetchone()
+    return RiskOverviewResponse(
+        assessment_date=latest,
+        total=sum(coverage.values()),
+        coverage=coverage,
+        elevated_torino=elevated_torino,
+        highest_palermo=_risk_row_to_item(top) if top else None,
+    )
+
+
+@app.get("/api/risk/{designation}", response_model=RiskAssessmentItem)
+def get_risk(conn: ConnDep, designation: str) -> RiskAssessmentItem:
+    """One object's latest cross-agency risk assessment. Returns 404 if
+    the designation isn't on either risk list."""
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute(
+            """
+            SELECT *
+            FROM fact_risk_assessment
+            WHERE designation = %s
+              AND assessment_date = (
+                  SELECT MAX(assessment_date) FROM fact_risk_assessment
+              )
+            LIMIT 1
+            """,
+            (designation,),
+        )
+        row = cur.fetchone()
+    if not row:
+        raise HTTPException(
+            status_code=404,
+            detail=f"object {designation!r} not on any current risk list",
+        )
+    return _risk_row_to_item(row)
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -358,7 +484,93 @@ def _fetch_object(conn: psycopg.Connection, designation: str) -> dict[str, Any] 
         return cur.fetchone()
 
 
+def _fetch_object_from_mart(
+    conn: psycopg.Connection, designation: str
+) -> dict[str, Any] | None:
+    """Mart-backed lookup. Reads mart_objects_current (one row per spkid)."""
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute(
+            """
+            SELECT * FROM mart_objects_current
+            WHERE designation = %s OR spkid = %s OR full_name = %s
+            LIMIT 1
+            """,
+            (designation, designation, designation),
+        )
+        return cur.fetchone()
+
+
+def _fetch_mart_approaches(
+    conn: psycopg.Connection,
+    *,
+    window_start: datetime,
+    window_end: datetime,
+    order: str,
+    limit: int,
+) -> tuple[Any, list[dict[str, Any]]]:
+    """Reads mart_upcoming_approaches. The mart is already filtered to
+    next-60-days at build time; further filtering here narrows from there."""
+    direction = "ASC" if order.upper() == "ASC" else "DESC"
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute("SELECT MAX(snapshot_date) AS d FROM mart_upcoming_approaches")
+        row = cur.fetchone()
+        snapshot_date = row["d"] if row else None
+        if snapshot_date is None:
+            return None, []
+        cur.execute(
+            f"""
+            SELECT *
+            FROM mart_upcoming_approaches
+            WHERE approach_date >= %s
+              AND approach_date <= %s
+            ORDER BY approach_date {direction}
+            LIMIT %s
+            """,
+            (window_start, window_end, limit),
+        )
+        rows = list(cur.fetchall())
+    return snapshot_date, rows
+
+
+def _risk_row_to_item(row: dict[str, Any]) -> RiskAssessmentItem:
+    coverage = row.get("coverage") or "both"
+    nasa = None
+    if coverage in ("both", "NASA only"):
+        nasa = AgencyRisk(
+            torino_scale=row.get("nasa_torino_scale"),
+            palermo_scale=_maybe_float(row.get("nasa_palermo_scale")),
+            palermo_scale_max=_maybe_float(row.get("nasa_palermo_scale_max")),
+            impact_probability=_maybe_float(row.get("nasa_impact_probability")),
+            n_impacts=row.get("nasa_n_impacts"),
+        )
+    esa = None
+    if coverage in ("both", "ESA only"):
+        esa = AgencyRisk(
+            torino_scale=row.get("esa_torino_scale"),
+            palermo_scale=_maybe_float(row.get("esa_palermo_scale")),
+            palermo_scale_max=_maybe_float(row.get("esa_palermo_scale_max")),
+            impact_probability=_maybe_float(row.get("esa_impact_probability")),
+        )
+    return RiskAssessmentItem(
+        designation=row["designation"],
+        assessment_date=row["assessment_date"],
+        coverage=coverage,
+        nasa=nasa,
+        esa=esa,
+        delta_palermo=_maybe_float(row.get("delta_palermo")),
+        abs_delta_palermo=_maybe_float(row.get("abs_delta_palermo")),
+        diameter_km=_maybe_float(row.get("diameter_km")),
+        v_inf_km_s=_maybe_float(row.get("v_inf_km_s")),
+        potential_impact_year_min=row.get("potential_impact_year_min"),
+        potential_impact_year_max=row.get("potential_impact_year_max"),
+    )
+
+
 def _row_to_approach_item(row: dict[str, Any]) -> ApproachItem:
+    """Maps either a raw close_approaches_snapshots row or a
+    mart_upcoming_approaches / fact_close_approach row to ApproachItem.
+    Mart rows carry apparent_mag_estimate + visibility_bucket; raw ones
+    don't, and the fields default to None."""
     return ApproachItem(
         spkid=str(row.get("spkid") or ""),
         designation=str(row.get("designation") or ""),
@@ -372,13 +584,27 @@ def _row_to_approach_item(row: dict[str, Any]) -> ApproachItem:
         v_rel_km_s=_maybe_float(row.get("v_rel_km_s")),
         v_inf_km_s=_maybe_float(row.get("v_inf_km_s")),
         orbit_id=row.get("orbit_id"),
+        diameter_km=_maybe_float(row.get("diameter_km")),
         diameter_estimate_km=_maybe_float(row.get("diameter_estimate_km")),
         absolute_magnitude_h=_maybe_float(row.get("absolute_magnitude_h")),
         orbit_class=row.get("orbit_class"),
+        apparent_mag_estimate=_maybe_float(row.get("apparent_mag_estimate")),
+        visibility_bucket=row.get("visibility_bucket"),
+        neo=row.get("neo"),
+        pha=row.get("pha"),
     )
 
 
 def _row_to_object_detail(row: dict[str, Any]) -> ObjectDetail:
+    """Maps either a raw objects_snapshots row or a mart_objects_current
+    row into ObjectDetail. The mart exposes `latest_solution_date` and
+    `object_valid_from` instead of `solution_date` and `snapshot_date`;
+    we accept either shape transparently."""
+    solution_date = row.get("solution_date") or row.get("latest_solution_date")
+    snapshot_date = row.get("snapshot_date") or row.get("object_valid_from")
+    # object_valid_from from the dbt snapshot is a TIMESTAMPTZ, not a date
+    if hasattr(snapshot_date, "date"):
+        snapshot_date = snapshot_date.date()
     return ObjectDetail(
         spkid=str(row["spkid"]),
         designation=row["designation"],
@@ -396,8 +622,8 @@ def _row_to_object_detail(row: dict[str, Any]) -> ObjectDetail:
         last_observed=row.get("last_observed"),
         observation_arc_days=row.get("observation_arc_days"),
         n_observations=row.get("n_observations"),
-        solution_date=row["solution_date"],
-        snapshot_date=row["snapshot_date"],
+        solution_date=solution_date,
+        snapshot_date=snapshot_date,
     )
 
 
