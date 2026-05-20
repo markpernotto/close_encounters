@@ -9,8 +9,10 @@ from etl.diff import (
     EVENT_NEW_APPROACH,
     EVENT_NEW_OBJECT,
     EVENT_REVISED_APPROACH,
+    EVENT_RISK_CLASS_CHANGE,
     compute_dedup_key,
     compute_events,
+    compute_risk_events,
 )
 
 OBSERVED_AT = datetime(2026, 5, 8, 6, 30, tzinfo=UTC)
@@ -264,6 +266,202 @@ def test_compute_events_is_idempotent_via_dedup_keys():
 # ---------------------------------------------------------------------------
 # Combined / multi-event scenarios
 # ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# compute_risk_events — Phase 2 Commit 7
+# ---------------------------------------------------------------------------
+
+
+def risk(
+    *,
+    agency: str = "NASA_SENTRY",
+    designation: str = "99942",
+    spkid: str | None = None,
+    torino_scale: int | None = 0,
+    palermo_scale: float | None = -2.69,
+    impact_probability: float | None = 8.5e-7,
+    risk_class: str = "background",
+) -> dict[str, Any]:
+    return {
+        "agency": agency,
+        "designation": designation,
+        "spkid": spkid,
+        "torino_scale": torino_scale,
+        "palermo_scale": palermo_scale,
+        "impact_probability": impact_probability,
+        "risk_class": risk_class,
+    }
+
+
+def test_risk_added_emits_event_with_no_prev_value():
+    events = compute_risk_events(
+        prev_risks=[],
+        curr_risks=[risk(designation="2024 YR4")],
+        observed_at=OBSERVED_AT,
+    )
+    assert len(events) == 1
+    e = events[0]
+    assert e["event_type"] == EVENT_RISK_CLASS_CHANGE
+    assert e["designation"] == "2024 YR4"
+    assert e["agency"] == "NASA_SENTRY"
+    assert e["prev_value"] is None
+    assert e["new_value"]["palermo_scale"] == -2.69
+    assert e["approach_date"] is None
+    assert "added to NASA_SENTRY" in e["diff_summary"]
+
+
+def test_risk_retracted_emits_event_with_no_new_value():
+    events = compute_risk_events(
+        prev_risks=[risk(designation="2024 YR4")],
+        curr_risks=[],
+        observed_at=OBSERVED_AT,
+    )
+    assert len(events) == 1
+    e = events[0]
+    assert e["event_type"] == EVENT_RISK_CLASS_CHANGE
+    assert e["new_value"] is None
+    assert e["prev_value"] is not None
+    assert "removed from NASA_SENTRY" in e["diff_summary"]
+
+
+def test_risk_unchanged_emits_nothing():
+    same = risk()
+    events = compute_risk_events(
+        prev_risks=[same],
+        curr_risks=[same],
+        observed_at=OBSERVED_AT,
+    )
+    assert events == []
+
+
+def test_risk_palermo_change_emits_event():
+    events = compute_risk_events(
+        prev_risks=[risk(palermo_scale=-2.69)],
+        curr_risks=[risk(palermo_scale=-2.55)],
+        observed_at=OBSERVED_AT,
+    )
+    assert len(events) == 1
+    e = events[0]
+    assert e["prev_value"]["palermo_scale"] == -2.69
+    assert e["new_value"]["palermo_scale"] == -2.55
+    assert "palermo_scale" in e["diff_summary"]
+
+
+def test_risk_torino_escalation_emits_event():
+    events = compute_risk_events(
+        prev_risks=[risk(torino_scale=0)],
+        curr_risks=[risk(torino_scale=2, risk_class="torino_2")],
+        observed_at=OBSERVED_AT,
+    )
+    assert len(events) == 1
+    e = events[0]
+    assert e["prev_value"]["torino_scale"] == 0
+    assert e["new_value"]["torino_scale"] == 2
+
+
+def test_risk_untracked_field_change_emits_nothing():
+    """diameter changes don't trigger a risk event; only Torino, Palermo,
+    impact probability, or risk_class do."""
+    events = compute_risk_events(
+        prev_risks=[{**risk(), "diameter_km": 0.34, "v_inf_km_s": 27.5}],
+        curr_risks=[{**risk(), "diameter_km": 0.36, "v_inf_km_s": 27.5}],
+        observed_at=OBSERVED_AT,
+    )
+    assert events == []
+
+
+def test_risk_same_designation_different_agencies_emits_two_events():
+    """NASA's record and ESA's record for the same body are independent
+    streams. A change in one is a separate event from a change in the other."""
+    events = compute_risk_events(
+        prev_risks=[
+            risk(agency="NASA_SENTRY", palermo_scale=-2.69),
+            risk(agency="ESA_NEOCC", palermo_scale=-2.70),
+        ],
+        curr_risks=[
+            risk(agency="NASA_SENTRY", palermo_scale=-2.55),  # NASA changed
+            risk(agency="ESA_NEOCC", palermo_scale=-2.70),    # ESA didn't
+        ],
+        observed_at=OBSERVED_AT,
+    )
+    assert len(events) == 1
+    assert events[0]["agency"] == "NASA_SENTRY"
+
+
+def test_risk_carries_spkid_when_resolved():
+    events = compute_risk_events(
+        prev_risks=[],
+        curr_risks=[risk(spkid="20099942")],
+        observed_at=OBSERVED_AT,
+    )
+    assert events[0]["spkid"] == "20099942"
+
+
+def test_risk_spkid_none_when_unresolved():
+    events = compute_risk_events(
+        prev_risks=[],
+        curr_risks=[risk(spkid=None)],
+        observed_at=OBSERVED_AT,
+    )
+    assert events[0]["spkid"] is None
+
+
+def test_risk_dedup_keys_distinguish_agencies():
+    """Otherwise-identical risk events from NASA vs ESA must have different
+    dedup_keys — they're separate facts about the same body."""
+    events = compute_risk_events(
+        prev_risks=[],
+        curr_risks=[
+            risk(agency="NASA_SENTRY"),
+            risk(agency="ESA_NEOCC"),
+        ],
+        observed_at=OBSERVED_AT,
+    )
+    keys = {e["dedup_key"] for e in events}
+    assert len(keys) == 2
+
+
+def test_risk_events_are_idempotent():
+    """Running the same diff twice produces the same dedup_keys."""
+    inputs = dict(
+        prev_risks=[risk(palermo_scale=-2.69)],
+        curr_risks=[risk(palermo_scale=-2.55)],
+        observed_at=OBSERVED_AT,
+    )
+    a = compute_risk_events(**inputs)
+    b = compute_risk_events(**inputs)
+    assert {e["dedup_key"] for e in a} == {e["dedup_key"] for e in b}
+
+
+# ---------------------------------------------------------------------------
+# dedup_key backwards compatibility — extension must not break existing keys
+# ---------------------------------------------------------------------------
+
+
+def test_dedup_key_unchanged_when_no_designation_or_agency_passed():
+    """Approach events (which don't pass designation/agency) must produce
+    the same dedup_key after the Commit 7 extension. Otherwise re-running
+    diff.py after deployment would emit duplicates of every existing
+    approach event."""
+    args = {
+        "event_type": EVENT_NEW_APPROACH,
+        "spkid": "1",
+        "approach_date": D1,
+        "new_value": {"a": 1, "b": 2},
+    }
+    # Same hash as before the extension — computed manually by reproducing
+    # the original payload format
+    import hashlib as _h
+    import json as _j
+    expected_payload = _j.dumps({
+        "event_type": EVENT_NEW_APPROACH,
+        "spkid": "1",
+        "approach_date": D1.isoformat(),
+        "new_value": {"a": 1, "b": 2},
+    }, sort_keys=True, default=str)
+    expected = _h.sha256(expected_payload.encode("utf-8")).hexdigest()
+    assert compute_dedup_key(**args) == expected
 
 
 def test_full_diff_scenario_multiple_event_types():

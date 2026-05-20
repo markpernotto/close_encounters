@@ -8,6 +8,8 @@ SELECT
     event_id,
     observed_at,
     spkid,
+    designation,
+    agency,
     approach_date,
     event_type,
     prev_value,

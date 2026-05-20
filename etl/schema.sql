@@ -95,17 +95,27 @@ CREATE INDEX IF NOT EXISTS idx_close_approaches_spkid ON close_approaches_snapsh
 CREATE TABLE IF NOT EXISTS approach_events (
     event_id               BIGSERIAL PRIMARY KEY,
     observed_at            TIMESTAMPTZ NOT NULL,
-    spkid                  TEXT NOT NULL,
-    approach_date          TIMESTAMPTZ NOT NULL,
+    spkid                  TEXT,                 -- nullable: RISK_CLASS_CHANGE events may lack a resolved spkid
+    designation            TEXT,                 -- set for RISK_CLASS_CHANGE events
+    agency                 TEXT,                 -- 'NASA_SENTRY' | 'ESA_NEOCC' for risk events
+    approach_date          TIMESTAMPTZ,          -- nullable: RISK_CLASS_CHANGE events have no specific approach
     event_type             TEXT NOT NULL,        -- NEW_APPROACH, REVISED_APPROACH, NEW_OBJECT, RISK_CLASS_CHANGE
     prev_value             JSONB,
     new_value              JSONB,
     diff_summary           TEXT,
     -- Deterministic key so re-running diff.py is idempotent. Computed by
-    -- etl.diff.compute_dedup_key() from (event_type, spkid, approach_date,
-    -- canonical-json(new_value)).
+    -- etl.diff.compute_dedup_key(); for approach events from (event_type,
+    -- spkid, approach_date, canonical-json(new_value)); for risk events
+    -- additionally includes agency + designation.
     dedup_key              TEXT NOT NULL UNIQUE
 );
+
+-- Backward migration for DBs created before the Commit 7 schema change:
+-- drop NOT NULL on the columns and add the new ones if missing.
+ALTER TABLE approach_events ALTER COLUMN spkid DROP NOT NULL;
+ALTER TABLE approach_events ALTER COLUMN approach_date DROP NOT NULL;
+ALTER TABLE approach_events ADD COLUMN IF NOT EXISTS designation TEXT;
+ALTER TABLE approach_events ADD COLUMN IF NOT EXISTS agency TEXT;
 CREATE INDEX IF NOT EXISTS idx_approach_events_observed_at ON approach_events (observed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_approach_events_spkid ON approach_events (spkid);
 CREATE INDEX IF NOT EXISTS idx_approach_events_approach_date ON approach_events (approach_date);

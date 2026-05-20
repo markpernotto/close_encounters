@@ -209,7 +209,8 @@ def load_close_approaches(
 # ---------------------------------------------------------------------------
 
 _EVENT_COLS = (
-    "observed_at", "spkid", "approach_date", "event_type",
+    "observed_at", "spkid", "designation", "agency",
+    "approach_date", "event_type",
     "prev_value", "new_value", "diff_summary", "dedup_key",
 )
 
