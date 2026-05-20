@@ -200,3 +200,47 @@ CREATE TABLE IF NOT EXISTS discovery_attributions (
 );
 CREATE INDEX IF NOT EXISTS idx_discovery_program ON discovery_attributions (discovery_program);
 CREATE INDEX IF NOT EXISTS idx_discovery_date ON discovery_attributions (discovery_date);
+
+-- ---------------------------------------------------------------------------
+-- discovery_publications — Phase 3: the citation graph's "publication" side
+-- One row per resolved publication (MPEC, journal paper, ADS bibcode, etc.).
+-- Identity is the publication itself, not the object — many objects can
+-- share a publication (e.g. a survey paper announcing 50 discoveries).
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS discovery_publications (
+    publication_id     BIGSERIAL PRIMARY KEY,
+    doi                TEXT UNIQUE,
+    mpec_id            TEXT UNIQUE,        -- 'MPEC 2024-Y17'
+    ads_bibcode        TEXT UNIQUE,        -- 19-char ADS bibcode
+    arxiv_id           TEXT UNIQUE,
+    title              TEXT NOT NULL,
+    authors            JSONB,              -- list of author dicts
+    publication_date   DATE,
+    source_url         TEXT NOT NULL,
+    resolved_via       TEXT NOT NULL,      -- 'mpec' | 'ads' | 'crossref' | 'sbdb_producer'
+    resolved_at        TIMESTAMPTZ NOT NULL,
+    raw_record         JSONB NOT NULL      -- the source-format payload for re-parsing later
+);
+CREATE INDEX IF NOT EXISTS idx_publications_resolved_via ON discovery_publications (resolved_via);
+CREATE INDEX IF NOT EXISTS idx_publications_publication_date ON discovery_publications (publication_date DESC);
+
+-- ---------------------------------------------------------------------------
+-- object_publications — the actual citation graph edge
+-- (designation, publication, relationship) is the natural key. spkid is
+-- captured when resolved but not in the key, since many objects we cite
+-- via MPEC have only provisional designations and no spkid yet.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS object_publications (
+    designation        TEXT NOT NULL,
+    publication_id     BIGINT NOT NULL REFERENCES discovery_publications(publication_id),
+    relationship       TEXT NOT NULL,      -- 'discovery' | 'recovery' | 'follow_up' | 'risk_assessment'
+    spkid              TEXT,               -- nullable; filled when resolvable
+    confidence         TEXT NOT NULL,      -- 'high' | 'medium' | 'low'
+    confidence_reason  TEXT NOT NULL,
+    extracted_from     TEXT NOT NULL,      -- 'sbdb_ref' | 'mpec_featured' | 'mpec_body' | 'manual'
+    extracted_at       TIMESTAMPTZ NOT NULL,
+    PRIMARY KEY (designation, publication_id, relationship)
+);
+CREATE INDEX IF NOT EXISTS idx_object_pub_publication ON object_publications (publication_id);
+CREATE INDEX IF NOT EXISTS idx_object_pub_spkid ON object_publications (spkid);
+CREATE INDEX IF NOT EXISTS idx_object_pub_relationship ON object_publications (relationship);

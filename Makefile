@@ -1,4 +1,4 @@
-.PHONY: help schema psql extract diff alerts publish pipeline test api web dev web-install web-build dbt-debug dbt-snapshot dbt-run dbt-test dbt-build dbt-docs check-setup
+.PHONY: help schema psql extract diff alerts publish resolve-citations pipeline test api web dev web-install web-build dbt-debug dbt-snapshot dbt-run dbt-test dbt-build dbt-docs check-setup
 
 ifneq (,$(wildcard .env))
     include .env
@@ -16,6 +16,7 @@ help:
 	@echo "  diff          compute approach_events between latest two snapshots"
 	@echo "  alerts        evaluate threshold rules against the latest events → alerts table"
 	@echo "  publish       generate public/{upcoming,noteworthy}.{rss,json} + public/health.json"
+	@echo "  resolve-citations  fetch MPECs referenced in discovery_attributions, build citation graph"
 	@echo "  pipeline      run extract -> diff -> alerts -> publish"
 	@echo "  api           run FastAPI locally on :8551 with auto-reload"
 	@echo "  web           run Vite dev server on :5551 (proxies /api → :8551)"
@@ -50,6 +51,9 @@ alerts:
 
 publish:
 	python -m etl.publish
+
+resolve-citations:
+	python -m etl.resolve_citations
 
 pipeline: extract diff alerts publish
 

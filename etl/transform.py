@@ -16,6 +16,7 @@ from typing import Any
 from etl.sources.esa_neocc import NEOCC_RISK_LIST_URL
 from etl.sources.jpl_sbdb import SBDB_URL
 from etl.sources.jpl_sentry import SENTRY_URL
+from etl.sources.mpc_mpec import mpec_url
 
 AGENCY_NASA_SENTRY = "NASA_SENTRY"
 AGENCY_ESA_NEOCC = "ESA_NEOCC"
@@ -438,6 +439,120 @@ def _parse_discovery_date(value: Any) -> date | None:
     return None
 
 
+# ---------------------------------------------------------------------------
+# Parsed MPEC → discovery_publications + object_publications
+# ---------------------------------------------------------------------------
+
+RESOLVED_VIA_MPEC = "mpec"
+RELATIONSHIP_DISCOVERY = "discovery"
+RELATIONSHIP_FOLLOW_UP = "follow_up"
+CONFIDENCE_HIGH = "high"
+CONFIDENCE_MEDIUM = "medium"
+
+
+def normalize_mpec_publication(
+    parsed: dict[str, Any],
+    *,
+    resolved_at: datetime,
+) -> dict[str, Any] | None:
+    """Map a parse_mpec_html() result into a discovery_publications row.
+
+    Returns None when the parse didn't surface an MPEC id — without an id
+    we can't dedupe against future re-fetches, so we'd rather skip the
+    row than load it unkeyed.
+    """
+    mpec_id = parsed.get("mpec_id")
+    if not mpec_id:
+        return None
+    title = parsed.get("title") or f"Minor Planet Electronic Circular {mpec_id}"
+    issued = parsed.get("issued_at")
+    publication_date = issued.date() if isinstance(issued, datetime) else None
+    return {
+        "doi": None,
+        "mpec_id": mpec_id,
+        "ads_bibcode": None,
+        "arxiv_id": None,
+        "title": title,
+        "authors": None,
+        "publication_date": publication_date,
+        "source_url": mpec_url(mpec_id),
+        "resolved_via": RESOLVED_VIA_MPEC,
+        "resolved_at": resolved_at,
+        "raw_record": parsed,
+    }
+
+
+def mpec_object_links(
+    parsed: dict[str, Any],
+    *,
+    publication_id: int,
+    extracted_at: datetime,
+    designation_to_spkid: dict[str, str] | None = None,
+) -> list[dict[str, Any]]:
+    """Build object_publications rows from a parsed MPEC.
+
+    Featured designations (bolded in the MPEC body) get
+    relationship='discovery' at confidence=high. Other mentioned
+    designations get relationship='follow_up' at confidence=medium —
+    they're discussed but the MPEC isn't announcing them.
+    """
+    desig_to_spkid = designation_to_spkid or {}
+    rows: list[dict[str, Any]] = []
+    featured = set(parsed.get("featured_designations") or [])
+    mentioned = set(parsed.get("mentioned_designations") or [])
+
+    for des in featured:
+        rows.append(
+            _object_publication_row(
+                designation=des,
+                publication_id=publication_id,
+                relationship=RELATIONSHIP_DISCOVERY,
+                confidence=CONFIDENCE_HIGH,
+                confidence_reason="featured (bolded) designation in MPEC body",
+                extracted_from="mpec_featured",
+                extracted_at=extracted_at,
+                spkid=desig_to_spkid.get(des),
+            )
+        )
+    for des in mentioned - featured:
+        rows.append(
+            _object_publication_row(
+                designation=des,
+                publication_id=publication_id,
+                relationship=RELATIONSHIP_FOLLOW_UP,
+                confidence=CONFIDENCE_MEDIUM,
+                confidence_reason="designation appears in MPEC body but not featured",
+                extracted_from="mpec_body",
+                extracted_at=extracted_at,
+                spkid=desig_to_spkid.get(des),
+            )
+        )
+    return rows
+
+
+def _object_publication_row(
+    *,
+    designation: str,
+    publication_id: int,
+    relationship: str,
+    confidence: str,
+    confidence_reason: str,
+    extracted_from: str,
+    extracted_at: datetime,
+    spkid: str | None,
+) -> dict[str, Any]:
+    return {
+        "designation": designation,
+        "publication_id": publication_id,
+        "relationship": relationship,
+        "spkid": spkid,
+        "confidence": confidence,
+        "confidence_reason": confidence_reason,
+        "extracted_from": extracted_from,
+        "extracted_at": extracted_at,
+    }
+
+
 def _risk_class_for_sentry(record: dict[str, Any]) -> str:
     """Bucket Sentry records into a human-readable risk tier label.
 
@@ -461,8 +576,15 @@ __all__ = [
     "NEOCC_RISK_LIST_URL",
     "SBDB_URL",
     "SENTRY_URL",
+    "CONFIDENCE_HIGH",
+    "CONFIDENCE_MEDIUM",
+    "RELATIONSHIP_DISCOVERY",
+    "RELATIONSHIP_FOLLOW_UP",
+    "RESOLVED_VIA_MPEC",
+    "mpec_object_links",
     "normalize_close_approach",
     "normalize_discovery_attribution",
+    "normalize_mpec_publication",
     "normalize_neocc_assessment",
     "normalize_sbdb_object",
     "normalize_sbdb_orbit_elements",

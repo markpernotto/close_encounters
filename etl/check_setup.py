@@ -71,6 +71,8 @@ def check_postgres() -> bool:
                 "alerts",
                 "risk_assessments",
                 "discovery_attributions",
+                "discovery_publications",
+                "object_publications",
             }
             cur.execute(
                 """

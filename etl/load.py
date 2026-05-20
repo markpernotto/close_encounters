@@ -261,6 +261,83 @@ _RISK_COLS = (
 
 
 # ---------------------------------------------------------------------------
+# discovery_publications + object_publications
+# ---------------------------------------------------------------------------
+
+_PUBLICATION_COLS = (
+    "doi", "mpec_id", "ads_bibcode", "arxiv_id", "title", "authors",
+    "publication_date", "source_url", "resolved_via", "resolved_at",
+    "raw_record",
+)
+
+
+def load_publication(
+    conn: psycopg.Connection, publication: dict[str, Any]
+) -> int:
+    """UPSERT a single discovery_publications row keyed on mpec_id (or doi,
+    or ads_bibcode, or arxiv_id — whichever uniquely identifies it).
+    Returns the publication_id of the resulting row, whether inserted or
+    updated. Designed for single inserts since each publication is fetched
+    individually."""
+    conflict_target = _publication_conflict_target(publication)
+    if conflict_target is None:
+        raise ValueError(
+            "publication must have at least one of mpec_id/doi/ads_bibcode/arxiv_id"
+        )
+    sql = f"""
+        INSERT INTO discovery_publications ({", ".join(_PUBLICATION_COLS)})
+        VALUES ({", ".join("%s" for _ in _PUBLICATION_COLS)})
+        ON CONFLICT ({conflict_target}) DO UPDATE SET
+            title = EXCLUDED.title,
+            authors = EXCLUDED.authors,
+            publication_date = EXCLUDED.publication_date,
+            source_url = EXCLUDED.source_url,
+            resolved_via = EXCLUDED.resolved_via,
+            resolved_at = EXCLUDED.resolved_at,
+            raw_record = EXCLUDED.raw_record
+        RETURNING publication_id
+    """
+    with conn.cursor() as cur:
+        cur.execute(
+            sql,
+            tuple(_adapt(publication.get(c)) for c in _PUBLICATION_COLS),
+        )
+        row = cur.fetchone()
+        return row[0]
+
+
+def _publication_conflict_target(publication: dict[str, Any]) -> str | None:
+    for col in ("mpec_id", "doi", "ads_bibcode", "arxiv_id"):
+        if publication.get(col):
+            return col
+    return None
+
+
+_OBJECT_PUBLICATION_COLS = (
+    "designation", "publication_id", "relationship", "spkid",
+    "confidence", "confidence_reason", "extracted_from", "extracted_at",
+)
+
+
+def load_object_publications(
+    conn: psycopg.Connection, rows: Iterable[dict[str, Any]]
+) -> int:
+    """UPSERT object_publications rows. PK is (designation, publication_id,
+    relationship)."""
+    sql = f"""
+        INSERT INTO object_publications ({", ".join(_OBJECT_PUBLICATION_COLS)})
+        VALUES ({", ".join("%s" for _ in _OBJECT_PUBLICATION_COLS)})
+        ON CONFLICT (designation, publication_id, relationship) DO UPDATE SET
+            spkid = COALESCE(EXCLUDED.spkid, object_publications.spkid),
+            confidence = EXCLUDED.confidence,
+            confidence_reason = EXCLUDED.confidence_reason,
+            extracted_from = EXCLUDED.extracted_from,
+            extracted_at = EXCLUDED.extracted_at
+    """
+    return _execute_many(conn, sql, rows, _OBJECT_PUBLICATION_COLS)
+
+
+# ---------------------------------------------------------------------------
 # discovery_attributions
 # ---------------------------------------------------------------------------
 
@@ -365,8 +442,10 @@ __all__ = [
     "load_close_approaches",
     "load_discovery_attributions",
     "load_events",
+    "load_object_publications",
     "load_objects",
     "load_orbit_elements",
+    "load_publication",
     "load_risk_assessments",
     "resolve_spkids",
 ]
