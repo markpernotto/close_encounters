@@ -177,3 +177,28 @@ export interface PublicationsResponse {
   count: number;
   items: PublicationItem[];
 }
+
+// Phase 4 — sky view
+
+export interface SkyObject {
+  spkid: string;
+  designation: string;
+  full_name: string | null;
+  orbit_class: string | null;
+  neo: boolean | null;
+  pha: boolean | null;
+  diameter_km: number | null;
+  altitude_deg: number;
+  azimuth_deg: number;
+  distance_au: number;
+  above_horizon: boolean;
+}
+
+export interface SkyResponse {
+  latitude: number;
+  longitude: number;
+  observed_at: string;
+  min_altitude_deg: number;
+  count: number;
+  objects: SkyObject[];
+}

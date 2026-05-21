@@ -10,6 +10,7 @@ import type {
   PublicationsResponse,
   RiskAssessmentItem,
   RiskOverviewResponse,
+  SkyResponse,
 } from './types';
 
 async function jsonOrThrow<T>(resp: Response): Promise<T> {
@@ -121,4 +122,17 @@ export function fetchObjectPublications(
     `/api/objects/${encodeURIComponent(designation)}/publications`,
     { signal },
   ).then(jsonOrThrow<PublicationsResponse>);
+}
+
+export function fetchSky(
+  params: { lat: number; lon: number; time?: string; minAltitude?: number },
+  signal?: AbortSignal,
+): Promise<SkyResponse> {
+  const qs = new URLSearchParams({
+    lat: String(params.lat),
+    lon: String(params.lon),
+  });
+  if (params.time) qs.set('time', params.time);
+  if (params.minAltitude != null) qs.set('min_altitude', String(params.minAltitude));
+  return fetch(`/api/sky?${qs}`, { signal }).then(jsonOrThrow<SkyResponse>);
 }
