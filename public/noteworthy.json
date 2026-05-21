@@ -1,7 +1,20 @@
 {
-  "count": 7,
-  "generated_at": "2026-05-20T07:50:37.844227+00:00",
+  "count": 8,
+  "generated_at": "2026-05-21T07:51:41.275718+00:00",
   "items": [
+    {
+      "alert_id": 8,
+      "approach_date": "2026-06-01T04:14:00+00:00",
+      "designation": "2026 KV",
+      "fired_at": "2026-05-21T07:51:29.254078+00:00",
+      "payload": {
+        "days_until_approach": 10,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 10 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54630403"
+    },
     {
       "alert_id": 1,
       "approach_date": "2026-05-21T23:18:00+00:00",
