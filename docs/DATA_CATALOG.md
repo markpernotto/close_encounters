@@ -153,8 +153,8 @@ From `discovery` (Phase 3 — captured today but not yet surfaced): `who`, `site
 
 | | |
 |---|---|
-| **Phase** | 3 (planned) |
-| **Status** | not yet ingested |
+| **Phase** | 3 |
+| **Status** | ingested on demand via `make resolve-citations`; wired into nightly with continue-on-error |
 | **Publisher** | Smithsonian Astrophysical Observatory, on behalf of the International Astronomical Union |
 | **Endpoint** | `https://www.minorplanetcenter.net/iau/services/MPEC.html` and archive |
 | **Documentation** | https://www.minorplanetcenter.net/iau/info/Acknowledgements.html |
@@ -173,8 +173,8 @@ From `discovery` (Phase 3 — captured today but not yet surfaced): `who`, `site
 
 | | |
 |---|---|
-| **Phase** | 3 (planned) |
-| **Status** | not yet ingested |
+| **Phase** | 3 |
+| **Status** | ingested nightly when ADS_API_TOKEN is configured; tier skips gracefully if missing |
 | **Publisher** | Harvard-Smithsonian Center for Astrophysics, operated under NASA grant |
 | **Endpoint** | `https://api.adsabs.harvard.edu/v1` |
 | **Documentation** | https://ui.adsabs.harvard.edu/help/api/ |

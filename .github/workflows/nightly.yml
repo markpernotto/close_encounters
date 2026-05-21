@@ -89,12 +89,16 @@ jobs:
         continue-on-error: true
         run: cd etl/transform && DBT_PROFILES_DIR=. dbt test
 
-      # Phase 3 step (uncomment when citation resolver lands)
-      # - name: Resolve citation graph
-      #   run: python -m etl.resolve_citations --max-objects 50
-
       - name: Publish RSS + JSON feeds
         run: python -m etl.publish
+
+      - name: Resolve citation graph (MPEC + ADS)
+        # Phase 3 — runs after publish so a citation-fetch hiccup doesn't
+        # block the public feeds. ADS tier is skipped automatically when
+        # ADS_API_TOKEN isn't configured. continue-on-error so a single
+        # bad fetch doesn't fail the workflow.
+        continue-on-error: true
+        run: python -m etl.resolve_citations
 
       - name: Commit manifest + feeds
         run: |

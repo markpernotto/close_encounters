@@ -4,8 +4,10 @@ A public data warehouse and alerting feed for near-Earth objects: which
 asteroids and comets are passing close to Earth, how big they are, how
 confident the orbit is, and who saw them first.
 
-> **Status:** Phase 1 shipped (live). Phase 2 shipped (live). Phase 3 in
-> progress — Commit 2 of ~5 landed.
+> **Status:** Phase 1 shipped (live). Phase 2 shipped (live). Phase 3
+> wired end-to-end as of Commit 5 of 5 — the citation graph builds
+> nightly via `make resolve-citations` (MPEC + ADS tiers, gracefully
+> skips ADS when no token is configured).
 
 ## The three-phase project
 
@@ -30,14 +32,16 @@ showing coverage stats and a per-object cross-agency panel. The diff
 layer emits `RISK_CLASS_CHANGE` events when either agency revises an
 assessment.
 
-### Phase 3 — citation graph 🔨 in progress
+### Phase 3 — citation graph ✅ wired end-to-end
 
-Each NEO linked to the discovery announcement that announced it: an IAU
-Minor Planet Center electronic circular (MPEC), a journal paper resolved
-via NASA ADS or Crossref, or a survey-program record. Confidence-scored
-links, parallel to the sister project `exoplanet_citation`. The first
-two commits land the discovery-attributions table (mined from SBDB's
-existing `discovery` block) and the MPEC fetcher + publication schema.
+Each NEO linked to the discovery announcement that announced it (IAU
+Minor Planet Center electronic circular) and to journal papers from
+NASA ADS, with confidence-scored links. Two-tier resolver runs nightly:
+MPEC discovery for objects where SBDB references one, ADS full-text
+search for follow-up papers per designation. Discovery info (who,
+where, when, which program) surfaces on each object detail page. See
+[docs/CITATION_RESOLUTION.md](docs/CITATION_RESOLUTION.md) for the
+methodology and confidence model.
 
 ## What's built (as of the latest commit)
 
