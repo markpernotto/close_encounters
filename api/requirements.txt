@@ -2,3 +2,7 @@ fastapi>=0.115
 psycopg[binary]>=3.2
 python-dotenv>=1.0
 pydantic>=2.8
+# Phase 4 sky view — alt/az from orbital elements. Pulls numpy + jplephem +
+# sgp4 transitively. The DE421 ephemeris ships bundled (see vercel.json
+# includeFiles) so the function never downloads it at runtime.
+skyfield>=1.49

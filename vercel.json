@@ -1,6 +1,12 @@
 {
   "buildCommand": "cd web && npm install && npm run build && (cp -r ../public/. dist/ 2>/dev/null || true)",
   "outputDirectory": "web/dist",
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "api/_skyfield_data/de421.bsp",
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/docs", "destination": "/api/index" },

@@ -22,6 +22,7 @@ loosely via skyfield>=1.49 — worth a smoke test after skyfield upgrades.
 from __future__ import annotations
 
 import functools
+import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -40,8 +41,19 @@ _SUN_CENTER = 10
 
 @functools.lru_cache(maxsize=1)
 def _loader() -> Loader:
-    _DATA_DIR.mkdir(parents=True, exist_ok=True)
-    return Loader(str(_DATA_DIR))
+    """A skyfield Loader pointed at the ephemeris.
+
+    Prefer the bundled/committed copy in `_DATA_DIR` (shipped with the Vercel
+    function via vercel.json `includeFiles`, or cached locally) — that path is
+    read-only in production but needs no writes when the file already exists.
+    Only if the file is missing do we fall back to a writable temp dir so a
+    download can still succeed (slow, but it won't crash on the read-only
+    serverless filesystem)."""
+    if (_DATA_DIR / EPHEMERIS_FILE).exists():
+        return Loader(str(_DATA_DIR))
+    tmp = Path(tempfile.gettempdir()) / "neo_skyfield"
+    tmp.mkdir(parents=True, exist_ok=True)
+    return Loader(str(tmp))
 
 
 @functools.lru_cache(maxsize=1)

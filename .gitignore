@@ -64,9 +64,12 @@ data/unresolved.csv
 build/
 *.egg
 
-# Skyfield ephemeris data (downloaded on demand, ~17MB; not source)
-api/_skyfield_data/
+# Skyfield ephemeris data. Ignore on-demand downloads, but commit DE421 so the
+# Vercel function ships with it — otherwise the first /api/sky call would try a
+# 17MB download on a read-only serverless filesystem and fail/time out.
+api/_skyfield_data/*
 *.bsp
+!api/_skyfield_data/de421.bsp
 
 # Private outreach notes — never commit
 docs/OUTREACH.md
