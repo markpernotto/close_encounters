@@ -33,6 +33,8 @@ from api.models import (
     PublicationsResponse,
     RiskAssessmentItem,
     RiskOverviewResponse,
+    SkyObject,
+    SkyResponse,
 )
 
 load_dotenv()
@@ -502,6 +504,86 @@ def get_risk(conn: ConnDep, designation: str) -> RiskAssessmentItem:
             detail=f"object {designation!r} not on any current risk list",
         )
     return _risk_row_to_item(row)
+
+
+# ---------------------------------------------------------------------------
+# /api/sky — Phase 4 sky view
+# ---------------------------------------------------------------------------
+
+
+@app.get("/api/sky", response_model=SkyResponse)
+def sky(
+    conn: ConnDep,
+    lat: float = Query(..., ge=-90, le=90),
+    lon: float = Query(..., ge=-180, le=180),
+    time: str | None = Query(default=None, description="ISO 8601 UTC; defaults to now"),
+    min_altitude: float = Query(default=0.0, ge=-90, le=90),
+    limit: int = Query(default=500, ge=1, le=2000),
+) -> SkyResponse:
+    """What tracked objects are above the observer's horizon right now.
+
+    Computes alt/az for every object in mart_objects_current that carries
+    a full set of orbital elements, then filters to those above
+    `min_altitude` degrees. Sorted highest-first."""
+    from api import sky as sky_math
+
+    when = _parse_sky_time(time)
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute(
+            """
+            SELECT spkid, designation, full_name, orbit_class, neo, pha,
+                   diameter_km,
+                   semi_major_axis_au, eccentricity, inclination_deg,
+                   longitude_ascending_node_deg, argument_perihelion_deg,
+                   mean_anomaly_deg, latest_epoch_jd
+            FROM mart_objects_current
+            WHERE semi_major_axis_au IS NOT NULL
+              AND latest_epoch_jd IS NOT NULL
+            """
+        )
+        rows = list(cur.fetchall())
+
+    placed = sky_math.objects_above_horizon(
+        rows, lat=lat, lon=lon, when=when, min_altitude_deg=min_altitude
+    )[:limit]
+
+    return SkyResponse(
+        latitude=lat,
+        longitude=lon,
+        observed_at=when,
+        min_altitude_deg=min_altitude,
+        count=len(placed),
+        objects=[
+            SkyObject(
+                spkid=str(o["spkid"]),
+                designation=o.get("designation") or "",
+                full_name=o.get("full_name"),
+                orbit_class=o.get("orbit_class"),
+                neo=o.get("neo"),
+                pha=o.get("pha"),
+                diameter_km=_maybe_float(o.get("diameter_km")),
+                altitude_deg=o["altitude_deg"],
+                azimuth_deg=o["azimuth_deg"],
+                distance_au=o["distance_au"],
+                above_horizon=o["above_horizon"],
+            )
+            for o in placed
+        ],
+    )
+
+
+def _parse_sky_time(time: str | None) -> datetime:
+    if not time:
+        return datetime.now(UTC)
+    try:
+        parsed = datetime.fromisoformat(time.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=422, detail=f"invalid time {time!r}; expected ISO 8601"
+        ) from exc
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed
 
 
 # ---------------------------------------------------------------------------

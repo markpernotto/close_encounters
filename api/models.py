@@ -170,3 +170,29 @@ class PublicationsResponse(BaseModel):
     designation: str
     count: int
     items: list[PublicationItem]
+
+
+# Phase 4 — sky view
+
+
+class SkyObject(BaseModel):
+    spkid: str
+    designation: str
+    full_name: str | None = None
+    orbit_class: str | None = None
+    neo: bool | None = None
+    pha: bool | None = None
+    diameter_km: float | None = None
+    altitude_deg: float
+    azimuth_deg: float
+    distance_au: float
+    above_horizon: bool
+
+
+class SkyResponse(BaseModel):
+    latitude: float
+    longitude: float
+    observed_at: datetime
+    min_altitude_deg: float
+    count: int
+    objects: list[SkyObject]

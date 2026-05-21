@@ -19,6 +19,7 @@ dependencies = [
     "uvicorn[standard]>=0.30",
     "pydantic>=2.8",
     "dbt-postgres>=1.8",
+    "skyfield>=1.49",
 ]
 
 [project.optional-dependencies]
