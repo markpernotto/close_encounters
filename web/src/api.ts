@@ -4,6 +4,7 @@
 import type {
   AlertListResponse,
   ApproachListResponse,
+  ConstellationData,
   HealthResponse,
   ObjectDetail,
   OrbitHistoryResponse,
@@ -11,6 +12,8 @@ import type {
   RiskAssessmentItem,
   RiskOverviewResponse,
   SkyResponse,
+  SkyTrackResponse,
+  StarCatalog,
 } from './types';
 
 async function jsonOrThrow<T>(resp: Response): Promise<T> {
@@ -135,4 +138,38 @@ export function fetchSky(
   if (params.time) qs.set('time', params.time);
   if (params.minAltitude != null) qs.set('min_altitude', String(params.minAltitude));
   return fetch(`/api/sky?${qs}`, { signal }).then(jsonOrThrow<SkyResponse>);
+}
+
+export function fetchSkyTrack(
+  params: {
+    lat: number;
+    lon: number;
+    start?: string;
+    end?: string;
+    stepMinutes?: number;
+    minAltitude?: number;
+  },
+  signal?: AbortSignal,
+): Promise<SkyTrackResponse> {
+  const qs = new URLSearchParams({
+    lat: String(params.lat),
+    lon: String(params.lon),
+  });
+  if (params.start) qs.set('start', params.start);
+  if (params.end) qs.set('end', params.end);
+  if (params.stepMinutes != null) qs.set('step_minutes', String(params.stepMinutes));
+  if (params.minAltitude != null) qs.set('min_altitude', String(params.minAltitude));
+  return fetch(`/api/sky/track?${qs}`, { signal }).then(jsonOrThrow<SkyTrackResponse>);
+}
+
+// Static catalogs served from web/public/skydata/ (not the API).
+
+export function fetchStarCatalog(signal?: AbortSignal): Promise<StarCatalog> {
+  return fetch('/skydata/stars.json', { signal }).then(jsonOrThrow<StarCatalog>);
+}
+
+export function fetchConstellations(signal?: AbortSignal): Promise<ConstellationData> {
+  return fetch('/skydata/constellations.json', { signal }).then(
+    jsonOrThrow<ConstellationData>,
+  );
 }

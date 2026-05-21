@@ -43,7 +43,12 @@ export const CARDINALS: { label: string; point: ChartPoint }[] = [
 
 export type HazardClass = 'pha' | 'neo' | 'other';
 
-export function hazardClass(obj: SkyObject): HazardClass {
+// Only the hazard flags are needed — accept any object carrying them (a full
+// SkyObject or a SkyObjectTrack), not just SkyObject.
+type HazardFields = Pick<SkyObject, 'pha' | 'neo'>;
+type SizeFields = Pick<SkyObject, 'diameter_km'>;
+
+export function hazardClass(obj: HazardFields): HazardClass {
   if (obj.pha) return 'pha';
   if (obj.neo) return 'neo';
   return 'other';
@@ -52,7 +57,7 @@ export function hazardClass(obj: SkyObject): HazardClass {
 /** Marker color by hazard class — the one visual channel that carries
  * meaning. PHAs (potentially hazardous) stand out warm; NEOs cool; the
  * rest neutral. */
-export function hazardColor(obj: SkyObject): string {
+export function hazardColor(obj: HazardFields): string {
   switch (hazardClass(obj)) {
     case 'pha':
       return '#d9603b'; // warm orange-red
@@ -66,7 +71,7 @@ export function hazardColor(obj: SkyObject): string {
 /** Marker radius (in chart-unit terms, scaled by the SVG later) from
  * diameter. Log-scaled so a 10 km body isn't 1000× a 10 m one, with a
  * floor so tiny/unknown objects stay visible. */
-export function markerRadius(obj: SkyObject): number {
+export function markerRadius(obj: SizeFields): number {
   const km = obj.diameter_km;
   if (km == null || km <= 0) return 0.9; // unknown size → small but visible
   // log10(km) maps roughly [-3 (1 m) .. 1 (10 km)] → scale into [0.7 .. 2.4]

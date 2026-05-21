@@ -14,12 +14,14 @@ from typing import Any
 from etl.extract import (
     gather_snapshot,
     merge_manifest,
+    merge_seed_designations,
     r2_key_for_cneos,
     r2_key_for_sbdb,
     sha256_hex,
     unique_designations,
     write_manifest,
 )
+from etl.seeds import notable_designations
 
 SNAPSHOT_DATE = date(2026, 5, 10)
 RETRIEVED_AT = datetime(2026, 5, 10, 6, 30, tzinfo=UTC)
@@ -44,6 +46,29 @@ def test_unique_designations_dedupes_preserving_order():
 def test_unique_designations_skips_missing_or_empty():
     rows = [{"des": "X"}, {}, {"des": ""}, {"des": None}, {"des": "Y"}]
     assert unique_designations(rows) == ["X", "Y"]
+
+
+def test_merge_seed_designations_appends_new_after_primary():
+    assert merge_seed_designations(["A", "B"], ["C", "D"]) == ["A", "B", "C", "D"]
+
+
+def test_merge_seed_designations_skips_already_present():
+    # A seed already in the close-approach set isn't fetched twice.
+    assert merge_seed_designations(["A", "99942"], ["99942", "433"]) == [
+        "A",
+        "99942",
+        "433",
+    ]
+
+
+def test_merge_seed_designations_coerces_and_skips_empty():
+    assert merge_seed_designations(["A"], [433, "", None]) == ["A", "433"]
+
+
+def test_notable_designations_are_unique_nonempty_strings():
+    des = notable_designations()
+    assert len(des) == len(set(des))  # no dupes
+    assert all(isinstance(d, str) and d for d in des)
 
 
 def test_r2_key_formats():
@@ -193,6 +218,28 @@ def make_fakes(designations: list[str], *, sbdb_failures: set[str] | None = None
         uploads.append((key, body))
 
     return cneos_fetch, sbdb_fetch, put_raw, uploads
+
+
+def test_gather_includes_seed_designations_not_in_cneos():
+    # CNEOS has A, B; seeds add 99942 (new) and B (already present).
+    cneos_fetch, sbdb_fetch, put_raw, uploads = make_fakes(["A", "B"])
+    snap = gather_snapshot(
+        snapshot_date=SNAPSHOT_DATE,
+        retrieved_at=RETRIEVED_AT,
+        cneos_fetch=cneos_fetch,
+        sbdb_fetch=sbdb_fetch,
+        put_raw=put_raw,
+        seed_designations=["99942", "B"],
+        sbdb_delay_sec=0.0,
+    )
+    # A, B, 99942 → three SBDB pulls (B not fetched twice).
+    assert snap.sbdb_pulls == 3
+    designations = {r["designation"] for r in snap.object_rows}
+    assert "99942" in designations
+    # The seed object has no close approach, so approach_rows still only
+    # covers the CNEOS designations.
+    approach_des = {r.get("designation") for r in snap.approach_rows}
+    assert "99942" not in approach_des
 
 
 def test_gather_uploads_one_cneos_plus_one_sbdb_per_unique_designation():

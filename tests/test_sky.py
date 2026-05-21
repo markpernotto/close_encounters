@@ -11,7 +11,7 @@ runs.
 from __future__ import annotations
 
 import json
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -19,7 +19,13 @@ from fastapi.testclient import TestClient
 
 from api import sky as sky_math
 from api.index import app, get_conn
-from api.sky import _DATA_DIR, EPHEMERIS_FILE, _extract_elements, build_orbit
+from api.sky import (
+    _DATA_DIR,
+    EPHEMERIS_FILE,
+    _extract_elements,
+    build_orbit,
+    time_axis,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 WHEN = datetime(2026, 5, 20, 8, 0, 0, tzinfo=UTC)
@@ -247,4 +253,162 @@ def test_sky_endpoint_rejects_bad_time(monkeypatch):
     app.dependency_overrides[get_conn] = gen
     client = TestClient(app)
     resp = client.get("/api/sky?lat=0&lon=0&time=not-a-time")
+    assert resp.status_code == 422
+
+
+# ---------------------------------------------------------------------------
+# time_axis — pure
+# ---------------------------------------------------------------------------
+
+
+def test_time_axis_inclusive_bounds_and_step():
+    start = datetime(2026, 5, 20, 0, 0, tzinfo=UTC)
+    end = start + timedelta(hours=2)
+    axis = time_axis(start, end, step_minutes=30)
+    assert axis[0] == start
+    assert axis[-1] == end
+    assert len(axis) == 5  # 0:00, 0:30, 1:00, 1:30, 2:00
+
+
+def test_time_axis_min_two_samples_for_short_window():
+    start = datetime(2026, 5, 20, 0, 0, tzinfo=UTC)
+    end = start + timedelta(minutes=5)
+    axis = time_axis(start, end, step_minutes=30)
+    assert len(axis) == 2  # always at least the two endpoints
+
+
+def test_time_axis_rejects_nonpositive_step():
+    start = datetime(2026, 5, 20, 0, 0, tzinfo=UTC)
+    with pytest.raises(ValueError):
+        time_axis(start, start + timedelta(hours=1), step_minutes=0)
+
+
+# ---------------------------------------------------------------------------
+# object_tracks — needs ephemeris
+# ---------------------------------------------------------------------------
+
+
+@requires_ephemeris
+def test_object_tracks_shape_and_alignment():
+    row = {
+        "spkid": "20099942",
+        "designation": "99942",
+        "diameter_km": 0.34,
+        "semi_major_axis_au": _apophis_elements()["a_au"],
+        "eccentricity": _apophis_elements()["e"],
+        "inclination_deg": _apophis_elements()["i_deg"],
+        "longitude_ascending_node_deg": _apophis_elements()["om_deg"],
+        "argument_perihelion_deg": _apophis_elements()["w_deg"],
+        "mean_anomaly_deg": _apophis_elements()["ma_deg"],
+        "latest_epoch_jd": _apophis_elements()["epoch_jd"],
+    }
+    start = WHEN
+    end = WHEN + timedelta(hours=6)
+    out = sky_math.object_tracks(
+        [row], lat=31.96, lon=-111.6, start=start, end=end,
+        step_minutes=30, min_altitude_deg=-90,
+    )
+    assert out["step_minutes"] == 30
+    assert out["steps"] == 13  # 6h / 30min = 12 intervals → 13 samples
+    assert out["start"] == start
+    assert len(out["objects"]) == 1
+    track = out["objects"][0]
+    # samples align to the axis, each [alt, az, dist]
+    assert len(track["samples"]) == out["steps"]
+    for alt, az, dist in track["samples"]:
+        assert -90.0 <= alt <= 90.0
+        assert 0.0 <= az < 360.0
+        assert dist > 0
+
+
+@requires_ephemeris
+def test_object_tracks_drops_never_visible_and_incomplete():
+    apophis = {
+        "spkid": "20099942",
+        "designation": "99942",
+        "semi_major_axis_au": _apophis_elements()["a_au"],
+        "eccentricity": _apophis_elements()["e"],
+        "inclination_deg": _apophis_elements()["i_deg"],
+        "longitude_ascending_node_deg": _apophis_elements()["om_deg"],
+        "argument_perihelion_deg": _apophis_elements()["w_deg"],
+        "mean_anomaly_deg": _apophis_elements()["ma_deg"],
+        "latest_epoch_jd": _apophis_elements()["epoch_jd"],
+    }
+    incomplete = {"spkid": "X", "designation": "incomplete", "eccentricity": 0.5}
+    # An impossibly high altitude floor → nothing qualifies as "visible".
+    out = sky_math.object_tracks(
+        [apophis, incomplete], lat=31.96, lon=-111.6,
+        start=WHEN, end=WHEN + timedelta(hours=6),
+        step_minutes=60, min_altitude_deg=89.9,
+    )
+    assert out["objects"] == []
+
+
+# ---------------------------------------------------------------------------
+# /api/sky/track endpoint — monkeypatch the math so it runs without ephemeris
+# ---------------------------------------------------------------------------
+
+
+def test_sky_track_endpoint_returns_tracks(monkeypatch):
+    start = datetime(2026, 5, 20, 0, 0, tzinfo=UTC)
+    fake = {
+        "start": start,
+        "step_minutes": 30,
+        "steps": 3,
+        "objects": [
+            {
+                "spkid": "20099942",
+                "designation": "99942",
+                "full_name": "99942 Apophis",
+                "orbit_class": "ATE",
+                "neo": True,
+                "pha": True,
+                "diameter_km": 0.34,
+                "samples": [[10.0, 90.0, 0.5], [20.0, 95.0, 0.49], [30.0, 100.0, 0.48]],
+            }
+        ],
+    }
+    monkeypatch.setattr(sky_math, "object_tracks", lambda *a, **k: fake)
+
+    def gen():
+        yield _FakeConn([{"spkid": "20099942"}])
+
+    app.dependency_overrides[get_conn] = gen
+    client = TestClient(app)
+    resp = client.get("/api/sky/track?lat=31.96&lon=-111.60")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["step_minutes"] == 30
+    assert body["steps"] == 3
+    assert body["count"] == 1
+    track = body["objects"][0]
+    assert track["designation"] == "99942"
+    assert len(track["samples"]) == 3
+    assert track["samples"][0] == [10.0, 90.0, 0.5]
+
+
+def test_sky_track_endpoint_rejects_window_too_long():
+    # 96h window at 1-min step = 5760 samples, over the cap.
+    def gen():
+        yield _FakeConn([])
+
+    app.dependency_overrides[get_conn] = gen
+    client = TestClient(app)
+    resp = client.get(
+        "/api/sky/track?lat=0&lon=0"
+        "&start=2026-05-20T00:00:00Z&end=2026-05-24T00:00:00Z&step_minutes=1"
+    )
+    assert resp.status_code == 422
+
+
+def test_sky_track_endpoint_rejects_end_before_start():
+    def gen():
+        yield _FakeConn([])
+
+    app.dependency_overrides[get_conn] = gen
+    client = TestClient(app)
+    resp = client.get(
+        "/api/sky/track?lat=0&lon=0"
+        "&start=2026-05-24T00:00:00Z&end=2026-05-20T00:00:00Z"
+    )
     assert resp.status_code == 422

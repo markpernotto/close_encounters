@@ -22,7 +22,7 @@ loosely via skyfield>=1.49 — worth a smoke test after skyfield upgrades.
 from __future__ import annotations
 
 import functools
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -165,6 +165,90 @@ def objects_above_horizon(
         result.append({**obj, **position})
     result.sort(key=lambda o: o["altitude_deg"], reverse=True)
     return result
+
+
+def time_axis(
+    start: datetime, end: datetime, step_minutes: int
+) -> list[datetime]:
+    """The shared list of sample times from start..end (inclusive) at the step.
+
+    Both bounds must be timezone-aware. At least two samples are returned even
+    if the window is shorter than one step."""
+    if step_minutes <= 0:
+        raise ValueError("step_minutes must be positive")
+    total_min = (end - start).total_seconds() / 60.0
+    steps = max(1, int(total_min // step_minutes))
+    return [start + timedelta(minutes=step_minutes * i) for i in range(steps + 1)]
+
+
+def object_tracks(
+    objects: list[dict[str, Any]],
+    *,
+    lat: float,
+    lon: float,
+    start: datetime,
+    end: datetime,
+    step_minutes: int = 30,
+    min_altitude_deg: float = 0.0,
+) -> dict[str, Any]:
+    """Compute each object's alt/az track across a time window.
+
+    For every object carrying a full element set, propagate its position at
+    every sample time on a shared axis (vectorised through skyfield in one
+    call per object). Objects that never rise above `min_altitude_deg`
+    anywhere in the window are dropped, so the client only animates things
+    that actually appear.
+
+    Returns a dict with the shared time axis (`start`, `step_minutes`,
+    `steps`) and, per object, a `samples` list of [alt_deg, az_deg, dist_au]
+    aligned to that axis. Altitude/azimuth below the horizon are kept (not
+    nulled) so the client can interpolate a continuous path and hide it
+    itself."""
+    eph = _ephemeris()
+    ts = _timescale()
+    sun = eph["sun"]
+    earth = eph["earth"]
+    observer = earth + wgs84.latlon(lat, lon)
+
+    times = time_axis(start, end, step_minutes)
+    t_array = ts.from_datetimes(times)
+
+    tracks: list[dict[str, Any]] = []
+    for obj in objects:
+        elements = _extract_elements(obj)
+        if elements is None:
+            continue
+        try:
+            orbit = build_orbit(
+                **elements,
+                name=str(obj.get("designation") or obj.get("spkid") or ""),
+            )
+            body = sun + orbit
+            alt, az, dist = observer.at(t_array).observe(body).apparent().altaz()
+            alts = [float(v) for v in alt.degrees]
+            azs = [float(v) for v in az.degrees]
+            dists = [float(v) for v in dist.au]
+        except Exception:  # noqa: BLE001 — one bad orbit shouldn't 500 the track
+            continue
+        if max(alts) < min_altitude_deg:
+            continue
+        samples = [
+            [round(a, 3), round(z, 3), round(d, 6)]
+            for a, z, d in zip(alts, azs, dists)
+        ]
+        tracks.append({**obj, "samples": samples})
+
+    # Brightest/biggest-first is a reasonable default ordering for the legend;
+    # fall back to designation for stability.
+    tracks.sort(
+        key=lambda o: (-(o.get("diameter_km") or 0.0), str(o.get("designation") or ""))
+    )
+    return {
+        "start": times[0],
+        "step_minutes": step_minutes,
+        "steps": len(times),
+        "objects": tracks,
+    }
 
 
 def _extract_elements(obj: dict[str, Any]) -> dict[str, float] | None:

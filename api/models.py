@@ -196,3 +196,27 @@ class SkyResponse(BaseModel):
     min_altitude_deg: float
     count: int
     objects: list[SkyObject]
+
+
+class SkyObjectTrack(BaseModel):
+    spkid: str
+    designation: str
+    full_name: str | None = None
+    orbit_class: str | None = None
+    neo: bool | None = None
+    pha: bool | None = None
+    diameter_km: float | None = None
+    # Each sample is [altitude_deg, azimuth_deg, distance_au], aligned to the
+    # response's shared time axis (start + i * step_minutes).
+    samples: list[list[float]]
+
+
+class SkyTrackResponse(BaseModel):
+    latitude: float
+    longitude: float
+    start: datetime
+    step_minutes: int
+    steps: int
+    min_altitude_deg: float
+    count: int
+    objects: list[SkyObjectTrack]

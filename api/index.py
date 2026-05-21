@@ -34,7 +34,9 @@ from api.models import (
     RiskAssessmentItem,
     RiskOverviewResponse,
     SkyObject,
+    SkyObjectTrack,
     SkyResponse,
+    SkyTrackResponse,
 )
 
 load_dotenv()
@@ -528,20 +530,7 @@ def sky(
     from api import sky as sky_math
 
     when = _parse_sky_time(time)
-    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
-        cur.execute(
-            """
-            SELECT spkid, designation, full_name, orbit_class, neo, pha,
-                   diameter_km,
-                   semi_major_axis_au, eccentricity, inclination_deg,
-                   longitude_ascending_node_deg, argument_perihelion_deg,
-                   mean_anomaly_deg, latest_epoch_jd
-            FROM mart_objects_current
-            WHERE semi_major_axis_au IS NOT NULL
-              AND latest_epoch_jd IS NOT NULL
-            """
-        )
-        rows = list(cur.fetchall())
+    rows = _fetch_element_rows(conn)
 
     placed = sky_math.objects_above_horizon(
         rows, lat=lat, lon=lon, when=when, min_altitude_deg=min_altitude
@@ -584,6 +573,99 @@ def _parse_sky_time(time: str | None) -> datetime:
     if parsed.tzinfo is None:
         parsed = parsed.replace(tzinfo=UTC)
     return parsed
+
+
+def _fetch_element_rows(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Every mart_objects_current row carrying a full orbital-element set."""
+    with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+        cur.execute(
+            """
+            SELECT spkid, designation, full_name, orbit_class, neo, pha,
+                   diameter_km,
+                   semi_major_axis_au, eccentricity, inclination_deg,
+                   longitude_ascending_node_deg, argument_perihelion_deg,
+                   mean_anomaly_deg, latest_epoch_jd
+            FROM mart_objects_current
+            WHERE semi_major_axis_au IS NOT NULL
+              AND latest_epoch_jd IS NOT NULL
+            """
+        )
+        return list(cur.fetchall())
+
+
+# Cap on samples per track, guarding payload + compute on long windows.
+_MAX_TRACK_STEPS = 600
+
+
+@app.get("/api/sky/track", response_model=SkyTrackResponse)
+def sky_track(
+    conn: ConnDep,
+    lat: float = Query(..., ge=-90, le=90),
+    lon: float = Query(..., ge=-180, le=180),
+    start: str | None = Query(default=None, description="ISO 8601 UTC; defaults to now−48h"),
+    end: str | None = Query(default=None, description="ISO 8601 UTC; defaults to now+48h"),
+    step_minutes: int = Query(default=30, ge=1, le=720),
+    min_altitude: float = Query(default=0.0, ge=-90, le=90),
+    limit: int = Query(default=200, ge=1, le=2000),
+) -> SkyTrackResponse:
+    """Each object's alt/az path across a time window — the data behind the
+    dome's time scrubber.
+
+    Defaults to a ±48-hour window centered on now at a 30-minute step. The
+    client interpolates between samples to animate and to draw each object's
+    arc across the sky."""
+    from api import sky as sky_math
+
+    now = datetime.now(UTC)
+    start_dt = _parse_sky_time(start) if start else now - timedelta(hours=48)
+    end_dt = _parse_sky_time(end) if end else now + timedelta(hours=48)
+    if end_dt <= start_dt:
+        raise HTTPException(status_code=422, detail="end must be after start")
+
+    span_minutes = (end_dt - start_dt).total_seconds() / 60.0
+    if span_minutes / step_minutes > _MAX_TRACK_STEPS:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"window too long for step: would exceed {_MAX_TRACK_STEPS} "
+                "samples; widen step_minutes or shorten the window"
+            ),
+        )
+
+    rows = _fetch_element_rows(conn)
+    track = sky_math.object_tracks(
+        rows,
+        lat=lat,
+        lon=lon,
+        start=start_dt,
+        end=end_dt,
+        step_minutes=step_minutes,
+        min_altitude_deg=min_altitude,
+    )
+    objects = track["objects"][:limit]
+
+    return SkyTrackResponse(
+        latitude=lat,
+        longitude=lon,
+        start=track["start"],
+        step_minutes=track["step_minutes"],
+        steps=track["steps"],
+        min_altitude_deg=min_altitude,
+        count=len(objects),
+        objects=[
+            SkyObjectTrack(
+                spkid=str(o["spkid"]),
+                designation=o.get("designation") or "",
+                full_name=o.get("full_name"),
+                orbit_class=o.get("orbit_class"),
+                neo=o.get("neo"),
+                pha=o.get("pha"),
+                diameter_km=_maybe_float(o.get("diameter_km")),
+                samples=o["samples"],
+            )
+            for o in objects
+        ],
+    )
 
 
 # ---------------------------------------------------------------------------

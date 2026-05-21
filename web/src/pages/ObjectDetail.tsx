@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ApproachesTable from '../components/ApproachesTable';
+import AsteroidRender from '../components/AsteroidRender';
 import OrbitHistoryTimeline from '../components/OrbitHistoryTimeline';
 import PublicationsPanel from '../components/PublicationsPanel';
 import RiskPanel from '../components/RiskPanel';
@@ -106,6 +107,15 @@ export default function ObjectDetail() {
           {obj.pha && <span className="tag tag-warn">PHA</span>}
         </p>
       </header>
+
+      <AsteroidRender
+        designation={obj.designation}
+        specClass={obj.spec_class}
+        albedo={obj.albedo}
+        diameterKm={obj.diameter_km}
+        diameterEstimateKm={obj.diameter_estimate_km}
+        rotationPeriodH={obj.rotation_period_h}
+      />
 
       <dl className="object-facts">
         <Fact label="SPK-ID" value={obj.spkid} mono />

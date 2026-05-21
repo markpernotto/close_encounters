@@ -243,6 +243,63 @@ button {
 
 /* -------- Object detail page --------------------------------------------- */
 
+.asteroid-render {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: radial-gradient(circle at 50% 35%, #0d1320 0%, #060a12 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: #dfe8ff;
+}
+.asteroid-svg {
+  flex: none;
+  width: 9rem;
+  height: 9rem;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.5));
+}
+.asteroid-render-text {
+  min-width: 0;
+}
+.asteroid-group {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+}
+.asteroid-desc {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #c3ccde;
+}
+.asteroid-stats {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  font-size: 0.85rem;
+  color: #aab8d0;
+}
+.asteroid-note {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  opacity: 0.7;
+}
+@media (max-width: 540px) {
+  .asteroid-render {
+    flex-direction: column;
+    text-align: center;
+  }
+  .asteroid-stats {
+    justify-content: center;
+  }
+}
+
 .object-facts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
@@ -784,6 +841,155 @@ button {
   max-width: 60ch;
   margin: 1.25rem auto 0;
   text-align: center;
+}
+
+/* -------- Dome view + chart/dome toggle ---------------------------------- */
+
+.view-toggle {
+  display: inline-flex;
+  gap: 0;
+  margin: 0.75rem 0 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.view-tab {
+  border: none;
+  background: var(--bg-elevated);
+  color: var(--muted, #555);
+  padding: 0.4rem 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.view-tab + .view-tab {
+  border-left: 1px solid var(--border);
+}
+.view-tab:hover {
+  color: var(--accent);
+}
+.view-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.sky-dome-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+/* The box is the Canvas's sizing parent; r3f fills it and measures it for the
+   camera aspect ratio. Keep the height here, not on the canvas. */
+.sky-dome-canvas-box {
+  width: 100%;
+  height: 72vh;
+  min-height: 460px;
+  max-height: 760px;
+  border-radius: 10px;
+  border: 1px solid #1c2533;
+  background: #05080f;
+  overflow: hidden;
+  touch-action: none; /* let the dome handle drag, not the page scroll */
+  cursor: grab;
+}
+.sky-dome-canvas-box:active {
+  cursor: grabbing;
+}
+.sky-dome-readout {
+  font-size: 0.88rem;
+  text-align: center;
+  min-height: 1.4em;
+}
+
+.dome-tooltip {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  max-width: 18rem;
+  padding: 0.45rem 0.6rem;
+  background: rgba(8, 12, 20, 0.94);
+  border: 1px solid #2a3850;
+  border-radius: 6px;
+  color: #dfe8ff;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+.dome-tooltip-name {
+  font-weight: 600;
+}
+.dome-tooltip-full {
+  color: #aab8d0;
+  font-size: 0.78rem;
+}
+.dome-tooltip-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+.dome-tooltip-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  flex: none;
+}
+.dome-tooltip-hint {
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  opacity: 0.75;
+}
+
+.time-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.25rem;
+}
+.time-play {
+  flex: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--accent);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.time-play:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.time-slider {
+  flex: 1 1 14rem;
+  min-width: 10rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.time-label {
+  flex: none;
+  font-size: 0.8rem;
+  color: var(--muted, #555);
+  white-space: nowrap;
+}
+.time-speed {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+}
+.time-speed select {
+  font: inherit;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-elevated);
 }
 
 /* -------- Responsive ----------------------------------------------------- */

@@ -202,3 +202,41 @@ export interface SkyResponse {
   count: number;
   objects: SkyObject[];
 }
+
+// Time-scrubber tracks: each object's path across a window. Each sample is
+// [altitude_deg, azimuth_deg, distance_au], aligned to start + i*step_minutes.
+export interface SkyObjectTrack {
+  spkid: string;
+  designation: string;
+  full_name: string | null;
+  orbit_class: string | null;
+  neo: boolean | null;
+  pha: boolean | null;
+  diameter_km: number | null;
+  samples: [number, number, number][];
+}
+
+export interface SkyTrackResponse {
+  latitude: number;
+  longitude: number;
+  start: string;
+  step_minutes: number;
+  steps: number;
+  min_altitude_deg: number;
+  count: number;
+  objects: SkyObjectTrack[];
+}
+
+// Static star + constellation catalogs (served from /skydata/)
+
+export interface StarCatalog {
+  epoch: string;
+  fields: string[];
+  count: number;
+  stars: [number, number, number][]; // [ra_deg, dec_deg, mag]
+}
+
+export interface ConstellationData {
+  count: number;
+  constellations: { id: string; segments: [number, number][][] }[];
+}

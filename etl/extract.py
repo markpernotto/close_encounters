@@ -32,7 +32,7 @@ from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from etl import load, transform
+from etl import load, seeds, transform
 from etl import r2 as r2_module
 from etl.sources import esa_neocc, jpl_cneos, jpl_sbdb, jpl_sentry
 
@@ -70,6 +70,27 @@ def unique_designations(cneos_rows: Iterable[dict[str, Any]]) -> list[str]:
         if d and d not in seen:
             seen.add(d)
             out.append(str(d))
+    return out
+
+
+def merge_seed_designations(
+    primary: Iterable[str], seed: Iterable[str]
+) -> list[str]:
+    """Append seed designations not already present, preserving order.
+
+    The CNEOS-derived designations come first (they have approaches this
+    window); curated seeds (always-tracked characterized objects) are added
+    only if not already in the close-approach set, so nothing is fetched
+    twice."""
+    out = list(primary)
+    seen = set(out)
+    for d in seed:
+        if not d:  # skip None / empty before stringifying
+            continue
+        s = str(d)
+        if s not in seen:
+            seen.add(s)
+            out.append(s)
     return out
 
 
@@ -144,11 +165,16 @@ def gather_snapshot(
     put_raw: Callable[[str, bytes], None],
     sentry_fetch: Callable[[], dict[str, Any]] | None = None,
     neocc_fetch: Callable[[], str] | None = None,
+    seed_designations: Iterable[str] = (),
     window_days: int = DEFAULT_WINDOW_DAYS,
     dist_max_au: float = DEFAULT_DIST_MAX_AU,
     sbdb_delay_sec: float = SBDB_REQUEST_DELAY_SEC,
 ) -> GatheredSnapshot:
-    """Pull CNEOS + SBDB, upload raw to R2 via put_raw, return normalized rows."""
+    """Pull CNEOS + SBDB, upload raw to R2 via put_raw, return normalized rows.
+
+    `seed_designations` are always-tracked characterized objects looked up in
+    addition to the close-approach set, so the warehouse keeps a backbone of
+    objects with real physical data even when they have no upcoming approach."""
     date_min = snapshot_date.isoformat()
     date_max = (snapshot_date + timedelta(days=window_days)).isoformat()
 
@@ -159,8 +185,9 @@ def gather_snapshot(
     put_raw(cneos_key, cneos_bytes)
     cneos_rows = jpl_cneos._flatten(cneos_payload)
 
-    # 2. SBDB — one request per unique designation, politely paced.
-    designations = unique_designations(cneos_rows)
+    # 2. SBDB — one request per unique designation, politely paced. Curated
+    # seed objects are merged in so they're always snapshotted.
+    designations = merge_seed_designations(unique_designations(cneos_rows), seed_designations)
     sbdb_pulls = 0
     sbdb_errors: list[str] = []
     object_rows: list[dict[str, Any]] = []
@@ -336,6 +363,7 @@ def run(
     sbdb_fetch: Callable[[str], dict[str, Any]] | None = None,
     sentry_fetch: Callable[[], dict[str, Any]] | None = None,
     neocc_fetch: Callable[[], str] | None = None,
+    seed_designations: Iterable[str] | None = None,
     put_raw: Callable[[str, bytes], None] | None = None,
     db_conn: Any | None = None,
     database_url: str | None = None,
@@ -345,6 +373,8 @@ def run(
     """Run one nightly extract. Returns a summary dict (used as CLI output)."""
     retrieved_at = now or datetime.now(UTC)
     snapshot_date = snapshot_date or retrieved_at.date()
+    if seed_designations is None:
+        seed_designations = seeds.notable_designations()
 
     if cneos_fetch is None:
         cneos_fetch = jpl_cneos.fetch_close_approaches_raw
@@ -367,6 +397,7 @@ def run(
         sbdb_fetch=sbdb_fetch,
         sentry_fetch=sentry_fetch,
         neocc_fetch=neocc_fetch,
+        seed_designations=seed_designations,
         put_raw=put_raw,
         window_days=window_days,
         dist_max_au=dist_max_au,
@@ -424,6 +455,7 @@ __all__ = [
     "GatheredSnapshot",
     "gather_snapshot",
     "merge_manifest",
+    "merge_seed_designations",
     "r2_key_for_cneos",
     "r2_key_for_neocc",
     "r2_key_for_sbdb",
