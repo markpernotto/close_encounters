@@ -3,7 +3,11 @@ import { Billboard, Text } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
-import { altAzToVector3, equatorialToHorizontal } from '../lib/celestial';
+import {
+  altAzToVector3,
+  equatorialToHorizontal,
+  galacticToEquatorial,
+} from '../lib/celestial';
 import { hazardColor, markerRadius } from '../lib/skyProjection';
 import type {
   ConstellationData,
@@ -93,6 +97,7 @@ export default function SkyDome({ objects, track, stars, constellations, lat, lo
       <div className="sky-dome-canvas-box">
         <Canvas camera={{ fov: 60, position: [0, 0, 0.001], near: 0.01, far: 500 }}>
           <SkyBackdrop />
+          <MilkyWay lat={lat} lon={lon} when={displayTime} />
           <LookControls />
           {hasTrack && playing && (
             <Clock
@@ -395,6 +400,51 @@ function StarPoints({ positions, size, opacity }: { positions: number[]; size: n
         sizeAttenuation={false}
         transparent
         opacity={opacity}
+      />
+    </points>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Milky Way — a soft glow along the real galactic plane. Points are scattered
+// in galactic coordinates (concentrated near b=0, brighter toward the galactic
+// center) then projected into the observer's sky, exactly like the stars. The
+// glow is unresolved faint starlight, so a dense additive point cloud reads as
+// the band without inventing anything but the scatter pattern.
+// ---------------------------------------------------------------------------
+
+function MilkyWay({ lat, lon, when }: { lat: number; lon: number; when: Date }) {
+  const tex = useMemo(milkyTexture, []);
+  // Intrinsic band (fixed on the sky), generated once.
+  const band = useMemo(buildGalacticBand, []);
+  const geometry = useMemo(() => {
+    const pos: number[] = [];
+    const col: number[] = [];
+    for (const p of band) {
+      const { altitude_deg, azimuth_deg } = equatorialToHorizontal(p.ra, p.dec, lat, lon, when);
+      if (altitude_deg < -2) continue;
+      const [x, y, z] = altAzToVector3(altitude_deg, azimuth_deg, STAR_RADIUS - 2);
+      pos.push(x, y, z);
+      const c = p.bright;
+      col.push(c * 0.82, c * 0.85, c * 0.95); // faintly cool-white
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+    return g;
+  }, [band, lat, lon, when]);
+
+  return (
+    <points geometry={geometry}>
+      <pointsMaterial
+        map={tex}
+        vertexColors
+        size={4.5}
+        sizeAttenuation={false}
+        transparent
+        opacity={1}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
       />
     </points>
   );
@@ -792,6 +842,75 @@ function DomeTooltip({ info }: { info: HoverInfo }) {
 // ---------------------------------------------------------------------------
 // Helpers.
 // ---------------------------------------------------------------------------
+
+// Seeded RNG so the Milky Way's scatter is identical every render (no flicker
+// when the observer time/location changes).
+function mulberry32(seed: number): () => number {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+interface BandPoint {
+  ra: number;
+  dec: number;
+  bright: number;
+}
+
+/** Scatter points along the galactic plane: a broad band concentrated near
+ * b=0 and brightening toward the galactic center, plus a tighter central
+ * bulge. Returns equatorial RA/Dec + a per-point brightness. */
+function buildGalacticBand(): BandPoint[] {
+  const rng = mulberry32(0x9e3779b9);
+  const gauss = () => {
+    let u = 0;
+    let v = 0;
+    while (u === 0) u = rng();
+    while (v === 0) v = rng();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  };
+  const pts: BandPoint[] = [];
+  const push = (l: number, b: number, base: number) => {
+    const lc = Math.cos((l * Math.PI) / 180); // 1 at center (l=0), −1 at anticenter
+    // Keep a high floor so the faint anticenter half is still clearly visible
+    // (the bright Sagittarius core is often below the horizon).
+    const lonF = 0.6 + 0.4 * (lc * 0.5 + 0.5);
+    const latF = Math.exp(-(b * b) / (2 * 7 * 7));
+    const bright = base * lonF * latF * (0.7 + 0.6 * rng());
+    const { raDeg, decDeg } = galacticToEquatorial(((l % 360) + 360) % 360, b);
+    pts.push({ ra: raDeg, dec: decDeg, bright });
+  };
+  // High point count + soft textured points = a smooth glow, not polka dots.
+  // Per-point brightness is low; the band builds up from dense overlap.
+  for (let i = 0; i < 32000; i++) push(rng() * 360, gauss() * 6.5, 0.07);
+  // Central bulge around the galactic center (l ≈ 0), tighter and brighter.
+  for (let i = 0; i < 6500; i++) push(gauss() * 18, gauss() * 4.5, 0.11);
+  return pts;
+}
+
+let _milkyTex: THREE.CanvasTexture | null = null;
+
+/** A very soft, low-contrast radial blob — so dense Milky Way points blend
+ * into a continuous glow rather than reading as discrete dots. */
+function milkyTexture(): THREE.CanvasTexture {
+  if (_milkyTex) return _milkyTex;
+  const c = document.createElement("canvas");
+  c.width = c.height = 64;
+  const ctx = c.getContext("2d")!;
+  const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0.0, "rgba(255,255,255,0.7)");
+  g.addColorStop(0.4, "rgba(255,255,255,0.32)");
+  g.addColorStop(0.75, "rgba(255,255,255,0.09)");
+  g.addColorStop(1.0, "rgba(255,255,255,0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 64, 64);
+  _milkyTex = new THREE.CanvasTexture(c);
+  return _milkyTex;
+}
 
 let _glowTex: THREE.CanvasTexture | null = null;
 

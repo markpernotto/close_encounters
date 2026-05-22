@@ -99,3 +99,34 @@ export function altAzToVector3(
     -radius * cosAlt * Math.cos(az), // −Z north
   ];
 }
+
+// J2000 galactic-coordinate constants: the north galactic pole and the
+// galactic longitude of the north celestial pole.
+const NGP_RA = 192.85948 * DEG;
+const NGP_DEC = 27.12825 * DEG;
+const L_NCP = 122.93192 * DEG;
+
+/**
+ * Convert galactic coordinates (l, b in degrees) to equatorial (RA/Dec, J2000).
+ * Used to place the Milky Way's band — b≈0 is the galactic plane, l=0 the
+ * galactic center. Standard rotation; verified against the galactic center
+ * (l=0,b=0 → RA 266.4°, Dec −28.9°).
+ */
+export function galacticToEquatorial(
+  lDeg: number,
+  bDeg: number,
+): { raDeg: number; decDeg: number } {
+  const l = lDeg * DEG;
+  const b = bDeg * DEG;
+  const sinDec =
+    Math.sin(NGP_DEC) * Math.sin(b) +
+    Math.cos(NGP_DEC) * Math.cos(b) * Math.cos(L_NCP - l);
+  const dec = Math.asin(Math.max(-1, Math.min(1, sinDec)));
+  const y = Math.cos(b) * Math.sin(L_NCP - l);
+  const x =
+    Math.cos(NGP_DEC) * Math.sin(b) -
+    Math.sin(NGP_DEC) * Math.cos(b) * Math.cos(L_NCP - l);
+  let raDeg = ((NGP_RA + Math.atan2(y, x)) * RAD) % 360;
+  if (raDeg < 0) raDeg += 360;
+  return { raDeg, decDeg: dec * RAD };
+}

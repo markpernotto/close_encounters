@@ -88,8 +88,9 @@ export default function Sky() {
         <p className="page-sub">
           Stand anywhere on Earth and look up with no light pollution, no
           clouds, no daylight. Stars and constellations are drawn from a real
-          catalog; the colored markers are the near-Earth objects we track,
-          placed from JPL orbital elements. Drag to look around.
+          catalog and the Milky Way's glow traces the true galactic plane; the
+          colored markers are the near-Earth objects we track, placed from JPL
+          orbital elements. Drag to look around.
         </p>
       </header>
 
