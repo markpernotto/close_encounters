@@ -17,7 +17,7 @@ help:
 	@echo "  alerts        evaluate threshold rules against the latest events → alerts table"
 	@echo "  publish       generate public/{upcoming,noteworthy}.{rss,json} + public/health.json"
 	@echo "  resolve-citations  fetch MPECs referenced in discovery_attributions, build citation graph"
-	@echo "  pipeline      run extract -> diff -> alerts -> publish"
+	@echo "  pipeline      run extract -> diff -> alerts -> dbt (snapshot+run) -> publish"
 	@echo "  api           run FastAPI locally on :8551 with auto-reload"
 	@echo "  web           run Vite dev server on :5551 (proxies /api → :8551)"
 	@echo "  dev           run api + web together (you'll need two terminals)"
@@ -55,7 +55,11 @@ publish:
 resolve-citations:
 	python -m etl.resolve_citations
 
-pipeline: extract diff alerts publish
+# dbt (snapshot+run) sits before publish because publish + the API read from
+# the marts — skipping it leaves new objects 404ing on their detail pages.
+# dbt-test is intentionally omitted so a data-quality failure can't block
+# publishing already-built marts (run `make dbt-test` or `make dbt-build`).
+pipeline: extract diff alerts dbt-snapshot dbt-run publish
 
 api:
 	uvicorn api.index:app --reload --port 8551

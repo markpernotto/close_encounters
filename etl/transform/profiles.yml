@@ -6,7 +6,7 @@ neo_citation:
       host: "{{ env_var('DBT_HOST') }}"
       user: "{{ env_var('DBT_USER') }}"
       password: "{{ env_var('DBT_PASSWORD') }}"
-      port: "{{ env_var('DBT_PORT') | int }}"
+      port: "{{ env_var('DBT_PORT', '5432') | int }}"
       dbname: "{{ env_var('DBT_DBNAME') }}"
       schema: "{{ env_var('DBT_SCHEMA') }}"
       threads: 4

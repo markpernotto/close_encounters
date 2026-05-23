@@ -27,12 +27,10 @@ jobs:
       R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
       R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
       R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
-      DBT_HOST: ${{ secrets.DBT_HOST }}
-      DBT_USER: ${{ secrets.DBT_USER }}
-      DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-      DBT_DBNAME: ${{ secrets.DBT_DBNAME }}
-      DBT_PORT: ${{ secrets.DBT_PORT }}
-      DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
+      # dbt's DBT_* connection vars are derived from DATABASE_URL at runtime
+      # (see the "Derive dbt connection" step) — one source of truth, no
+      # duplicate secrets to drift out of sync.
+      DBT_SCHEMA: public
       USER_AGENT_PROJECT: 'neo_citation/0.1 (+https://github.com/markpernotto/close_encounters)'
       USER_AGENT_EMAIL: ${{ secrets.USER_AGENT_EMAIL }}
       NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
@@ -70,22 +68,39 @@ jobs:
         # Fully idempotent on rule_id + event_dedup_key.
         run: python -m etl.alerts
 
+      - name: Derive dbt connection from DATABASE_URL
+        # profiles.yml reads discrete DBT_* env vars; split the single
+        # DATABASE_URL into them so there's no second copy of the credentials
+        # to drift (the missing DBT_PORT secret silently broke the marts).
+        # The password only ever lands in $GITHUB_ENV, never the logs.
+        run: |
+          python - <<'PY' >> "$GITHUB_ENV"
+          import os, urllib.parse as up
+          u = up.urlparse(os.environ["DATABASE_URL"])
+          print(f"DBT_HOST={u.hostname or ''}")
+          print(f"DBT_USER={u.username or ''}")
+          print(f"DBT_PASSWORD={up.unquote(u.password or '')}")
+          print(f"DBT_PORT={u.port or 5432}")
+          print(f"DBT_DBNAME={(u.path or '').lstrip('/').split('?')[0]}")
+          PY
+
       - name: dbt snapshot (SCD-2 history)
         # Closes valid_to on the prior dim_object row when tracked
         # attributes change between snapshots; inserts a new versioned
-        # row otherwise.
-        continue-on-error: true
+        # row otherwise. NOT continue-on-error: the API + detail pages now
+        # read from the marts, so a failure here must fail the run (and open
+        # an issue) rather than silently serve stale marts.
         run: cd etl/transform && DBT_PROFILES_DIR=. dbt snapshot
 
       - name: dbt run (refresh marts + staging views)
-        # Phase 2 — staging views + dim/fact/mart layer. Failures here
-        # shouldn't block publish (the public feeds still read from raw
-        # tables this phase; API endpoints will move to the marts in
-        # Commit 5).
-        continue-on-error: true
+        # The API reads mart_objects_current / mart_*_approaches, so the marts
+        # must rebuild every night or new objects 404 on their detail pages.
+        # Hard-fail if this breaks.
         run: cd etl/transform && DBT_PROFILES_DIR=. dbt run
 
       - name: dbt test (schema validation)
+        # A data-quality test failure shouldn't block publishing already-built
+        # marts, so this one stays non-blocking.
         continue-on-error: true
         run: cd etl/transform && DBT_PROFILES_DIR=. dbt test
 
