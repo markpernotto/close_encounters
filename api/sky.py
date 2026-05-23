@@ -246,7 +246,7 @@ def object_tracks(
             continue
         samples = [
             [round(a, 3), round(z, 3), round(d, 6)]
-            for a, z, d in zip(alts, azs, dists)
+            for a, z, d in zip(alts, azs, dists, strict=True)
         ]
         tracks.append({**obj, "samples": samples})
 
