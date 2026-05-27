@@ -5,35 +5,14 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 25 May 2026 08:06:33 +0000</lastBuildDate>
-    <pubDate>Mon, 25 May 2026 08:06:33 +0000</pubDate>
-    <item>
-      <title>2026 KW — 2026-05-25 — 3.46 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54630404</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630404#2026-05-25T14:29:00+00:00</guid>
-      <pubDate>Mon, 25 May 2026 14:29:00 +0000</pubDate>
-      <description>Approach: 2026-05-25T14:29:00+00:00; distance 3.458 LD; velocity 18.4 km/s; orbit class APO; apparent magnitude ~15.4; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 KO1 — 2026-05-25 — 7.09 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54630527</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630527#2026-05-25T15:52:00+00:00</guid>
-      <pubDate>Mon, 25 May 2026 15:52:00 +0000</pubDate>
-      <description>Approach: 2026-05-25T15:52:00+00:00; distance 7.090 LD; velocity 3.1 km/s; orbit class ATE; apparent magnitude ~19.0; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 KN2 — 2026-05-26 — 5.26 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54630659</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630659#2026-05-26T16:59:00+00:00</guid>
-      <pubDate>Tue, 26 May 2026 16:59:00 +0000</pubDate>
-      <description>Approach: 2026-05-26T16:59:00+00:00; distance 5.255 LD; velocity 6.2 km/s; orbit class APO; apparent magnitude ~18.2; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Wed, 27 May 2026 07:54:38 +0000</lastBuildDate>
+    <pubDate>Wed, 27 May 2026 07:54:38 +0000</pubDate>
     <item>
       <title>2026 KL2 — 2026-05-27 — 2.70 LD</title>
       <link>https://close-encounters.vercel.app/objects/54630657</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630657#2026-05-27T10:49:00+00:00</guid>
       <pubDate>Wed, 27 May 2026 10:49:00 +0000</pubDate>
-      <description>Approach: 2026-05-27T10:49:00+00:00; distance 2.696 LD; velocity 8.3 km/s; orbit class APO; apparent magnitude ~17.8; visible: large telescope</description>
+      <description>Approach: 2026-05-27T10:49:00+00:00; distance 2.696 LD; velocity 8.3 km/s; orbit class APO; apparent magnitude ~17.9; visible: large telescope</description>
     </item>
     <item>
       <title>2023 JK1 — 2026-05-27 — 14.63 LD</title>
@@ -52,9 +31,9 @@
     <item>
       <title>2026 KX1 — 2026-05-28 — 4.13 LD</title>
       <link>https://close-encounters.vercel.app/objects/54630568</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630568#2026-05-28T05:25:00+00:00</guid>
-      <pubDate>Thu, 28 May 2026 05:25:00 +0000</pubDate>
-      <description>Approach: 2026-05-28T05:25:00+00:00; distance 4.127 LD; velocity 9.4 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630568#2026-05-28T05:26:00+00:00</guid>
+      <pubDate>Thu, 28 May 2026 05:26:00 +0000</pubDate>
+      <description>Approach: 2026-05-28T05:26:00+00:00; distance 4.126 LD; velocity 9.4 km/s; orbit class APO; apparent magnitude ~16.1; visible: large telescope</description>
     </item>
     <item>
       <title>2026 KD1 — 2026-05-28 — 11.01 LD</title>
@@ -62,6 +41,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630487#2026-05-28T10:17:00+00:00</guid>
       <pubDate>Thu, 28 May 2026 10:17:00 +0000</pubDate>
       <description>Approach: 2026-05-28T10:17:00+00:00; distance 11.005 LD; velocity 5.1 km/s; orbit class AMO; apparent magnitude ~19.3; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 KT2 — 2026-05-28 — 2.03 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54630718</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630718#2026-05-28T12:42:00+00:00</guid>
+      <pubDate>Thu, 28 May 2026 12:42:00 +0000</pubDate>
+      <description>Approach: 2026-05-28T12:42:00+00:00; distance 2.034 LD; velocity 11.5 km/s; orbit class APO; apparent magnitude ~12.2; visible: small telescope</description>
     </item>
     <item>
       <title>2026 HW2 — 2026-05-29 — 17.61 LD</title>
@@ -78,18 +64,25 @@
       <description>Approach: 2026-05-30T18:30:00+00:00; distance 12.165 LD; velocity 5.7 km/s; orbit class ATE; apparent magnitude ~16.2; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 KJ2 — 2026-05-31 — 17.40 LD</title>
+      <title>2026 KJ2 — 2026-05-31 — 17.44 LD</title>
       <link>https://close-encounters.vercel.app/objects/54630656</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630656#2026-05-31T01:17:00+00:00</guid>
-      <pubDate>Sun, 31 May 2026 01:17:00 +0000</pubDate>
-      <description>Approach: 2026-05-31T01:17:00+00:00; distance 17.401 LD; velocity 7.2 km/s; orbit class AMO; apparent magnitude ~18.9; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630656#2026-05-31T00:54:00+00:00</guid>
+      <pubDate>Sun, 31 May 2026 00:54:00 +0000</pubDate>
+      <description>Approach: 2026-05-31T00:54:00+00:00; distance 17.436 LD; velocity 7.2 km/s; orbit class AMO; apparent magnitude ~18.9; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 KV — 2026-06-01 — 10.10 LD</title>
+      <title>2026 KA3 — 2026-05-31 — 9.62 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54630742</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630742#2026-05-31T01:31:00+00:00</guid>
+      <pubDate>Sun, 31 May 2026 01:31:00 +0000</pubDate>
+      <description>Approach: 2026-05-31T01:31:00+00:00; distance 9.616 LD; velocity 9.3 km/s; orbit class ATE; apparent magnitude ~17.6; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 KV — 2026-06-01 — 10.12 LD</title>
       <link>https://close-encounters.vercel.app/objects/54630403</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630403#2026-06-01T03:21:00+00:00</guid>
-      <pubDate>Mon, 01 Jun 2026 03:21:00 +0000</pubDate>
-      <description>Approach: 2026-06-01T03:21:00+00:00; distance 10.098 LD; velocity 10.9 km/s; orbit class APO; apparent magnitude ~17.6; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630403#2026-06-01T03:26:00+00:00</guid>
+      <pubDate>Mon, 01 Jun 2026 03:26:00 +0000</pubDate>
+      <description>Approach: 2026-06-01T03:26:00+00:00; distance 10.116 LD; velocity 10.9 km/s; orbit class APO; apparent magnitude ~17.7; visible: large telescope</description>
     </item>
     <item>
       <title>2026 JN — 2026-06-01 — 15.91 LD</title>
@@ -195,6 +188,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54048865#2026-07-21T06:16:00+00:00</guid>
       <pubDate>Tue, 21 Jul 2026 06:16:00 +0000</pubDate>
       <description>Approach: 2026-07-21T06:16:00+00:00; distance 9.076 LD; velocity 9.5 km/s; orbit class ATE; apparent magnitude ~18.8; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2020 UR1 — 2026-07-25 — 18.75 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54075317</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54075317#2026-07-25T14:48:00+00:00</guid>
+      <pubDate>Sat, 25 Jul 2026 14:48:00 +0000</pubDate>
+      <description>Approach: 2026-07-25T14:48:00+00:00; distance 18.754 LD; velocity 7.6 km/s; orbit class APO; apparent magnitude ~18.9; visible: large telescope</description>
     </item>
   </channel>
 </rss>

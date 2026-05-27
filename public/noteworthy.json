@@ -1,7 +1,33 @@
 {
-  "count": 14,
-  "generated_at": "2026-05-25T08:06:33.919742+00:00",
+  "count": 16,
+  "generated_at": "2026-05-27T07:54:38.319275+00:00",
   "items": [
+    {
+      "alert_id": 15,
+      "approach_date": "2026-05-28T12:42:00+00:00",
+      "designation": "2026 KT2",
+      "fired_at": "2026-05-27T07:54:21.407551+00:00",
+      "payload": {
+        "days_until_approach": 1,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 1 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54630718"
+    },
+    {
+      "alert_id": 16,
+      "approach_date": "2026-05-31T01:31:00+00:00",
+      "designation": "2026 KA3",
+      "fired_at": "2026-05-27T07:54:21.407551+00:00",
+      "payload": {
+        "days_until_approach": 3,
+        "observation_arc_days": 7
+      },
+      "rationale": "new object with 7-day observation arc; first close approach in 3 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54630742"
+    },
     {
       "alert_id": 14,
       "approach_date": "2026-05-26T16:59:00+00:00",
