@@ -5,8 +5,16 @@
     <link>https://close-encounters.vercel.app/alerts</link>
     <description>Threshold-rule alerts: sizeable objects inside the lunar distance, very-close approaches, late-warning new objects. Append-only — corrections are emitted as new alerts.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 May 2026 07:52:33 +0000</lastBuildDate>
-    <pubDate>Thu, 28 May 2026 07:52:33 +0000</pubDate>
+    <lastBuildDate>Fri, 29 May 2026 07:52:20 +0000</lastBuildDate>
+    <pubDate>Fri, 29 May 2026 07:52:20 +0000</pubDate>
+    <item>
+      <title>Alert (short_arc_late_warning): 2026 KM3 — 2026-06-09</title>
+      <link>https://close-encounters.vercel.app/objects/54630813</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/17</guid>
+      <pubDate>Fri, 29 May 2026 07:52:02 +0000</pubDate>
+      <category>short_arc_late_warning</category>
+      <description>new object with 2-day observation arc; first close approach in 10 days</description>
+    </item>
     <item>
       <title>Alert (short_arc_late_warning): 2026 KT2 — 2026-05-28</title>
       <link>https://close-encounters.vercel.app/objects/54630718</link>
