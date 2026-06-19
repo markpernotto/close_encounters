@@ -5,28 +5,14 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 18 Jun 2026 08:19:16 +0000</lastBuildDate>
-    <pubDate>Thu, 18 Jun 2026 08:19:16 +0000</pubDate>
+    <lastBuildDate>Fri, 19 Jun 2026 08:24:07 +0000</lastBuildDate>
+    <pubDate>Fri, 19 Jun 2026 08:24:07 +0000</pubDate>
     <item>
-      <title>2026 LD2 — 2026-06-18 — 8.70 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54638045</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638045#2026-06-18T08:20:00+00:00</guid>
-      <pubDate>Thu, 18 Jun 2026 08:20:00 +0000</pubDate>
-      <description>Approach: 2026-06-18T08:20:00+00:00; distance 8.702 LD; velocity 8.0 km/s; orbit class AMO; apparent magnitude ~18.2; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 MA — 2026-06-18 — 5.16 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54638130</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638130#2026-06-18T18:06:00+00:00</guid>
-      <pubDate>Thu, 18 Jun 2026 18:06:00 +0000</pubDate>
-      <description>Approach: 2026-06-18T18:06:00+00:00; distance 5.163 LD; velocity 8.7 km/s; orbit class AMO; apparent magnitude ~17.5; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2003 LN6 — 2026-06-18 — 3.69 LD</title>
-      <link>https://close-encounters.vercel.app/objects/50156325</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50156325#2026-06-18T20:58:00+00:00</guid>
-      <pubDate>Thu, 18 Jun 2026 20:58:00 +0000</pubDate>
-      <description>Approach: 2026-06-18T20:58:00+00:00; distance 3.686 LD; velocity 3.9 km/s; orbit class ATE; apparent magnitude ~14.6; visible: large telescope</description>
+      <title>2026 ML — 2026-06-20 — 9.36 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54638174</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638174#2026-06-20T13:01:00+00:00</guid>
+      <pubDate>Sat, 20 Jun 2026 13:01:00 +0000</pubDate>
+      <description>Approach: 2026-06-20T13:01:00+00:00; distance 9.360 LD; velocity 7.1 km/s; orbit class AMO; apparent magnitude ~18.6; visible: large telescope</description>
     </item>
     <item>
       <title>2026 LQ1 — 2026-06-20 — 18.49 LD</title>
@@ -45,9 +31,9 @@
     <item>
       <title>2026 MH — 2026-06-21 — 0.47 LD</title>
       <link>https://close-encounters.vercel.app/objects/54638163</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638163#2026-06-21T11:08:00+00:00</guid>
-      <pubDate>Sun, 21 Jun 2026 11:08:00 +0000</pubDate>
-      <description>Approach: 2026-06-21T11:08:00+00:00; distance 0.466 LD; velocity 4.4 km/s; orbit class ATE; apparent magnitude ~14.1; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638163#2026-06-21T11:12:00+00:00</guid>
+      <pubDate>Sun, 21 Jun 2026 11:12:00 +0000</pubDate>
+      <description>Approach: 2026-06-21T11:12:00+00:00; distance 0.466 LD; velocity 4.4 km/s; orbit class ATE; apparent magnitude ~14.1; visible: large telescope</description>
     </item>
     <item>
       <title>2026 LJ3 — 2026-06-25 — 14.45 LD</title>
@@ -59,9 +45,9 @@
     <item>
       <title>2026 LC2 — 2026-06-27 — 8.82 LD</title>
       <link>https://close-encounters.vercel.app/objects/54638044</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638044#2026-06-27T02:26:00+00:00</guid>
-      <pubDate>Sat, 27 Jun 2026 02:26:00 +0000</pubDate>
-      <description>Approach: 2026-06-27T02:26:00+00:00; distance 8.825 LD; velocity 5.2 km/s; orbit class APO; apparent magnitude ~16.6; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638044#2026-06-27T02:25:00+00:00</guid>
+      <pubDate>Sat, 27 Jun 2026 02:25:00 +0000</pubDate>
+      <description>Approach: 2026-06-27T02:25:00+00:00; distance 8.824 LD; velocity 5.2 km/s; orbit class APO; apparent magnitude ~16.6; visible: large telescope</description>
     </item>
     <item>
       <title>152637 — 2026-06-27 — 6.67 LD</title>
@@ -71,11 +57,11 @@
       <description>Approach: 2026-06-27T11:16:00+00:00; distance 6.675 LD; velocity 8.9 km/s; orbit class ATE; apparent magnitude ~9.0; visible: binoculars</description>
     </item>
     <item>
-      <title>2026 MD — 2026-06-30 — 7.77 LD</title>
+      <title>2026 MD — 2026-06-30 — 7.78 LD</title>
       <link>https://close-encounters.vercel.app/objects/54638132</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638132#2026-06-30T07:27:00+00:00</guid>
       <pubDate>Tue, 30 Jun 2026 07:27:00 +0000</pubDate>
-      <description>Approach: 2026-06-30T07:27:00+00:00; distance 7.774 LD; velocity 10.9 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
+      <description>Approach: 2026-06-30T07:27:00+00:00; distance 7.776 LD; velocity 10.9 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
     </item>
     <item>
       <title>523808 — 2026-07-04 — 9.04 LD</title>
