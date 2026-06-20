@@ -1,7 +1,19 @@
 {
-  "count": 32,
-  "generated_at": "2026-06-19T08:24:07.677682+00:00",
+  "count": 33,
+  "generated_at": "2026-06-20T07:52:07.628290+00:00",
   "items": [
+    {
+      "alert_id": 33,
+      "approach_date": "2026-06-21T11:08:00+00:00",
+      "designation": "2026 MH",
+      "fired_at": "2026-06-20T07:51:49.100548+00:00",
+      "payload": {
+        "distance_ld": 0.4662120402315051
+      },
+      "rationale": "distance 0.47 LD on 2026-06-21 (below 0.5 LD threshold)",
+      "rule_id": "very_close_any_size",
+      "spkid": "54638163"
+    },
     {
       "alert_id": 32,
       "approach_date": "2026-06-21T11:12:00+00:00",
