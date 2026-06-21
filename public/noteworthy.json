@@ -1,7 +1,32 @@
 {
-  "count": 33,
-  "generated_at": "2026-06-20T07:52:07.628290+00:00",
+  "count": 35,
+  "generated_at": "2026-06-21T08:13:30.013532+00:00",
   "items": [
+    {
+      "alert_id": 34,
+      "approach_date": "2026-06-25T18:12:00+00:00",
+      "designation": "2026 MY",
+      "fired_at": "2026-06-21T08:12:48.123678+00:00",
+      "payload": {
+        "days_until_approach": 4,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 4 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54638924"
+    },
+    {
+      "alert_id": 35,
+      "approach_date": "2026-06-21T11:07:00+00:00",
+      "designation": "2026 MH",
+      "fired_at": "2026-06-21T08:12:48.123678+00:00",
+      "payload": {
+        "distance_ld": 0.46629317007134446
+      },
+      "rationale": "distance 0.47 LD on 2026-06-21 (below 0.5 LD threshold)",
+      "rule_id": "very_close_any_size",
+      "spkid": "54638163"
+    },
     {
       "alert_id": 33,
       "approach_date": "2026-06-21T11:08:00+00:00",
