@@ -5,8 +5,24 @@
     <link>https://close-encounters.vercel.app/alerts</link>
     <description>Threshold-rule alerts: sizeable objects inside the lunar distance, very-close approaches, late-warning new objects. Append-only — corrections are emitted as new alerts.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 25 Jun 2026 07:50:55 +0000</lastBuildDate>
-    <pubDate>Thu, 25 Jun 2026 07:50:55 +0000</pubDate>
+    <lastBuildDate>Fri, 26 Jun 2026 07:51:59 +0000</lastBuildDate>
+    <pubDate>Fri, 26 Jun 2026 07:51:59 +0000</pubDate>
+    <item>
+      <title>Alert (short_arc_late_warning): 2026 MP3 — 2026-07-05</title>
+      <link>https://close-encounters.vercel.app/objects/54639114</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/47</guid>
+      <pubDate>Fri, 26 Jun 2026 07:51:17 +0000</pubDate>
+      <category>short_arc_late_warning</category>
+      <description>new object with 2-day observation arc; first close approach in 8 days</description>
+    </item>
+    <item>
+      <title>Alert (short_arc_late_warning): 2026 MQ3 — 2026-07-16</title>
+      <link>https://close-encounters.vercel.app/objects/54642304</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/48</guid>
+      <pubDate>Fri, 26 Jun 2026 07:51:17 +0000</pubDate>
+      <category>short_arc_late_warning</category>
+      <description>new object with 1-day observation arc; first close approach in 20 days</description>
+    </item>
     <item>
       <title>Alert (short_arc_late_warning): 2026 MW2 — 2026-06-30</title>
       <link>https://close-encounters.vercel.app/objects/54639085</link>
