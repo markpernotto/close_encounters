@@ -1,6 +1,6 @@
 {
-  "count": 27,
-  "generated_at": "2026-07-01T07:59:53.816612+00:00",
+  "count": 28,
+  "generated_at": "2026-07-02T07:44:51.478216+00:00",
   "items": [
     {
       "absolute_magnitude_h": 19.35,
@@ -460,6 +460,23 @@
       "spkid": "50767271",
       "v_rel_km_s": 20.4503389429059,
       "visibility_bucket": "small_telescope"
+    },
+    {
+      "absolute_magnitude_h": 29.3,
+      "apparent_mag_estimate": 21.53577252886016,
+      "approach_date": "2026-08-30T17:37:00+00:00",
+      "designation": "2007 EK",
+      "diameter_estimate_km": null,
+      "diameter_km": null,
+      "distance_au": 0.0279997726990126,
+      "distance_ld": 10.896738750926838,
+      "full_name": "(2007 EK)",
+      "neo": true,
+      "orbit_class": "APO",
+      "pha": false,
+      "spkid": "50370301",
+      "v_rel_km_s": 9.14075277746303,
+      "visibility_bucket": "large_telescope"
     }
   ],
   "window_days": 60

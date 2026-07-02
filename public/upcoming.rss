@@ -5,8 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Jul 2026 07:59:53 +0000</lastBuildDate>
-    <pubDate>Wed, 01 Jul 2026 07:59:53 +0000</pubDate>
+    <lastBuildDate>Thu, 02 Jul 2026 07:44:51 +0000</lastBuildDate>
+    <pubDate>Thu, 02 Jul 2026 07:44:51 +0000</pubDate>
     <item>
       <title>523808 — 2026-07-04 — 9.04 LD</title>
       <link>https://close-encounters.vercel.app/objects/20523808</link>
@@ -195,6 +195,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50767271#2026-08-28T23:43:00+00:00</guid>
       <pubDate>Fri, 28 Aug 2026 23:43:00 +0000</pubDate>
       <description>Approach: 2026-08-28T23:43:00+00:00; distance 11.132 LD; velocity 20.5 km/s; orbit class APO; apparent magnitude ~12.1; visible: small telescope</description>
+    </item>
+    <item>
+      <title>2007 EK — 2026-08-30 — 10.90 LD</title>
+      <link>https://close-encounters.vercel.app/objects/50370301</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50370301#2026-08-30T17:37:00+00:00</guid>
+      <pubDate>Sun, 30 Aug 2026 17:37:00 +0000</pubDate>
+      <description>Approach: 2026-08-30T17:37:00+00:00; distance 10.897 LD; velocity 9.1 km/s; orbit class APO; apparent magnitude ~21.5; visible: large telescope</description>
     </item>
   </channel>
 </rss>
