@@ -5,21 +5,21 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 Jul 2026 08:06:02 +0000</lastBuildDate>
-    <pubDate>Mon, 06 Jul 2026 08:06:02 +0000</pubDate>
+    <lastBuildDate>Tue, 07 Jul 2026 07:50:18 +0000</lastBuildDate>
+    <pubDate>Tue, 07 Jul 2026 07:50:18 +0000</pubDate>
     <item>
-      <title>2026 NA — 2026-07-07 — 9.81 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54642489</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642489#2026-07-07T01:48:00+00:00</guid>
-      <pubDate>Tue, 07 Jul 2026 01:48:00 +0000</pubDate>
-      <description>Approach: 2026-07-07T01:48:00+00:00; distance 9.812 LD; velocity 9.8 km/s; orbit class ATE; apparent magnitude ~16.9; visible: large telescope</description>
+      <title>2026 NC — 2026-07-07 — 3.90 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54642495</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642495#2026-07-07T12:22:00+00:00</guid>
+      <pubDate>Tue, 07 Jul 2026 12:22:00 +0000</pubDate>
+      <description>Approach: 2026-07-07T12:22:00+00:00; distance 3.905 LD; velocity 14.3 km/s; orbit class APO; apparent magnitude ~15.9; visible: large telescope</description>
     </item>
     <item>
       <title>2026 MO1 — 2026-07-08 — 5.89 LD</title>
       <link>https://close-encounters.vercel.app/objects/54638969</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638969#2026-07-08T21:13:00+00:00</guid>
       <pubDate>Wed, 08 Jul 2026 21:13:00 +0000</pubDate>
-      <description>Approach: 2026-07-08T21:13:00+00:00; distance 5.894 LD; velocity 9.4 km/s; orbit class APO; apparent magnitude ~16.0; visible: large telescope</description>
+      <description>Approach: 2026-07-08T21:13:00+00:00; distance 5.893 LD; velocity 9.4 km/s; orbit class APO; apparent magnitude ~16.0; visible: large telescope</description>
     </item>
     <item>
       <title>2026 MQ1 — 2026-07-10 — 11.80 LD</title>
@@ -50,6 +50,13 @@
       <description>Approach: 2026-07-17T21:09:00+00:00; distance 11.592 LD; velocity 2.6 km/s; orbit class APO; apparent magnitude ~18.8; visible: large telescope</description>
     </item>
     <item>
+      <title>2026 NF — 2026-07-18 — 10.80 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54642498</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642498#2026-07-18T10:25:00+00:00</guid>
+      <pubDate>Sat, 18 Jul 2026 10:25:00 +0000</pubDate>
+      <description>Approach: 2026-07-18T10:25:00+00:00; distance 10.801 LD; velocity 8.5 km/s; orbit class APO; apparent magnitude ~18.1; visible: large telescope</description>
+    </item>
+    <item>
       <title>2025 MB90 — 2026-07-19 — 4.96 LD</title>
       <link>https://close-encounters.vercel.app/objects/54537654</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54537654#2026-07-19T02:04:00+00:00</guid>
@@ -66,9 +73,9 @@
     <item>
       <title>2026 KU3 — 2026-07-24 — 7.67 LD</title>
       <link>https://close-encounters.vercel.app/objects/54630841</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630841#2026-07-24T01:29:00+00:00</guid>
-      <pubDate>Fri, 24 Jul 2026 01:29:00 +0000</pubDate>
-      <description>Approach: 2026-07-24T01:29:00+00:00; distance 7.674 LD; velocity 8.6 km/s; orbit class AMO; apparent magnitude ~14.7; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54630841#2026-07-24T01:30:00+00:00</guid>
+      <pubDate>Fri, 24 Jul 2026 01:30:00 +0000</pubDate>
+      <description>Approach: 2026-07-24T01:30:00+00:00; distance 7.675 LD; velocity 8.6 km/s; orbit class AMO; apparent magnitude ~14.7; visible: large telescope</description>
     </item>
     <item>
       <title>2020 UR1 — 2026-07-25 — 18.75 LD</title>
