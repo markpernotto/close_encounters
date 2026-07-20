@@ -5,15 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 19 Jul 2026 07:23:10 +0000</lastBuildDate>
-    <pubDate>Sun, 19 Jul 2026 07:23:10 +0000</pubDate>
-    <item>
-      <title>2026 NQ1 — 2026-07-19 — 15.29 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54642563</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642563#2026-07-19T15:44:00+00:00</guid>
-      <pubDate>Sun, 19 Jul 2026 15:44:00 +0000</pubDate>
-      <description>Approach: 2026-07-19T15:44:00+00:00; distance 15.286 LD; velocity 28.4 km/s; orbit class APO; apparent magnitude ~15.7; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Mon, 20 Jul 2026 07:40:09 +0000</lastBuildDate>
+    <pubDate>Mon, 20 Jul 2026 07:40:09 +0000</pubDate>
     <item>
       <title>2026 NB1 — 2026-07-21 — 17.67 LD</title>
       <link>https://close-encounters.vercel.app/objects/54642539</link>
@@ -36,11 +29,11 @@
       <description>Approach: 2026-07-24T01:31:00+00:00; distance 7.675 LD; velocity 8.6 km/s; orbit class AMO; apparent magnitude ~14.7; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 OD — 2026-07-25 — 4.61 LD</title>
+      <title>2026 OD — 2026-07-25 — 4.62 LD</title>
       <link>https://close-encounters.vercel.app/objects/54642710</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642710#2026-07-25T09:07:00+00:00</guid>
-      <pubDate>Sat, 25 Jul 2026 09:07:00 +0000</pubDate>
-      <description>Approach: 2026-07-25T09:07:00+00:00; distance 4.606 LD; velocity 9.5 km/s; orbit class APO; apparent magnitude ~13.8; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642710#2026-07-25T09:30:00+00:00</guid>
+      <pubDate>Sat, 25 Jul 2026 09:30:00 +0000</pubDate>
+      <description>Approach: 2026-07-25T09:30:00+00:00; distance 4.615 LD; velocity 9.5 km/s; orbit class APO; apparent magnitude ~13.9; visible: large telescope</description>
     </item>
     <item>
       <title>2020 UR1 — 2026-07-25 — 18.75 LD</title>
@@ -55,6 +48,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50703815#2026-07-26T23:39:00+00:00</guid>
       <pubDate>Sun, 26 Jul 2026 23:39:00 +0000</pubDate>
       <description>Approach: 2026-07-26T23:39:00+00:00; distance 17.252 LD; velocity 12.5 km/s; orbit class APO; apparent magnitude ~19.8; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 OL — 2026-07-27 — 15.84 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54642735</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642735#2026-07-27T09:29:00+00:00</guid>
+      <pubDate>Mon, 27 Jul 2026 09:29:00 +0000</pubDate>
+      <description>Approach: 2026-07-27T09:29:00+00:00; distance 15.837 LD; velocity 15.8 km/s; orbit class APO; apparent magnitude ~16.0; visible: large telescope</description>
     </item>
     <item>
       <title>2025 OW — 2026-07-30 — 16.03 LD</title>
@@ -83,13 +83,6 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50843178#2026-08-10T00:20:00+00:00</guid>
       <pubDate>Mon, 10 Aug 2026 00:20:00 +0000</pubDate>
       <description>Approach: 2026-08-10T00:20:00+00:00; distance 6.544 LD; velocity 9.6 km/s; orbit class APO; apparent magnitude ~12.4; visible: small telescope</description>
-    </item>
-    <item>
-      <title>2016 BV14 — 2026-08-10 — 19.02 LD</title>
-      <link>https://close-encounters.vercel.app/objects/50740949</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50740949#2026-08-10T09:41:00+00:00</guid>
-      <pubDate>Mon, 10 Aug 2026 09:41:00 +0000</pubDate>
-      <description>Approach: 2026-08-10T09:41:00+00:00; distance 19.018 LD; velocity 21.1 km/s; orbit class APO; apparent magnitude ~15.1; visible: large telescope</description>
     </item>
     <item>
       <title>2013 QC11 — 2026-08-13 — 14.42 LD</title>
