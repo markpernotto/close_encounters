@@ -5,22 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 26 Jul 2026 07:26:53 +0000</lastBuildDate>
-    <pubDate>Sun, 26 Jul 2026 07:26:53 +0000</pubDate>
-    <item>
-      <title>2015 BF — 2026-07-26 — 17.25 LD</title>
-      <link>https://close-encounters.vercel.app/objects/50703815</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50703815#2026-07-26T23:39:00+00:00</guid>
-      <pubDate>Sun, 26 Jul 2026 23:39:00 +0000</pubDate>
-      <description>Approach: 2026-07-26T23:39:00+00:00; distance 17.252 LD; velocity 12.5 km/s; orbit class APO; apparent magnitude ~19.8; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 OA3 — 2026-07-27 — 4.91 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54642911</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642911#2026-07-27T04:22:00+00:00</guid>
-      <pubDate>Mon, 27 Jul 2026 04:22:00 +0000</pubDate>
-      <description>Approach: 2026-07-27T04:22:00+00:00; distance 4.915 LD; velocity 5.2 km/s; orbit class APO; apparent magnitude ~16.5; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Mon, 27 Jul 2026 07:47:56 +0000</lastBuildDate>
+    <pubDate>Mon, 27 Jul 2026 07:47:56 +0000</pubDate>
     <item>
       <title>2026 OL — 2026-07-27 — 15.85 LD</title>
       <link>https://close-encounters.vercel.app/objects/54642735</link>
