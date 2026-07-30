@@ -5,15 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Jul 2026 07:31:16 +0000</lastBuildDate>
-    <pubDate>Wed, 29 Jul 2026 07:31:16 +0000</pubDate>
-    <item>
-      <title>2025 OW — 2026-07-30 — 16.03 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54538372</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54538372#2026-07-30T06:07:00+00:00</guid>
-      <pubDate>Thu, 30 Jul 2026 06:07:00 +0000</pubDate>
-      <description>Approach: 2026-07-30T06:07:00+00:00; distance 16.026 LD; velocity 20.1 km/s; orbit class APO; apparent magnitude ~16.6; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Thu, 30 Jul 2026 07:25:46 +0000</lastBuildDate>
+    <pubDate>Thu, 30 Jul 2026 07:25:46 +0000</pubDate>
     <item>
       <title>2026 OS — 2026-08-01 — 3.07 LD</title>
       <link>https://close-encounters.vercel.app/objects/54642787</link>
@@ -57,11 +50,11 @@
       <description>Approach: 2026-08-13T01:33:00+00:00; distance 14.421 LD; velocity 19.0 km/s; orbit class APO; apparent magnitude ~14.4; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 NY — 2026-08-13 — 12.30 LD</title>
+      <title>2026 NY — 2026-08-13 — 12.29 LD</title>
       <link>https://close-encounters.vercel.app/objects/54642536</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642536#2026-08-13T22:22:00+00:00</guid>
-      <pubDate>Thu, 13 Aug 2026 22:22:00 +0000</pubDate>
-      <description>Approach: 2026-08-13T22:22:00+00:00; distance 12.304 LD; velocity 8.2 km/s; orbit class APO; apparent magnitude ~15.2; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642536#2026-08-13T22:17:00+00:00</guid>
+      <pubDate>Thu, 13 Aug 2026 22:17:00 +0000</pubDate>
+      <description>Approach: 2026-08-13T22:17:00+00:00; distance 12.286 LD; velocity 8.2 km/s; orbit class APO; apparent magnitude ~15.2; visible: large telescope</description>
     </item>
     <item>
       <title>2025 AL2 — 2026-08-16 — 2.19 LD</title>
