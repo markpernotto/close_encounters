@@ -5,8 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 31 Jul 2026 07:32:31 +0000</lastBuildDate>
-    <pubDate>Fri, 31 Jul 2026 07:32:31 +0000</pubDate>
+    <lastBuildDate>Sat, 01 Aug 2026 07:24:01 +0000</lastBuildDate>
+    <pubDate>Sat, 01 Aug 2026 07:24:01 +0000</pubDate>
     <item>
       <title>2026 OS — 2026-08-01 — 3.07 LD</title>
       <link>https://close-encounters.vercel.app/objects/54642787</link>
@@ -54,7 +54,7 @@
       <link>https://close-encounters.vercel.app/objects/54642536</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642536#2026-08-13T22:13:00+00:00</guid>
       <pubDate>Thu, 13 Aug 2026 22:13:00 +0000</pubDate>
-      <description>Approach: 2026-08-13T22:13:00+00:00; distance 12.261 LD; velocity 8.1 km/s; orbit class APO; apparent magnitude ~15.2; visible: large telescope</description>
+      <description>Approach: 2026-08-13T22:13:00+00:00; distance 12.260 LD; velocity 8.1 km/s; orbit class APO; apparent magnitude ~15.2; visible: large telescope</description>
     </item>
     <item>
       <title>2025 AL2 — 2026-08-16 — 2.19 LD</title>
