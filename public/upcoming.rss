@@ -5,15 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Aug 2026 07:24:01 +0000</lastBuildDate>
-    <pubDate>Sat, 01 Aug 2026 07:24:01 +0000</pubDate>
-    <item>
-      <title>2026 OS — 2026-08-01 — 3.07 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54642787</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642787#2026-08-01T20:03:00+00:00</guid>
-      <pubDate>Sat, 01 Aug 2026 20:03:00 +0000</pubDate>
-      <description>Approach: 2026-08-01T20:03:00+00:00; distance 3.066 LD; velocity 5.8 km/s; orbit class APO; apparent magnitude ~17.5; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Sun, 02 Aug 2026 07:26:07 +0000</lastBuildDate>
+    <pubDate>Sun, 02 Aug 2026 07:26:07 +0000</pubDate>
     <item>
       <title>2024 RM10 — 2026-08-05 — 13.52 LD</title>
       <link>https://close-encounters.vercel.app/objects/54470175</link>
@@ -209,6 +202,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642785#2026-09-17T11:11:00+00:00</guid>
       <pubDate>Thu, 17 Sep 2026 11:11:00 +0000</pubDate>
       <description>Approach: 2026-09-17T11:11:00+00:00; distance 16.084 LD; velocity 12.5 km/s; orbit class APO; apparent magnitude ~13.6; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2018 SP2 — 2026-09-30 — 5.01 LD</title>
+      <link>https://close-encounters.vercel.app/objects/50830913</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50830913#2026-09-30T20:54:00+00:00</guid>
+      <pubDate>Wed, 30 Sep 2026 20:54:00 +0000</pubDate>
+      <description>Approach: 2026-09-30T20:54:00+00:00; distance 5.013 LD; velocity 14.3 km/s; orbit class ATE; apparent magnitude ~15.3; visible: large telescope</description>
     </item>
   </channel>
 </rss>
