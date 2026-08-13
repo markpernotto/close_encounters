@@ -1,24 +1,7 @@
 {
-  "count": 31,
-  "generated_at": "2026-08-12T06:59:29.806455+00:00",
+  "count": 30,
+  "generated_at": "2026-08-13T07:02:26.499355+00:00",
   "items": [
-    {
-      "absolute_magnitude_h": 21.58,
-      "apparent_mag_estimate": 14.42431363374354,
-      "approach_date": "2026-08-13T01:33:00+00:00",
-      "designation": "2013 QC11",
-      "diameter_estimate_km": null,
-      "diameter_km": null,
-      "distance_au": 0.0370563574296346,
-      "distance_ld": 14.421311569644796,
-      "full_name": "(2013 QC11)",
-      "neo": true,
-      "orbit_class": "APO",
-      "pha": true,
-      "spkid": "50646757",
-      "v_rel_km_s": 18.9730323203744,
-      "visibility_bucket": "large_telescope"
-    },
     {
       "absolute_magnitude_h": 22.761,
       "apparent_mag_estimate": 15.251690142342321,
@@ -38,19 +21,19 @@
     },
     {
       "absolute_magnitude_h": 22.75,
-      "apparent_mag_estimate": 11.502443293337805,
+      "apparent_mag_estimate": 11.502437796951211,
       "approach_date": "2026-08-16T22:05:00+00:00",
       "designation": "2025 AL2",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.00562974415472769,
-      "distance_ld": 2.190941046131721,
+      "distance_au": 0.00562972990485235,
+      "distance_ld": 2.1909355004735303,
       "full_name": "(2025 AL2)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "54514906",
-      "v_rel_km_s": 12.3980997101133,
+      "v_rel_km_s": 12.3980999982948,
       "visibility_bucket": "small_telescope"
     },
     {
