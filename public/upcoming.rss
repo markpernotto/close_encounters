@@ -5,14 +5,14 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 18 Aug 2026 06:50:07 +0000</lastBuildDate>
-    <pubDate>Tue, 18 Aug 2026 06:50:07 +0000</pubDate>
+    <lastBuildDate>Wed, 19 Aug 2026 06:50:23 +0000</lastBuildDate>
+    <pubDate>Wed, 19 Aug 2026 06:50:23 +0000</pubDate>
     <item>
-      <title>2026 PY8 — 2026-08-19 — 18.49 LD</title>
+      <title>2026 PY8 — 2026-08-19 — 18.32 LD</title>
       <link>https://close-encounters.vercel.app/objects/54646418</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54646418#2026-08-19T17:11:00+00:00</guid>
-      <pubDate>Wed, 19 Aug 2026 17:11:00 +0000</pubDate>
-      <description>Approach: 2026-08-19T17:11:00+00:00; distance 18.487 LD; velocity 14.4 km/s; orbit class ATE; apparent magnitude ~18.5; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54646418#2026-08-19T17:10:00+00:00</guid>
+      <pubDate>Wed, 19 Aug 2026 17:10:00 +0000</pubDate>
+      <description>Approach: 2026-08-19T17:10:00+00:00; distance 18.320 LD; velocity 14.2 km/s; orbit class ATE; apparent magnitude ~18.6; visible: large telescope</description>
     </item>
     <item>
       <title>2025 DU7 — 2026-08-19 — 8.72 LD</title>
@@ -75,7 +75,7 @@
       <link>https://close-encounters.vercel.app/objects/54644030</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54644030#2026-08-28T15:21:00+00:00</guid>
       <pubDate>Fri, 28 Aug 2026 15:21:00 +0000</pubDate>
-      <description>Approach: 2026-08-28T15:21:00+00:00; distance 9.799 LD; velocity 6.7 km/s; orbit class APO; apparent magnitude ~16.4; visible: large telescope</description>
+      <description>Approach: 2026-08-28T15:21:00+00:00; distance 9.802 LD; velocity 6.7 km/s; orbit class APO; apparent magnitude ~16.4; visible: large telescope</description>
     </item>
     <item>
       <title>221455 — 2026-08-28 — 9.33 LD</title>
