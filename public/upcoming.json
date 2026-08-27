@@ -1,24 +1,7 @@
 {
-  "count": 29,
-  "generated_at": "2026-08-26T06:51:17.822787+00:00",
+  "count": 28,
+  "generated_at": "2026-08-27T09:45:09.192439+00:00",
   "items": [
-    {
-      "absolute_magnitude_h": 19.53,
-      "apparent_mag_estimate": 12.904735049014045,
-      "approach_date": "2026-08-27T02:01:00+00:00",
-      "designation": "523609",
-      "diameter_estimate_km": null,
-      "diameter_km": null,
-      "distance_au": 0.0473093531198351,
-      "distance_ld": 18.411494513323962,
-      "full_name": "523609 (2005 PJ2)",
-      "neo": true,
-      "orbit_class": "APO",
-      "pha": true,
-      "spkid": "20523609",
-      "v_rel_km_s": 22.7495835336699,
-      "visibility_bucket": "small_telescope"
-    },
     {
       "absolute_magnitude_h": 25.706,
       "apparent_mag_estimate": 16.041882870606848,
@@ -54,20 +37,20 @@
       "visibility_bucket": "large_telescope"
     },
     {
-      "absolute_magnitude_h": 24.3,
-      "apparent_mag_estimate": 16.30416210708683,
+      "absolute_magnitude_h": 24.274,
+      "apparent_mag_estimate": 16.278496809907683,
       "approach_date": "2026-08-28T15:21:00+00:00",
       "designation": "2026 PP",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0251670563440965,
-      "distance_ld": 9.794323727533202,
+      "distance_au": 0.0251709358011552,
+      "distance_ld": 9.795833505148845,
       "full_name": "(2026 PP)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "54644030",
-      "v_rel_km_s": 6.71903217858708,
+      "v_rel_km_s": 6.7200214971342,
       "visibility_bucket": "large_telescope"
     },
     {
@@ -122,20 +105,20 @@
       "visibility_bucket": "large_telescope"
     },
     {
-      "absolute_magnitude_h": 23.533,
-      "apparent_mag_estimate": 12.804270079679265,
-      "approach_date": "2026-08-31T16:19:00+00:00",
+      "absolute_magnitude_h": 23.562,
+      "apparent_mag_estimate": 12.832502683929274,
+      "approach_date": "2026-08-31T16:17:00+00:00",
       "designation": "2026 QQ1",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.00714914352433201,
-      "distance_ld": 2.7822493459124926,
+      "distance_au": 0.0071466174719472,
+      "distance_ld": 2.7812662760424507,
       "full_name": "(2026 QQ1)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "54648413",
-      "v_rel_km_s": 7.28928347445609,
+      "v_rel_km_s": 7.28892208423694,
       "visibility_bucket": "small_telescope"
     },
     {
