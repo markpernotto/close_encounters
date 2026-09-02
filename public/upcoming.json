@@ -1,24 +1,7 @@
 {
   "count": 20,
-  "generated_at": "2026-09-01T06:53:56.888744+00:00",
+  "generated_at": "2026-09-02T06:56:46.070370+00:00",
   "items": [
-    {
-      "absolute_magnitude_h": 27.08,
-      "apparent_mag_estimate": 20.57231090476569,
-      "approach_date": "2026-09-01T08:10:00+00:00",
-      "designation": "2018 RD2",
-      "diameter_estimate_km": null,
-      "diameter_km": null,
-      "distance_au": 0.0499415688410614,
-      "distance_ld": 19.435880223829997,
-      "full_name": "(2018 RD2)",
-      "neo": true,
-      "orbit_class": "ATE",
-      "pha": false,
-      "spkid": "50827344",
-      "v_rel_km_s": 9.5830420759071,
-      "visibility_bucket": "large_telescope"
-    },
     {
       "absolute_magnitude_h": 27.44,
       "apparent_mag_estimate": 20.240934863637555,
@@ -106,19 +89,19 @@
     },
     {
       "absolute_magnitude_h": 24.06,
-      "apparent_mag_estimate": 15.962314273973023,
+      "apparent_mag_estimate": 15.962218909849874,
       "approach_date": "2026-09-14T03:58:00+00:00",
       "designation": "2010 FX9",
       "diameter_estimate_km": 0.03,
       "diameter_km": 0.03,
-      "distance_au": 0.0240139086815003,
-      "distance_ld": 9.345550483706267,
+      "distance_au": 0.0240128540905926,
+      "distance_ld": 9.345140066031314,
       "full_name": "(2010 FX9)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "50512727",
-      "v_rel_km_s": 11.0684663487698,
+      "v_rel_km_s": 11.0684138838055,
       "visibility_bucket": "large_telescope"
     },
     {
@@ -156,20 +139,20 @@
       "visibility_bucket": "large_telescope"
     },
     {
-      "absolute_magnitude_h": 20.226,
-      "apparent_mag_estimate": 13.307468526307424,
+      "absolute_magnitude_h": 20.263,
+      "apparent_mag_estimate": 13.344409416510254,
       "approach_date": "2026-09-17T05:08:00+00:00",
       "designation": "2026 NT2",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0413326932791513,
-      "distance_ld": 16.08554345696471,
+      "distance_au": 0.0413315681744283,
+      "distance_ld": 16.085105597259,
       "full_name": "(2026 NT2)",
       "neo": true,
       "orbit_class": "APO",
       "pha": true,
       "spkid": "54642785",
-      "v_rel_km_s": 12.5364427592082,
+      "v_rel_km_s": 12.5363485258317,
       "visibility_bucket": "large_telescope"
     },
     {
@@ -340,6 +323,23 @@
       "pha": false,
       "spkid": "54322871",
       "v_rel_km_s": 9.57427818453305,
+      "visibility_bucket": "large_telescope"
+    },
+    {
+      "absolute_magnitude_h": 29.83,
+      "apparent_mag_estimate": 16.44449742415989,
+      "approach_date": "2026-10-31T02:35:00+00:00",
+      "designation": "2025 UK9",
+      "diameter_estimate_km": null,
+      "diameter_km": null,
+      "distance_au": 0.0021032915876806,
+      "distance_ld": 0.8185430358434965,
+      "full_name": "(2025 UK9)",
+      "neo": true,
+      "orbit_class": "APO",
+      "pha": false,
+      "spkid": "54555159",
+      "v_rel_km_s": 7.83419285217263,
       "visibility_bucket": "large_telescope"
     }
   ],
