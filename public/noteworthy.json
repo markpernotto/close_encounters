@@ -1,7 +1,98 @@
 {
-  "count": 89,
-  "generated_at": "2026-09-06T06:47:45.050762+00:00",
+  "count": 96,
+  "generated_at": "2026-09-07T07:03:37.951079+00:00",
   "items": [
+    {
+      "alert_id": 90,
+      "approach_date": "2026-09-13T18:41:00+00:00",
+      "designation": "2026 RF2",
+      "fired_at": "2026-09-07T07:02:55.579017+00:00",
+      "payload": {
+        "days_until_approach": 6,
+        "observation_arc_days": 2
+      },
+      "rationale": "new object with 2-day observation arc; first close approach in 6 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652699"
+    },
+    {
+      "alert_id": 96,
+      "approach_date": "2026-09-22T08:35:00+00:00",
+      "designation": "2026 RZ1",
+      "fired_at": "2026-09-07T07:02:55.579017+00:00",
+      "payload": {
+        "days_until_approach": 15,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 15 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652693"
+    },
+    {
+      "alert_id": 95,
+      "approach_date": "2026-09-09T10:15:00+00:00",
+      "designation": "2026 RY1",
+      "fired_at": "2026-09-07T07:02:55.579017+00:00",
+      "payload": {
+        "days_until_approach": 2,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 2 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652692"
+    },
+    {
+      "alert_id": 94,
+      "approach_date": "2026-09-10T23:15:00+00:00",
+      "designation": "2026 RV1",
+      "fired_at": "2026-09-07T07:02:55.579017+00:00",
+      "payload": {
+        "days_until_approach": 3,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 3 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652689"
+    },
+    {
+      "alert_id": 93,
+      "approach_date": "2026-09-08T17:25:00+00:00",
+      "designation": "2026 RT1",
+      "fired_at": "2026-09-07T07:02:55.579017+00:00",
+      "payload": {
+        "days_until_approach": 1,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 1 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652687"
+    },
+    {
+      "alert_id": 92,
+      "approach_date": "2026-09-08T07:48:00+00:00",
+      "designation": "2026 RR1",
+      "fired_at": "2026-09-07T07:02:55.579017+00:00",
+      "payload": {
+        "days_until_approach": 1,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 1 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652395"
+    },
+    {
+      "alert_id": 91,
+      "approach_date": "2026-09-13T10:30:00+00:00",
+      "designation": "2026 RG2",
+      "fired_at": "2026-09-07T07:02:55.579017+00:00",
+      "payload": {
+        "days_until_approach": 6,
+        "observation_arc_days": 2
+      },
+      "rationale": "new object with 2-day observation arc; first close approach in 6 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652701"
+    },
     {
       "alert_id": 89,
       "approach_date": "2026-09-07T23:56:00+00:00",
@@ -29,6 +120,19 @@
       "spkid": "54652303"
     },
     {
+      "alert_id": 85,
+      "approach_date": "2026-09-05T10:11:00+00:00",
+      "designation": "2026 RF",
+      "fired_at": "2026-09-04T06:52:22.302276+00:00",
+      "payload": {
+        "days_until_approach": 1,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 1 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54652286"
+    },
+    {
       "alert_id": 87,
       "approach_date": "2026-09-11T10:49:00+00:00",
       "designation": "2026 RJ",
@@ -53,19 +157,6 @@
       "rationale": "new object with 1-day observation arc; first close approach in 1 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54652287"
-    },
-    {
-      "alert_id": 85,
-      "approach_date": "2026-09-05T10:11:00+00:00",
-      "designation": "2026 RF",
-      "fired_at": "2026-09-04T06:52:22.302276+00:00",
-      "payload": {
-        "days_until_approach": 1,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 1 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54652286"
     },
     {
       "alert_id": 84,
@@ -172,19 +263,6 @@
       "spkid": "54644036"
     },
     {
-      "alert_id": 75,
-      "approach_date": "2026-08-28T15:16:00+00:00",
-      "designation": "2026 PP",
-      "fired_at": "2026-08-07T06:55:45.294762+00:00",
-      "payload": {
-        "days_until_approach": 21,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 21 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54644030"
-    },
-    {
       "alert_id": 76,
       "approach_date": "2026-08-10T05:19:00+00:00",
       "designation": "2026 PR",
@@ -196,6 +274,19 @@
       "rationale": "new object with 3-day observation arc; first close approach in 2 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54644032"
+    },
+    {
+      "alert_id": 75,
+      "approach_date": "2026-08-28T15:16:00+00:00",
+      "designation": "2026 PP",
+      "fired_at": "2026-08-07T06:55:45.294762+00:00",
+      "payload": {
+        "days_until_approach": 21,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 21 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54644030"
     },
     {
       "alert_id": 74,
@@ -211,19 +302,6 @@
       "spkid": "54643969"
     },
     {
-      "alert_id": 72,
-      "approach_date": "2026-08-06T23:11:00+00:00",
-      "designation": "2026 PC",
-      "fired_at": "2026-08-04T07:27:26.555920+00:00",
-      "payload": {
-        "days_until_approach": 2,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 2 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54643901"
-    },
-    {
       "alert_id": 73,
       "approach_date": "2026-08-06T05:11:00+00:00",
       "designation": "2026 PE",
@@ -235,6 +313,19 @@
       "rationale": "new object with 1-day observation arc; first close approach in 1 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54643903"
+    },
+    {
+      "alert_id": 72,
+      "approach_date": "2026-08-06T23:11:00+00:00",
+      "designation": "2026 PC",
+      "fired_at": "2026-08-04T07:27:26.555920+00:00",
+      "payload": {
+        "days_until_approach": 2,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 2 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54643901"
     },
     {
       "alert_id": 71,
@@ -289,17 +380,17 @@
       "spkid": "54642833"
     },
     {
-      "alert_id": 65,
-      "approach_date": "2026-08-01T20:03:00+00:00",
-      "designation": "2026 OS",
+      "alert_id": 64,
+      "approach_date": "2026-07-28T21:16:00+00:00",
+      "designation": "2026 OR",
       "fired_at": "2026-07-21T07:25:39.740226+00:00",
       "payload": {
-        "days_until_approach": 11,
+        "days_until_approach": 7,
         "observation_arc_days": 1
       },
-      "rationale": "new object with 1-day observation arc; first close approach in 11 days",
+      "rationale": "new object with 1-day observation arc; first close approach in 7 days",
       "rule_id": "short_arc_late_warning",
-      "spkid": "54642787"
+      "spkid": "54642786"
     },
     {
       "alert_id": 67,
@@ -328,17 +419,17 @@
       "spkid": "54642789"
     },
     {
-      "alert_id": 64,
-      "approach_date": "2026-07-28T21:16:00+00:00",
-      "designation": "2026 OR",
+      "alert_id": 65,
+      "approach_date": "2026-08-01T20:03:00+00:00",
+      "designation": "2026 OS",
       "fired_at": "2026-07-21T07:25:39.740226+00:00",
       "payload": {
-        "days_until_approach": 7,
+        "days_until_approach": 11,
         "observation_arc_days": 1
       },
-      "rationale": "new object with 1-day observation arc; first close approach in 7 days",
+      "rationale": "new object with 1-day observation arc; first close approach in 11 days",
       "rule_id": "short_arc_late_warning",
-      "spkid": "54642786"
+      "spkid": "54642787"
     },
     {
       "alert_id": 63,
@@ -471,19 +562,6 @@
       "spkid": "54642534"
     },
     {
-      "alert_id": 52,
-      "approach_date": "2026-07-10T19:18:00+00:00",
-      "designation": "2026 NH",
-      "fired_at": "2026-07-08T07:23:22.113103+00:00",
-      "payload": {
-        "days_until_approach": 2,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 2 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54642501"
-    },
-    {
       "alert_id": 53,
       "approach_date": "2026-07-08T18:12:00+00:00",
       "designation": "2026 NN",
@@ -495,6 +573,19 @@
       "rationale": "new object with 2-day observation arc; first close approach in 0 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54642513"
+    },
+    {
+      "alert_id": 52,
+      "approach_date": "2026-07-10T19:18:00+00:00",
+      "designation": "2026 NH",
+      "fired_at": "2026-07-08T07:23:22.113103+00:00",
+      "payload": {
+        "days_until_approach": 2,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 2 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54642501"
     },
     {
       "alert_id": 51,
@@ -575,19 +666,6 @@
       "spkid": "54639085"
     },
     {
-      "alert_id": 45,
-      "approach_date": "2026-06-25T10:08:00+00:00",
-      "designation": "2026 MR2",
-      "fired_at": "2026-06-24T07:50:05.328675+00:00",
-      "payload": {
-        "days_until_approach": 1,
-        "observation_arc_days": 5
-      },
-      "rationale": "new object with 5-day observation arc; first close approach in 1 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54639084"
-    },
-    {
       "alert_id": 43,
       "approach_date": "2026-06-26T22:55:00+00:00",
       "designation": "2026 MK2",
@@ -599,6 +677,19 @@
       "rationale": "new object with 1-day observation arc; first close approach in 2 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54639012"
+    },
+    {
+      "alert_id": 45,
+      "approach_date": "2026-06-25T10:08:00+00:00",
+      "designation": "2026 MR2",
+      "fired_at": "2026-06-24T07:50:05.328675+00:00",
+      "payload": {
+        "days_until_approach": 1,
+        "observation_arc_days": 5
+      },
+      "rationale": "new object with 5-day observation arc; first close approach in 1 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54639084"
     },
     {
       "alert_id": 44,
@@ -614,17 +705,16 @@
       "spkid": "54639083"
     },
     {
-      "alert_id": 40,
-      "approach_date": "2026-06-23T11:50:00+00:00",
-      "designation": "2026 MW1",
+      "alert_id": 41,
+      "approach_date": "2026-06-23T13:37:00+00:00",
+      "designation": "2026 MX1",
       "fired_at": "2026-06-23T07:51:01.688371+00:00",
       "payload": {
-        "days_until_approach": 0,
-        "observation_arc_days": 3
+        "distance_ld": 0.4156997723881605
       },
-      "rationale": "new object with 3-day observation arc; first close approach in 0 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54639000"
+      "rationale": "distance 0.42 LD on 2026-06-23 (below 0.5 LD threshold)",
+      "rule_id": "very_close_any_size",
+      "spkid": "54639001"
     },
     {
       "alert_id": 42,
@@ -640,29 +730,30 @@
       "spkid": "54639005"
     },
     {
-      "alert_id": 41,
-      "approach_date": "2026-06-23T13:37:00+00:00",
-      "designation": "2026 MX1",
+      "alert_id": 40,
+      "approach_date": "2026-06-23T11:50:00+00:00",
+      "designation": "2026 MW1",
       "fired_at": "2026-06-23T07:51:01.688371+00:00",
       "payload": {
-        "distance_ld": 0.4156997723881605
+        "days_until_approach": 0,
+        "observation_arc_days": 3
       },
-      "rationale": "distance 0.42 LD on 2026-06-23 (below 0.5 LD threshold)",
-      "rule_id": "very_close_any_size",
-      "spkid": "54639001"
+      "rationale": "new object with 3-day observation arc; first close approach in 0 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54639000"
     },
     {
-      "alert_id": 36,
-      "approach_date": "2026-06-30T01:57:00+00:00",
-      "designation": "2026 MJ1",
+      "alert_id": 37,
+      "approach_date": "2026-07-08T20:50:00+00:00",
+      "designation": "2026 MO1",
       "fired_at": "2026-06-22T08:37:36.926966+00:00",
       "payload": {
-        "days_until_approach": 7,
-        "observation_arc_days": 1
+        "days_until_approach": 16,
+        "observation_arc_days": 2
       },
-      "rationale": "new object with 1-day observation arc; first close approach in 7 days",
+      "rationale": "new object with 2-day observation arc; first close approach in 16 days",
       "rule_id": "short_arc_late_warning",
-      "spkid": "54638934"
+      "spkid": "54638969"
     },
     {
       "alert_id": 39,
@@ -691,17 +782,17 @@
       "spkid": "54638970"
     },
     {
-      "alert_id": 37,
-      "approach_date": "2026-07-08T20:50:00+00:00",
-      "designation": "2026 MO1",
+      "alert_id": 36,
+      "approach_date": "2026-06-30T01:57:00+00:00",
+      "designation": "2026 MJ1",
       "fired_at": "2026-06-22T08:37:36.926966+00:00",
       "payload": {
-        "days_until_approach": 16,
-        "observation_arc_days": 2
+        "days_until_approach": 7,
+        "observation_arc_days": 1
       },
-      "rationale": "new object with 2-day observation arc; first close approach in 16 days",
+      "rationale": "new object with 1-day observation arc; first close approach in 7 days",
       "rule_id": "short_arc_late_warning",
-      "spkid": "54638969"
+      "spkid": "54638934"
     },
     {
       "alert_id": 35,
@@ -804,19 +895,6 @@
       "spkid": "54638132"
     },
     {
-      "alert_id": 26,
-      "approach_date": "2026-06-27T01:33:00+00:00",
-      "designation": "2026 LC2",
-      "fired_at": "2026-06-14T08:04:18.066899+00:00",
-      "payload": {
-        "days_until_approach": 12,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 12 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54638044"
-    },
-    {
       "alert_id": 27,
       "approach_date": "2026-06-18T08:17:00+00:00",
       "designation": "2026 LD2",
@@ -828,6 +906,19 @@
       "rationale": "new object with 1-day observation arc; first close approach in 4 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54638045"
+    },
+    {
+      "alert_id": 26,
+      "approach_date": "2026-06-27T01:33:00+00:00",
+      "designation": "2026 LC2",
+      "fired_at": "2026-06-14T08:04:18.066899+00:00",
+      "payload": {
+        "days_until_approach": 12,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 12 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54638044"
     },
     {
       "alert_id": 25,
@@ -946,19 +1037,6 @@
       "spkid": "54630813"
     },
     {
-      "alert_id": 15,
-      "approach_date": "2026-05-28T12:42:00+00:00",
-      "designation": "2026 KT2",
-      "fired_at": "2026-05-27T07:54:21.407551+00:00",
-      "payload": {
-        "days_until_approach": 1,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 1 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54630718"
-    },
-    {
       "alert_id": 16,
       "approach_date": "2026-05-31T01:31:00+00:00",
       "designation": "2026 KA3",
@@ -970,6 +1048,19 @@
       "rationale": "new object with 7-day observation arc; first close approach in 3 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54630742"
+    },
+    {
+      "alert_id": 15,
+      "approach_date": "2026-05-28T12:42:00+00:00",
+      "designation": "2026 KT2",
+      "fired_at": "2026-05-27T07:54:21.407551+00:00",
+      "payload": {
+        "days_until_approach": 1,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 1 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54630718"
     },
     {
       "alert_id": 14,
