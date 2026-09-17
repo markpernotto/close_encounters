@@ -5,49 +5,28 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Sep 2026 06:55:16 +0000</lastBuildDate>
-    <pubDate>Wed, 16 Sep 2026 06:55:16 +0000</pubDate>
+    <lastBuildDate>Thu, 17 Sep 2026 06:56:04 +0000</lastBuildDate>
+    <pubDate>Thu, 17 Sep 2026 06:56:04 +0000</pubDate>
     <item>
-      <title>2026 RA4 — 2026-09-16 — 3.35 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54653370</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653370#2026-09-16T07:40:00+00:00</guid>
-      <pubDate>Wed, 16 Sep 2026 07:40:00 +0000</pubDate>
-      <description>Approach: 2026-09-16T07:40:00+00:00; distance 3.349 LD; velocity 11.7 km/s; orbit class APO; apparent magnitude ~15.9; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 RB39 — 2026-09-17 — 1.00 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54654501</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654501#2026-09-17T02:30:00+00:00</guid>
-      <pubDate>Thu, 17 Sep 2026 02:30:00 +0000</pubDate>
-      <description>Approach: 2026-09-17T02:30:00+00:00; distance 1.000 LD; velocity 9.3 km/s; orbit class APO; apparent magnitude ~15.9; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 NT2 — 2026-09-17 — 16.08 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54642785</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54642785#2026-09-17T05:07:00+00:00</guid>
-      <pubDate>Thu, 17 Sep 2026 05:07:00 +0000</pubDate>
-      <description>Approach: 2026-09-17T05:07:00+00:00; distance 16.085 LD; velocity 12.5 km/s; orbit class APO; apparent magnitude ~13.4; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 RN4 — 2026-09-17 — 16.15 LD</title>
+      <title>2026 RN4 — 2026-09-17 — 16.13 LD</title>
       <link>https://close-encounters.vercel.app/objects/54653431</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653431#2026-09-17T07:36:00+00:00</guid>
       <pubDate>Thu, 17 Sep 2026 07:36:00 +0000</pubDate>
-      <description>Approach: 2026-09-17T07:36:00+00:00; distance 16.145 LD; velocity 8.9 km/s; orbit class APO; apparent magnitude ~19.5; visible: large telescope</description>
+      <description>Approach: 2026-09-17T07:36:00+00:00; distance 16.133 LD; velocity 8.9 km/s; orbit class APO; apparent magnitude ~19.4; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RD38 — 2026-09-17 — 15.18 LD</title>
       <link>https://close-encounters.vercel.app/objects/54654404</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654404#2026-09-17T22:21:00+00:00</guid>
       <pubDate>Thu, 17 Sep 2026 22:21:00 +0000</pubDate>
-      <description>Approach: 2026-09-17T22:21:00+00:00; distance 15.181 LD; velocity 8.2 km/s; orbit class APO; apparent magnitude ~18.0; visible: large telescope</description>
+      <description>Approach: 2026-09-17T22:21:00+00:00; distance 15.180 LD; velocity 8.2 km/s; orbit class APO; apparent magnitude ~18.0; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RF15 — 2026-09-19 — 5.53 LD</title>
       <link>https://close-encounters.vercel.app/objects/54653816</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653816#2026-09-19T15:34:00+00:00</guid>
-      <pubDate>Sat, 19 Sep 2026 15:34:00 +0000</pubDate>
-      <description>Approach: 2026-09-19T15:34:00+00:00; distance 5.526 LD; velocity 14.1 km/s; orbit class APO; apparent magnitude ~16.4; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653816#2026-09-19T15:37:00+00:00</guid>
+      <pubDate>Sat, 19 Sep 2026 15:37:00 +0000</pubDate>
+      <description>Approach: 2026-09-19T15:37:00+00:00; distance 5.526 LD; velocity 14.1 km/s; orbit class APO; apparent magnitude ~16.4; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RH3 — 2026-09-19 — 17.12 LD</title>
@@ -57,25 +36,39 @@
       <description>Approach: 2026-09-19T18:35:00+00:00; distance 17.121 LD; velocity 11.7 km/s; orbit class APO; apparent magnitude ~18.6; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 RW37 — 2026-09-20 — 1.16 LD</title>
+      <title>2026 SA — 2026-09-20 — 4.17 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54654619</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654619#2026-09-20T05:46:00+00:00</guid>
+      <pubDate>Sun, 20 Sep 2026 05:46:00 +0000</pubDate>
+      <description>Approach: 2026-09-20T05:46:00+00:00; distance 4.173 LD; velocity 10.6 km/s; orbit class APO; apparent magnitude ~16.8; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 RW37 — 2026-09-20 — 1.17 LD</title>
       <link>https://close-encounters.vercel.app/objects/54654399</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654399#2026-09-20T19:52:00+00:00</guid>
-      <pubDate>Sun, 20 Sep 2026 19:52:00 +0000</pubDate>
-      <description>Approach: 2026-09-20T19:52:00+00:00; distance 1.158 LD; velocity 8.8 km/s; orbit class APO; apparent magnitude ~15.8; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654399#2026-09-20T20:56:00+00:00</guid>
+      <pubDate>Sun, 20 Sep 2026 20:56:00 +0000</pubDate>
+      <description>Approach: 2026-09-20T20:56:00+00:00; distance 1.166 LD; velocity 8.7 km/s; orbit class APO; apparent magnitude ~15.7; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RG39 — 2026-09-21 — 6.79 LD</title>
       <link>https://close-encounters.vercel.app/objects/54654505</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654505#2026-09-21T21:02:00+00:00</guid>
       <pubDate>Mon, 21 Sep 2026 21:02:00 +0000</pubDate>
-      <description>Approach: 2026-09-21T21:02:00+00:00; distance 6.786 LD; velocity 5.1 km/s; orbit class APO; apparent magnitude ~19.2; visible: large telescope</description>
+      <description>Approach: 2026-09-21T21:02:00+00:00; distance 6.786 LD; velocity 5.1 km/s; orbit class APO; apparent magnitude ~19.1; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RZ1 — 2026-09-22 — 10.37 LD</title>
       <link>https://close-encounters.vercel.app/objects/54652693</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54652693#2026-09-22T08:31:00+00:00</guid>
       <pubDate>Tue, 22 Sep 2026 08:31:00 +0000</pubDate>
-      <description>Approach: 2026-09-22T08:31:00+00:00; distance 10.372 LD; velocity 9.1 km/s; orbit class APO; apparent magnitude ~17.1; visible: large telescope</description>
+      <description>Approach: 2026-09-22T08:31:00+00:00; distance 10.369 LD; velocity 9.1 km/s; orbit class APO; apparent magnitude ~17.1; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 RD49 — 2026-09-22 — 15.74 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54654622</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654622#2026-09-22T09:32:00+00:00</guid>
+      <pubDate>Tue, 22 Sep 2026 09:32:00 +0000</pubDate>
+      <description>Approach: 2026-09-22T09:32:00+00:00; distance 15.737 LD; velocity 3.7 km/s; orbit class AMO; apparent magnitude ~19.5; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RA38 — 2026-09-22 — 14.68 LD</title>
@@ -85,18 +78,18 @@
       <description>Approach: 2026-09-22T14:36:00+00:00; distance 14.682 LD; velocity 8.0 km/s; orbit class AMO; apparent magnitude ~18.8; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 RJ15 — 2026-09-22 — 5.53 LD</title>
+      <title>2026 RJ15 — 2026-09-22 — 5.52 LD</title>
       <link>https://close-encounters.vercel.app/objects/54653830</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653830#2026-09-22T19:42:00+00:00</guid>
-      <pubDate>Tue, 22 Sep 2026 19:42:00 +0000</pubDate>
-      <description>Approach: 2026-09-22T19:42:00+00:00; distance 5.527 LD; velocity 10.3 km/s; orbit class APO; apparent magnitude ~17.3; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653830#2026-09-22T19:43:00+00:00</guid>
+      <pubDate>Tue, 22 Sep 2026 19:43:00 +0000</pubDate>
+      <description>Approach: 2026-09-22T19:43:00+00:00; distance 5.519 LD; velocity 10.3 km/s; orbit class APO; apparent magnitude ~17.2; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RR34 — 2026-09-23 — 3.71 LD</title>
       <link>https://close-encounters.vercel.app/objects/54653906</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653906#2026-09-23T22:19:00+00:00</guid>
-      <pubDate>Wed, 23 Sep 2026 22:19:00 +0000</pubDate>
-      <description>Approach: 2026-09-23T22:19:00+00:00; distance 3.712 LD; velocity 6.5 km/s; orbit class ATE; apparent magnitude ~16.1; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653906#2026-09-23T22:03:00+00:00</guid>
+      <pubDate>Wed, 23 Sep 2026 22:03:00 +0000</pubDate>
+      <description>Approach: 2026-09-23T22:03:00+00:00; distance 3.708 LD; velocity 6.5 km/s; orbit class ATE; apparent magnitude ~16.1; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RQ34 — 2026-09-24 — 12.98 LD</title>
@@ -104,6 +97,20 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653905#2026-09-24T05:22:00+00:00</guid>
       <pubDate>Thu, 24 Sep 2026 05:22:00 +0000</pubDate>
       <description>Approach: 2026-09-24T05:22:00+00:00; distance 12.978 LD; velocity 7.0 km/s; orbit class APO; apparent magnitude ~18.0; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 RC49 — 2026-09-24 — 11.10 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54654621</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654621#2026-09-24T21:36:00+00:00</guid>
+      <pubDate>Thu, 24 Sep 2026 21:36:00 +0000</pubDate>
+      <description>Approach: 2026-09-24T21:36:00+00:00; distance 11.100 LD; velocity 8.0 km/s; orbit class APO; apparent magnitude ~18.3; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 SC — 2026-09-25 — 1.70 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54654626</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654626#2026-09-25T13:25:00+00:00</guid>
+      <pubDate>Fri, 25 Sep 2026 13:25:00 +0000</pubDate>
+      <description>Approach: 2026-09-25T13:25:00+00:00; distance 1.702 LD; velocity 7.8 km/s; orbit class ATE; apparent magnitude ~14.3; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RN15 — 2026-09-27 — 8.32 LD</title>
@@ -139,6 +146,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50837613#2026-10-02T19:28:00+00:00</guid>
       <pubDate>Fri, 02 Oct 2026 19:28:00 +0000</pubDate>
       <description>Approach: 2026-10-02T19:28:00+00:00; distance 4.476 LD; velocity 7.3 km/s; orbit class APO; apparent magnitude ~14.6; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 RP39 — 2026-10-03 — 6.09 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54654510</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654510#2026-10-03T11:57:00+00:00</guid>
+      <pubDate>Sat, 03 Oct 2026 11:57:00 +0000</pubDate>
+      <description>Approach: 2026-10-03T11:57:00+00:00; distance 6.090 LD; velocity 6.1 km/s; orbit class APO; apparent magnitude ~17.1; visible: large telescope</description>
     </item>
     <item>
       <title>2024 SH7 — 2026-10-04 — 10.49 LD</title>
