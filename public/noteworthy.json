@@ -1,7 +1,33 @@
 {
   "count": 100,
-  "generated_at": "2026-09-19T06:49:59.298544+00:00",
+  "generated_at": "2026-09-20T06:52:13.605541+00:00",
   "items": [
+    {
+      "alert_id": 123,
+      "approach_date": "2026-09-20T14:38:00+00:00",
+      "designation": "2026 SS",
+      "fired_at": "2026-09-20T06:51:41.737352+00:00",
+      "payload": {
+        "days_until_approach": 0,
+        "observation_arc_days": 2
+      },
+      "rationale": "new object with 2-day observation arc; first close approach in 0 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54655496"
+    },
+    {
+      "alert_id": 124,
+      "approach_date": "2026-09-21T00:34:00+00:00",
+      "designation": "2026 SY",
+      "fired_at": "2026-09-20T06:51:41.737352+00:00",
+      "payload": {
+        "days_until_approach": 0,
+        "observation_arc_days": 2
+      },
+      "rationale": "new object with 2-day observation arc; first close approach in 0 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54655823"
+    },
     {
       "alert_id": 122,
       "approach_date": "2026-09-21T18:11:00+00:00",
@@ -1267,32 +1293,6 @@
       "rationale": "distance 0.47 LD on 2026-06-13 (below 0.5 LD threshold)",
       "rule_id": "very_close_any_size",
       "spkid": "54638017"
-    },
-    {
-      "alert_id": 24,
-      "approach_date": "2026-06-10T10:01:00+00:00",
-      "designation": "2026 LB1",
-      "fired_at": "2026-06-10T07:58:07.769428+00:00",
-      "payload": {
-        "days_until_approach": 0,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 0 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54636885"
-    },
-    {
-      "alert_id": 23,
-      "approach_date": "2026-06-16T05:22:00+00:00",
-      "designation": "2026 LV",
-      "fired_at": "2026-06-09T07:51:08.881678+00:00",
-      "payload": {
-        "days_until_approach": 6,
-        "observation_arc_days": 2
-      },
-      "rationale": "new object with 2-day observation arc; first close approach in 6 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54636829"
     }
   ]
 }
