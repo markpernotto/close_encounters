@@ -1,7 +1,33 @@
 {
   "count": 100,
-  "generated_at": "2026-09-21T07:07:08.980935+00:00",
+  "generated_at": "2026-09-22T06:55:37.596236+00:00",
   "items": [
+    {
+      "alert_id": 133,
+      "approach_date": "2026-09-28T17:55:00+00:00",
+      "designation": "2026 SL7",
+      "fired_at": "2026-09-22T06:55:08.431003+00:00",
+      "payload": {
+        "days_until_approach": 6,
+        "observation_arc_days": 1
+      },
+      "rationale": "new object with 1-day observation arc; first close approach in 6 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54656219"
+    },
+    {
+      "alert_id": 134,
+      "approach_date": "2026-09-28T18:03:00+00:00",
+      "designation": "2026 SX2",
+      "fired_at": "2026-09-22T06:55:08.431003+00:00",
+      "payload": {
+        "days_until_approach": 6,
+        "observation_arc_days": 2
+      },
+      "rationale": "new object with 2-day observation arc; first close approach in 6 days",
+      "rule_id": "short_arc_late_warning",
+      "spkid": "54655992"
+    },
     {
       "alert_id": 125,
       "approach_date": "2026-09-30T20:54:00+00:00",
@@ -1272,30 +1298,6 @@
       "rationale": "new object with 1-day observation arc; first close approach in 4 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54638924"
-    },
-    {
-      "alert_id": 35,
-      "approach_date": "2026-06-21T11:07:00+00:00",
-      "designation": "2026 MH",
-      "fired_at": "2026-06-21T08:12:48.123678+00:00",
-      "payload": {
-        "distance_ld": 0.46629317007134446
-      },
-      "rationale": "distance 0.47 LD on 2026-06-21 (below 0.5 LD threshold)",
-      "rule_id": "very_close_any_size",
-      "spkid": "54638163"
-    },
-    {
-      "alert_id": 33,
-      "approach_date": "2026-06-21T11:08:00+00:00",
-      "designation": "2026 MH",
-      "fired_at": "2026-06-20T07:51:49.100548+00:00",
-      "payload": {
-        "distance_ld": 0.4662120402315051
-      },
-      "rationale": "distance 0.47 LD on 2026-06-21 (below 0.5 LD threshold)",
-      "rule_id": "very_close_any_size",
-      "spkid": "54638163"
     }
   ]
 }
