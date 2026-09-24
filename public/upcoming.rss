@@ -5,36 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 Sep 2026 06:56:16 +0000</lastBuildDate>
-    <pubDate>Wed, 23 Sep 2026 06:56:16 +0000</pubDate>
-    <item>
-      <title>2026 SP — 2026-09-23 — 4.31 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54655490</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54655490#2026-09-23T07:35:00+00:00</guid>
-      <pubDate>Wed, 23 Sep 2026 07:35:00 +0000</pubDate>
-      <description>Approach: 2026-09-23T07:35:00+00:00; distance 4.312 LD; velocity 9.7 km/s; orbit class APO; apparent magnitude ~17.9; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 SE1 — 2026-09-23 — 2.80 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54655832</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54655832#2026-09-23T18:06:00+00:00</guid>
-      <pubDate>Wed, 23 Sep 2026 18:06:00 +0000</pubDate>
-      <description>Approach: 2026-09-23T18:06:00+00:00; distance 2.801 LD; velocity 15.4 km/s; orbit class APO; apparent magnitude ~16.6; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 RR34 — 2026-09-23 — 3.70 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54653906</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653906#2026-09-23T21:57:00+00:00</guid>
-      <pubDate>Wed, 23 Sep 2026 21:57:00 +0000</pubDate>
-      <description>Approach: 2026-09-23T21:57:00+00:00; distance 3.703 LD; velocity 6.5 km/s; orbit class ATE; apparent magnitude ~16.4; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 RQ34 — 2026-09-24 — 12.97 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54653905</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653905#2026-09-24T05:20:00+00:00</guid>
-      <pubDate>Thu, 24 Sep 2026 05:20:00 +0000</pubDate>
-      <description>Approach: 2026-09-24T05:20:00+00:00; distance 12.970 LD; velocity 7.0 km/s; orbit class APO; apparent magnitude ~18.5; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Thu, 24 Sep 2026 06:56:16 +0000</lastBuildDate>
+    <pubDate>Thu, 24 Sep 2026 06:56:16 +0000</pubDate>
     <item>
       <title>2026 ST2 — 2026-09-24 — 15.81 LD</title>
       <link>https://close-encounters.vercel.app/objects/54655987</link>
@@ -45,16 +17,16 @@
     <item>
       <title>2026 RC49 — 2026-09-24 — 11.09 LD</title>
       <link>https://close-encounters.vercel.app/objects/54654621</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654621#2026-09-24T21:36:00+00:00</guid>
-      <pubDate>Thu, 24 Sep 2026 21:36:00 +0000</pubDate>
-      <description>Approach: 2026-09-24T21:36:00+00:00; distance 11.088 LD; velocity 8.0 km/s; orbit class APO; apparent magnitude ~18.3; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654621#2026-09-24T21:35:00+00:00</guid>
+      <pubDate>Thu, 24 Sep 2026 21:35:00 +0000</pubDate>
+      <description>Approach: 2026-09-24T21:35:00+00:00; distance 11.090 LD; velocity 8.0 km/s; orbit class APO; apparent magnitude ~18.3; visible: large telescope</description>
     </item>
     <item>
       <title>2026 SC — 2026-09-25 — 1.70 LD</title>
       <link>https://close-encounters.vercel.app/objects/54654626</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654626#2026-09-25T13:47:00+00:00</guid>
       <pubDate>Fri, 25 Sep 2026 13:47:00 +0000</pubDate>
-      <description>Approach: 2026-09-25T13:47:00+00:00; distance 1.704 LD; velocity 7.8 km/s; orbit class ATE; apparent magnitude ~14.5; visible: large telescope</description>
+      <description>Approach: 2026-09-25T13:47:00+00:00; distance 1.704 LD; velocity 7.8 km/s; orbit class ATE; apparent magnitude ~14.6; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RN15 — 2026-09-27 — 8.32 LD</title>
