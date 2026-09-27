@@ -5,14 +5,21 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 26 Sep 2026 06:52:23 +0000</lastBuildDate>
-    <pubDate>Sat, 26 Sep 2026 06:52:23 +0000</pubDate>
+    <lastBuildDate>Sun, 27 Sep 2026 06:54:34 +0000</lastBuildDate>
+    <pubDate>Sun, 27 Sep 2026 06:54:34 +0000</pubDate>
     <item>
       <title>2026 RN15 — 2026-09-27 — 8.32 LD</title>
       <link>https://close-encounters.vercel.app/objects/54653848</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54653848#2026-09-27T21:15:00+00:00</guid>
       <pubDate>Sun, 27 Sep 2026 21:15:00 +0000</pubDate>
       <description>Approach: 2026-09-27T21:15:00+00:00; distance 8.323 LD; velocity 6.5 km/s; orbit class APO; apparent magnitude ~17.8; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 SC13 — 2026-09-28 — 7.72 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54658072</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54658072#2026-09-28T02:10:00+00:00</guid>
+      <pubDate>Mon, 28 Sep 2026 02:10:00 +0000</pubDate>
+      <description>Approach: 2026-09-28T02:10:00+00:00; distance 7.716 LD; velocity 12.4 km/s; orbit class AMO; apparent magnitude ~14.2; visible: large telescope</description>
     </item>
     <item>
       <title>2026 SA8 — 2026-09-28 — 0.99 LD</title>
@@ -31,9 +38,9 @@
     <item>
       <title>2026 SX2 — 2026-09-28 — 4.10 LD</title>
       <link>https://close-encounters.vercel.app/objects/54655992</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54655992#2026-09-28T18:10:00+00:00</guid>
-      <pubDate>Mon, 28 Sep 2026 18:10:00 +0000</pubDate>
-      <description>Approach: 2026-09-28T18:10:00+00:00; distance 4.101 LD; velocity 7.7 km/s; orbit class APO; apparent magnitude ~17.4; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54655992#2026-09-28T18:11:00+00:00</guid>
+      <pubDate>Mon, 28 Sep 2026 18:11:00 +0000</pubDate>
+      <description>Approach: 2026-09-28T18:11:00+00:00; distance 4.102 LD; velocity 7.7 km/s; orbit class APO; apparent magnitude ~17.4; visible: large telescope</description>
     </item>
     <item>
       <title>2026 SB12 — 2026-09-30 — 10.11 LD</title>

@@ -1,6 +1,6 @@
 {
-  "count": 32,
-  "generated_at": "2026-09-26T06:52:23.199239+00:00",
+  "count": 33,
+  "generated_at": "2026-09-27T06:54:34.886285+00:00",
   "items": [
     {
       "absolute_magnitude_h": 26.156,
@@ -17,6 +17,23 @@
       "pha": false,
       "spkid": "54653848",
       "v_rel_km_s": 6.47277201752468,
+      "visibility_bucket": "large_telescope"
+    },
+    {
+      "absolute_magnitude_h": 22.743,
+      "apparent_mag_estimate": 14.229201347571317,
+      "approach_date": "2026-09-28T02:10:00+00:00",
+      "designation": "2026 SC13",
+      "diameter_estimate_km": null,
+      "diameter_km": null,
+      "distance_au": 0.0198262359110651,
+      "distance_ld": 7.715823819696183,
+      "full_name": "(2026 SC13)",
+      "neo": true,
+      "orbit_class": "AMO",
+      "pha": false,
+      "spkid": "54658072",
+      "v_rel_km_s": 12.4034269537617,
       "visibility_bucket": "large_telescope"
     },
     {
@@ -54,37 +71,37 @@
       "visibility_bucket": "large_telescope"
     },
     {
-      "absolute_magnitude_h": 27.27,
-      "apparent_mag_estimate": 17.383551668503983,
-      "approach_date": "2026-09-28T18:10:00+00:00",
+      "absolute_magnitude_h": 27.265,
+      "apparent_mag_estimate": 17.379327301007592,
+      "approach_date": "2026-09-28T18:11:00+00:00",
       "designation": "2026 SX2",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0105368387452306,
-      "distance_ld": 4.100646826731938,
+      "distance_au": 0.0105406030916566,
+      "distance_ld": 4.102111806466348,
       "full_name": "(2026 SX2)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "54655992",
-      "v_rel_km_s": 7.68330856696132,
+      "v_rel_km_s": 7.68513068965786,
       "visibility_bucket": "large_telescope"
     },
     {
-      "absolute_magnitude_h": 25.247,
-      "apparent_mag_estimate": 17.320874667605477,
+      "absolute_magnitude_h": 25.274,
+      "apparent_mag_estimate": 17.34786689925096,
       "approach_date": "2026-09-30T09:19:00+00:00",
       "designation": "2026 SB12",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0259881241930254,
-      "distance_ld": 10.113860673162733,
+      "distance_au": 0.0259880312217309,
+      "distance_ld": 10.113824491300889,
       "full_name": "(2026 SB12)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "54656837",
-      "v_rel_km_s": 10.2884969982963,
+      "v_rel_km_s": 10.2894130357238,
       "visibility_bucket": "large_telescope"
     },
     {
