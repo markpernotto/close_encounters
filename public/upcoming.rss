@@ -5,28 +5,14 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2026 07:13:17 +0000</lastBuildDate>
-    <pubDate>Mon, 28 Sep 2026 07:13:17 +0000</pubDate>
-    <item>
-      <title>2026 SL7 — 2026-09-28 — 17.59 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54656219</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54656219#2026-09-28T17:49:00+00:00</guid>
-      <pubDate>Mon, 28 Sep 2026 17:49:00 +0000</pubDate>
-      <description>Approach: 2026-09-28T17:49:00+00:00; distance 17.587 LD; velocity 26.9 km/s; orbit class APO; apparent magnitude ~17.7; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 SX2 — 2026-09-28 — 4.10 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54655992</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54655992#2026-09-28T18:11:00+00:00</guid>
-      <pubDate>Mon, 28 Sep 2026 18:11:00 +0000</pubDate>
-      <description>Approach: 2026-09-28T18:11:00+00:00; distance 4.102 LD; velocity 7.7 km/s; orbit class APO; apparent magnitude ~17.3; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Tue, 29 Sep 2026 06:59:44 +0000</lastBuildDate>
+    <pubDate>Tue, 29 Sep 2026 06:59:44 +0000</pubDate>
     <item>
       <title>2026 SB12 — 2026-09-30 — 10.11 LD</title>
       <link>https://close-encounters.vercel.app/objects/54656837</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54656837#2026-09-30T09:19:00+00:00</guid>
       <pubDate>Wed, 30 Sep 2026 09:19:00 +0000</pubDate>
-      <description>Approach: 2026-09-30T09:19:00+00:00; distance 10.114 LD; velocity 10.3 km/s; orbit class APO; apparent magnitude ~17.3; visible: large telescope</description>
+      <description>Approach: 2026-09-30T09:19:00+00:00; distance 10.114 LD; velocity 10.3 km/s; orbit class APO; apparent magnitude ~17.4; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RS — 2026-09-30 — 11.13 LD</title>
@@ -36,11 +22,11 @@
       <description>Approach: 2026-09-30T10:18:00+00:00; distance 11.133 LD; velocity 6.0 km/s; orbit class APO; apparent magnitude ~18.0; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 SG12 — 2026-09-30 — 14.67 LD</title>
+      <title>2026 SG12 — 2026-09-30 — 14.66 LD</title>
       <link>https://close-encounters.vercel.app/objects/54656841</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54656841#2026-09-30T14:31:00+00:00</guid>
       <pubDate>Wed, 30 Sep 2026 14:31:00 +0000</pubDate>
-      <description>Approach: 2026-09-30T14:31:00+00:00; distance 14.666 LD; velocity 11.7 km/s; orbit class APO; apparent magnitude ~16.9; visible: large telescope</description>
+      <description>Approach: 2026-09-30T14:31:00+00:00; distance 14.658 LD; velocity 11.7 km/s; orbit class APO; apparent magnitude ~17.0; visible: large telescope</description>
     </item>
     <item>
       <title>2026 RX38 — 2026-09-30 — 9.93 LD</title>
@@ -66,9 +52,9 @@
     <item>
       <title>2026 RP39 — 2026-10-03 — 6.08 LD</title>
       <link>https://close-encounters.vercel.app/objects/54654510</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654510#2026-10-03T12:03:00+00:00</guid>
-      <pubDate>Sat, 03 Oct 2026 12:03:00 +0000</pubDate>
-      <description>Approach: 2026-10-03T12:03:00+00:00; distance 6.083 LD; velocity 6.1 km/s; orbit class APO; apparent magnitude ~17.1; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654510#2026-10-03T12:01:00+00:00</guid>
+      <pubDate>Sat, 03 Oct 2026 12:01:00 +0000</pubDate>
+      <description>Approach: 2026-10-03T12:01:00+00:00; distance 6.080 LD; velocity 6.1 km/s; orbit class APO; apparent magnitude ~17.1; visible: large telescope</description>
     </item>
     <item>
       <title>2024 SH7 — 2026-10-04 — 10.49 LD</title>
