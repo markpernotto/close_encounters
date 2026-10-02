@@ -5,8 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 01 Oct 2026 07:00:49 +0000</lastBuildDate>
-    <pubDate>Thu, 01 Oct 2026 07:00:49 +0000</pubDate>
+    <lastBuildDate>Fri, 02 Oct 2026 06:58:57 +0000</lastBuildDate>
+    <pubDate>Fri, 02 Oct 2026 06:58:57 +0000</pubDate>
     <item>
       <title>2019 AS2 — 2026-10-02 — 4.48 LD</title>
       <link>https://close-encounters.vercel.app/objects/50837613</link>
@@ -19,7 +19,14 @@
       <link>https://close-encounters.vercel.app/objects/54654510</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54654510#2026-10-03T12:01:00+00:00</guid>
       <pubDate>Sat, 03 Oct 2026 12:01:00 +0000</pubDate>
-      <description>Approach: 2026-10-03T12:01:00+00:00; distance 6.082 LD; velocity 6.1 km/s; orbit class APO; apparent magnitude ~17.3; visible: large telescope</description>
+      <description>Approach: 2026-10-03T12:01:00+00:00; distance 6.083 LD; velocity 6.1 km/s; orbit class APO; apparent magnitude ~17.2; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 TA — 2026-10-03 — 2.26 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54659594</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54659594#2026-10-03T19:32:00+00:00</guid>
+      <pubDate>Sat, 03 Oct 2026 19:32:00 +0000</pubDate>
+      <description>Approach: 2026-10-03T19:32:00+00:00; distance 2.256 LD; velocity 19.0 km/s; orbit class APO; apparent magnitude ~15.0; visible: large telescope</description>
     </item>
     <item>
       <title>2024 SH7 — 2026-10-04 — 10.49 LD</title>
@@ -29,11 +36,11 @@
       <description>Approach: 2026-10-04T00:43:00+00:00; distance 10.488 LD; velocity 10.8 km/s; orbit class AMO; apparent magnitude ~19.5; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 SA17 — 2026-10-05 — 10.00 LD</title>
+      <title>2026 SA17 — 2026-10-05 — 9.99 LD</title>
       <link>https://close-encounters.vercel.app/objects/54659364</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54659364#2026-10-05T13:43:00+00:00</guid>
-      <pubDate>Mon, 05 Oct 2026 13:43:00 +0000</pubDate>
-      <description>Approach: 2026-10-05T13:43:00+00:00; distance 10.003 LD; velocity 11.3 km/s; orbit class APO; apparent magnitude ~18.2; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54659364#2026-10-05T13:44:00+00:00</guid>
+      <pubDate>Mon, 05 Oct 2026 13:44:00 +0000</pubDate>
+      <description>Approach: 2026-10-05T13:44:00+00:00; distance 9.994 LD; velocity 11.3 km/s; orbit class APO; apparent magnitude ~18.2; visible: large telescope</description>
     </item>
     <item>
       <title>2024 TD16 — 2026-10-07 — 14.14 LD</title>
@@ -174,6 +181,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50825594#2026-11-19T02:16:00+00:00</guid>
       <pubDate>Thu, 19 Nov 2026 02:16:00 +0000</pubDate>
       <description>Approach: 2026-11-19T02:16:00+00:00; distance 16.612 LD; velocity 13.3 km/s; orbit class APO; apparent magnitude ~16.6; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2025 CP1 — 2026-11-30 — 12.82 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54518711</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54518711#2026-11-30T17:53:00+00:00</guid>
+      <pubDate>Mon, 30 Nov 2026 17:53:00 +0000</pubDate>
+      <description>Approach: 2026-11-30T17:53:00+00:00; distance 12.821 LD; velocity 10.8 km/s; orbit class ATE; apparent magnitude ~21.3; visible: large telescope</description>
     </item>
   </channel>
 </rss>
