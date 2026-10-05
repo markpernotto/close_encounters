@@ -5,8 +5,32 @@
     <link>https://close-encounters.vercel.app/alerts</link>
     <description>Threshold-rule alerts: sizeable objects inside the lunar distance, very-close approaches, late-warning new objects. Append-only — corrections are emitted as new alerts.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Oct 2026 08:38:15 +0000</lastBuildDate>
-    <pubDate>Sun, 04 Oct 2026 08:38:15 +0000</pubDate>
+    <lastBuildDate>Mon, 05 Oct 2026 07:17:31 +0000</lastBuildDate>
+    <pubDate>Mon, 05 Oct 2026 07:17:31 +0000</pubDate>
+    <item>
+      <title>Alert (short_arc_late_warning): 2026 TP1 — 2026-10-06</title>
+      <link>https://close-encounters.vercel.app/objects/54660467</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/144</guid>
+      <pubDate>Mon, 05 Oct 2026 07:17:03 +0000</pubDate>
+      <category>short_arc_late_warning</category>
+      <description>new object with 2-day observation arc; first close approach in 0 days</description>
+    </item>
+    <item>
+      <title>Alert (short_arc_late_warning): 2026 TQ1 — 2026-10-08</title>
+      <link>https://close-encounters.vercel.app/objects/54660469</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/145</guid>
+      <pubDate>Mon, 05 Oct 2026 07:17:03 +0000</pubDate>
+      <category>short_arc_late_warning</category>
+      <description>new object with 1-day observation arc; first close approach in 3 days</description>
+    </item>
+    <item>
+      <title>Alert (short_arc_late_warning): 2026 TC1 — 2026-10-13</title>
+      <link>https://close-encounters.vercel.app/objects/54660456</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/146</guid>
+      <pubDate>Mon, 05 Oct 2026 07:17:03 +0000</pubDate>
+      <category>short_arc_late_warning</category>
+      <description>new object with 1-day observation arc; first close approach in 7 days</description>
+    </item>
     <item>
       <title>Alert (short_arc_late_warning): 2026 TX — 2026-10-08</title>
       <link>https://close-encounters.vercel.app/objects/54660215</link>
@@ -782,30 +806,6 @@
       <pubDate>Fri, 26 Jun 2026 07:51:17 +0000</pubDate>
       <category>short_arc_late_warning</category>
       <description>new object with 1-day observation arc; first close approach in 20 days</description>
-    </item>
-    <item>
-      <title>Alert (short_arc_late_warning): 2026 MW2 — 2026-06-30</title>
-      <link>https://close-encounters.vercel.app/objects/54639085</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/46</guid>
-      <pubDate>Thu, 25 Jun 2026 07:50:28 +0000</pubDate>
-      <category>short_arc_late_warning</category>
-      <description>new object with 1-day observation arc; first close approach in 5 days</description>
-    </item>
-    <item>
-      <title>Alert (short_arc_late_warning): 2026 MK2 — 2026-06-26</title>
-      <link>https://close-encounters.vercel.app/objects/54639012</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/43</guid>
-      <pubDate>Wed, 24 Jun 2026 07:50:05 +0000</pubDate>
-      <category>short_arc_late_warning</category>
-      <description>new object with 1-day observation arc; first close approach in 2 days</description>
-    </item>
-    <item>
-      <title>Alert (short_arc_late_warning): 2026 MQ2 — 2026-06-28</title>
-      <link>https://close-encounters.vercel.app/objects/54639083</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/44</guid>
-      <pubDate>Wed, 24 Jun 2026 07:50:05 +0000</pubDate>
-      <category>short_arc_late_warning</category>
-      <description>new object with 1-day observation arc; first close approach in 4 days</description>
     </item>
   </channel>
 </rss>
