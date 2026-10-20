@@ -5,15 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Oct 2026 07:10:58 +0000</lastBuildDate>
-    <pubDate>Mon, 19 Oct 2026 07:10:58 +0000</pubDate>
-    <item>
-      <title>2026 TD2 — 2026-10-20 — 7.25 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54660566</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54660566#2026-10-20T05:06:00+00:00</guid>
-      <pubDate>Tue, 20 Oct 2026 05:06:00 +0000</pubDate>
-      <description>Approach: 2026-10-20T05:06:00+00:00; distance 7.254 LD; velocity 12.3 km/s; orbit class APO; apparent magnitude ~15.9; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Tue, 20 Oct 2026 06:57:23 +0000</lastBuildDate>
+    <pubDate>Tue, 20 Oct 2026 06:57:23 +0000</pubDate>
     <item>
       <title>2026 TP — 2026-10-20 — 12.10 LD</title>
       <link>https://close-encounters.vercel.app/objects/54660029</link>
@@ -29,18 +22,18 @@
       <description>Approach: 2026-10-20T10:06:00+00:00; distance 12.313 LD; velocity 5.8 km/s; orbit class APO; apparent magnitude ~17.0; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 TM67 — 2026-10-20 — 11.62 LD</title>
+      <title>2026 TM67 — 2026-10-20 — 11.63 LD</title>
       <link>https://close-encounters.vercel.app/objects/54663413</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54663413#2026-10-20T10:18:00+00:00</guid>
       <pubDate>Tue, 20 Oct 2026 10:18:00 +0000</pubDate>
-      <description>Approach: 2026-10-20T10:18:00+00:00; distance 11.623 LD; velocity 14.3 km/s; orbit class APO; apparent magnitude ~16.5; visible: large telescope</description>
+      <description>Approach: 2026-10-20T10:18:00+00:00; distance 11.629 LD; velocity 14.3 km/s; orbit class APO; apparent magnitude ~16.5; visible: large telescope</description>
     </item>
     <item>
       <title>2026 TV8 — 2026-10-21 — 4.75 LD</title>
       <link>https://close-encounters.vercel.app/objects/54661963</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54661963#2026-10-21T23:47:00+00:00</guid>
       <pubDate>Wed, 21 Oct 2026 23:47:00 +0000</pubDate>
-      <description>Approach: 2026-10-21T23:47:00+00:00; distance 4.752 LD; velocity 9.2 km/s; orbit class APO; apparent magnitude ~16.1; visible: large telescope</description>
+      <description>Approach: 2026-10-21T23:47:00+00:00; distance 4.753 LD; velocity 9.2 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
     </item>
     <item>
       <title>2026 TU1 — 2026-10-22 — 12.78 LD</title>
@@ -106,11 +99,11 @@
       <description>Approach: 2026-10-25T09:27:00+00:00; distance 7.064 LD; velocity 7.8 km/s; orbit class APO; apparent magnitude ~15.2; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 TB94 — 2026-10-27 — 5.08 LD</title>
+      <title>2026 TB94 — 2026-10-27 — 5.10 LD</title>
       <link>https://close-encounters.vercel.app/objects/54664520</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54664520#2026-10-27T01:07:00+00:00</guid>
-      <pubDate>Tue, 27 Oct 2026 01:07:00 +0000</pubDate>
-      <description>Approach: 2026-10-27T01:07:00+00:00; distance 5.085 LD; velocity 11.6 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54664520#2026-10-27T01:10:00+00:00</guid>
+      <pubDate>Tue, 27 Oct 2026 01:10:00 +0000</pubDate>
+      <description>Approach: 2026-10-27T01:10:00+00:00; distance 5.095 LD; velocity 11.6 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
     </item>
     <item>
       <title>2018 GS1 — 2026-10-28 — 11.03 LD</title>
@@ -127,11 +120,11 @@
       <description>Approach: 2026-10-29T07:54:00+00:00; distance 14.696 LD; velocity 9.6 km/s; orbit class APO; apparent magnitude ~20.1; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 UD — 2026-10-30 — 11.60 LD</title>
+      <title>2026 UD — 2026-10-30 — 11.63 LD</title>
       <link>https://close-encounters.vercel.app/objects/54664686</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54664686#2026-10-30T08:25:00+00:00</guid>
-      <pubDate>Fri, 30 Oct 2026 08:25:00 +0000</pubDate>
-      <description>Approach: 2026-10-30T08:25:00+00:00; distance 11.599 LD; velocity 7.7 km/s; orbit class APO; apparent magnitude ~17.9; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54664686#2026-10-30T08:33:00+00:00</guid>
+      <pubDate>Fri, 30 Oct 2026 08:33:00 +0000</pubDate>
+      <description>Approach: 2026-10-30T08:33:00+00:00; distance 11.633 LD; velocity 7.7 km/s; orbit class APO; apparent magnitude ~18.0; visible: large telescope</description>
     </item>
     <item>
       <title>2025 UK9 — 2026-10-31 — 0.82 LD</title>
@@ -279,6 +272,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54638041#2026-12-14T15:26:00+00:00</guid>
       <pubDate>Mon, 14 Dec 2026 15:26:00 +0000</pubDate>
       <description>Approach: 2026-12-14T15:26:00+00:00; distance 14.359 LD; velocity 11.2 km/s; orbit class APO; apparent magnitude ~17.8; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2025 YN — 2026-12-18 — 18.25 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54567816</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54567816#2026-12-18T06:29:00+00:00</guid>
+      <pubDate>Fri, 18 Dec 2026 06:29:00 +0000</pubDate>
+      <description>Approach: 2026-12-18T06:29:00+00:00; distance 18.249 LD; velocity 13.1 km/s; orbit class ATE; apparent magnitude ~19.5; visible: large telescope</description>
     </item>
   </channel>
 </rss>
