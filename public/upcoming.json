@@ -1,24 +1,7 @@
 {
-  "count": 28,
-  "generated_at": "2026-10-26T07:12:56.019850+00:00",
+  "count": 27,
+  "generated_at": "2026-10-27T07:00:19.936866+00:00",
   "items": [
-    {
-      "absolute_magnitude_h": 25.634,
-      "apparent_mag_estimate": 16.21372245576426,
-      "approach_date": "2026-10-27T01:11:00+00:00",
-      "designation": "2026 TB94",
-      "diameter_estimate_km": null,
-      "diameter_km": null,
-      "distance_au": 0.0130600395207834,
-      "distance_ld": 5.082606929154643,
-      "full_name": "(2026 TB94)",
-      "neo": true,
-      "orbit_class": "APO",
-      "pha": false,
-      "spkid": "54664520",
-      "v_rel_km_s": 11.5820856607785,
-      "visibility_bucket": "large_telescope"
-    },
     {
       "absolute_magnitude_h": 22.59,
       "apparent_mag_estimate": 14.852651869558679,
@@ -106,19 +89,19 @@
     },
     {
       "absolute_magnitude_h": 20.54,
-      "apparent_mag_estimate": 13.562805768107516,
+      "apparent_mag_estimate": 13.562805818960168,
       "approach_date": "2026-11-02T19:10:00+00:00",
       "designation": "524522",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0402310301894181,
-      "distance_ld": 15.656806587940595,
+      "distance_au": 0.040231031131569,
+      "distance_ld": 15.656806954599721,
       "full_name": "524522 Zoozve (2002 VE68)",
       "neo": true,
       "orbit_class": "ATE",
       "pha": true,
       "spkid": "20524522",
-      "v_rel_km_s": 8.71731351541013,
+      "v_rel_km_s": 8.71731356967276,
       "visibility_bucket": "large_telescope"
     },
     {

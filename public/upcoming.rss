@@ -5,15 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Oct 2026 07:12:56 +0000</lastBuildDate>
-    <pubDate>Mon, 26 Oct 2026 07:12:56 +0000</pubDate>
-    <item>
-      <title>2026 TB94 — 2026-10-27 — 5.08 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54664520</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54664520#2026-10-27T01:11:00+00:00</guid>
-      <pubDate>Tue, 27 Oct 2026 01:11:00 +0000</pubDate>
-      <description>Approach: 2026-10-27T01:11:00+00:00; distance 5.083 LD; velocity 11.6 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Tue, 27 Oct 2026 07:00:19 +0000</lastBuildDate>
+    <pubDate>Tue, 27 Oct 2026 07:00:19 +0000</pubDate>
     <item>
       <title>2018 GS1 — 2026-10-28 — 11.03 LD</title>
       <link>https://close-encounters.vercel.app/objects/50802451</link>
