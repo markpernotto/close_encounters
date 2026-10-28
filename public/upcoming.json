@@ -1,6 +1,6 @@
 {
-  "count": 27,
-  "generated_at": "2026-10-27T07:00:19.936866+00:00",
+  "count": 28,
+  "generated_at": "2026-10-28T06:47:07.755574+00:00",
   "items": [
     {
       "absolute_magnitude_h": 22.59,
@@ -54,20 +54,20 @@
       "visibility_bucket": "large_telescope"
     },
     {
-      "absolute_magnitude_h": 25.666,
-      "apparent_mag_estimate": 18.04173402487318,
+      "absolute_magnitude_h": 25.672,
+      "apparent_mag_estimate": 18.046345487345917,
       "approach_date": "2026-10-30T08:32:00+00:00",
       "designation": "2026 UD",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.029863919412108,
-      "distance_ld": 11.622213201893215,
+      "distance_au": 0.0298448291775431,
+      "distance_ld": 11.614783809484077,
       "full_name": "(2026 UD)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "54664686",
-      "v_rel_km_s": 7.7407098093257,
+      "v_rel_km_s": 7.7362740763071,
       "visibility_bucket": "large_telescope"
     },
     {
@@ -459,6 +459,23 @@
       "pha": false,
       "spkid": "50802107",
       "v_rel_km_s": 10.4139120904863,
+      "visibility_bucket": "large_telescope"
+    },
+    {
+      "absolute_magnitude_h": 27.81,
+      "apparent_mag_estimate": 20.805654068785636,
+      "approach_date": "2026-12-26T19:18:00+00:00",
+      "designation": "2021 PF7",
+      "diameter_estimate_km": null,
+      "diameter_km": null,
+      "distance_au": 0.0397311205479323,
+      "distance_ld": 15.462255552798357,
+      "full_name": "(2021 PF7)",
+      "neo": true,
+      "orbit_class": "ATE",
+      "pha": false,
+      "spkid": "54184284",
+      "v_rel_km_s": 7.67157289378591,
       "visibility_bucket": "large_telescope"
     }
   ],
