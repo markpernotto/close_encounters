@@ -5,28 +5,28 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Oct 2026 06:47:07 +0000</lastBuildDate>
-    <pubDate>Wed, 28 Oct 2026 06:47:07 +0000</pubDate>
-    <item>
-      <title>2018 GS1 — 2026-10-28 — 11.03 LD</title>
-      <link>https://close-encounters.vercel.app/objects/50802451</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50802451#2026-10-28T16:15:00+00:00</guid>
-      <pubDate>Wed, 28 Oct 2026 16:15:00 +0000</pubDate>
-      <description>Approach: 2026-10-28T16:15:00+00:00; distance 11.032 LD; velocity 9.3 km/s; orbit class APO; apparent magnitude ~14.9; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 UB1 — 2026-10-28 — 9.54 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54665702</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54665702#2026-10-28T18:31:00+00:00</guid>
-      <pubDate>Wed, 28 Oct 2026 18:31:00 +0000</pubDate>
-      <description>Approach: 2026-10-28T18:31:00+00:00; distance 9.537 LD; velocity 18.7 km/s; orbit class APO; apparent magnitude ~16.7; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Thu, 29 Oct 2026 06:46:52 +0000</lastBuildDate>
+    <pubDate>Thu, 29 Oct 2026 06:46:52 +0000</pubDate>
     <item>
       <title>2022 UV21 — 2026-10-29 — 14.70 LD</title>
       <link>https://close-encounters.vercel.app/objects/54322871</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54322871#2026-10-29T07:54:00+00:00</guid>
       <pubDate>Thu, 29 Oct 2026 07:54:00 +0000</pubDate>
       <description>Approach: 2026-10-29T07:54:00+00:00; distance 14.696 LD; velocity 9.6 km/s; orbit class APO; apparent magnitude ~20.1; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 UC2 — 2026-10-29 — 2.66 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54667951</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54667951#2026-10-29T12:34:00+00:00</guid>
+      <pubDate>Thu, 29 Oct 2026 12:34:00 +0000</pubDate>
+      <description>Approach: 2026-10-29T12:34:00+00:00; distance 2.657 LD; velocity 13.9 km/s; orbit class APO; apparent magnitude ~15.2; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 UB2 — 2026-10-29 — 1.24 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54667950</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54667950#2026-10-29T19:51:00+00:00</guid>
+      <pubDate>Thu, 29 Oct 2026 19:51:00 +0000</pubDate>
+      <description>Approach: 2026-10-29T19:51:00+00:00; distance 1.236 LD; velocity 7.5 km/s; orbit class APO; apparent magnitude ~14.1; visible: large telescope</description>
     </item>
     <item>
       <title>2026 UD — 2026-10-30 — 11.61 LD</title>

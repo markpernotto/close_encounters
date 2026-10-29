@@ -1,7 +1,19 @@
 {
   "count": 100,
-  "generated_at": "2026-10-28T06:47:07.755574+00:00",
+  "generated_at": "2026-10-29T06:46:52.433963+00:00",
   "items": [
+    {
+      "alert_id": 190,
+      "approach_date": "2026-10-29T01:26:00+00:00",
+      "designation": "2026 UE2",
+      "fired_at": "2026-10-29T06:46:05.974853+00:00",
+      "payload": {
+        "distance_ld": 0.3218695218587944
+      },
+      "rationale": "distance 0.32 LD on 2026-10-29 (below 0.5 LD threshold)",
+      "rule_id": "very_close_any_size",
+      "spkid": "54667953"
+    },
     {
       "alert_id": 188,
       "approach_date": "2026-10-23T17:36:00+00:00",
@@ -1286,19 +1298,6 @@
       "rationale": "new object with 1-day observation arc; first close approach in 2 days",
       "rule_id": "short_arc_late_warning",
       "spkid": "54652692"
-    },
-    {
-      "alert_id": 96,
-      "approach_date": "2026-09-22T08:35:00+00:00",
-      "designation": "2026 RZ1",
-      "fired_at": "2026-09-07T07:02:55.579017+00:00",
-      "payload": {
-        "days_until_approach": 15,
-        "observation_arc_days": 1
-      },
-      "rationale": "new object with 1-day observation arc; first close approach in 15 days",
-      "rule_id": "short_arc_late_warning",
-      "spkid": "54652693"
     }
   ]
 }
