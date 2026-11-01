@@ -1,22 +1,22 @@
 {
   "count": 24,
-  "generated_at": "2026-10-31T06:39:23.672335+00:00",
+  "generated_at": "2026-11-01T06:40:18.984914+00:00",
   "items": [
     {
       "absolute_magnitude_h": 20.54,
-      "apparent_mag_estimate": 13.56280598522863,
+      "apparent_mag_estimate": 13.56280603147641,
       "approach_date": "2026-11-02T19:10:00+00:00",
       "designation": "524522",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0402310342120373,
-      "distance_ld": 15.656808153432966,
+      "distance_au": 0.0402310350688734,
+      "distance_ld": 15.656808486889926,
       "full_name": "524522 Zoozve (2002 VE68)",
       "neo": true,
       "orbit_class": "ATE",
       "pha": true,
       "spkid": "20524522",
-      "v_rel_km_s": 8.71731373018252,
+      "v_rel_km_s": 8.71731372198668,
       "visibility_bucket": "large_telescope"
     },
     {
