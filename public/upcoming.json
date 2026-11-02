@@ -1,22 +1,22 @@
 {
   "count": 24,
-  "generated_at": "2026-11-01T06:40:18.984914+00:00",
+  "generated_at": "2026-11-02T06:48:58.438160+00:00",
   "items": [
     {
       "absolute_magnitude_h": 20.54,
-      "apparent_mag_estimate": 13.56280603147641,
+      "apparent_mag_estimate": 13.56280634668464,
       "approach_date": "2026-11-02T19:10:00+00:00",
       "designation": "524522",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0402310350688734,
-      "distance_ld": 15.656808486889926,
+      "distance_au": 0.0402310409087608,
+      "distance_ld": 15.656810759612922,
       "full_name": "524522 Zoozve (2002 VE68)",
       "neo": true,
       "orbit_class": "ATE",
       "pha": true,
       "spkid": "20524522",
-      "v_rel_km_s": 8.71731372198668,
+      "v_rel_km_s": 8.71731396049094,
       "visibility_bucket": "large_telescope"
     },
     {
@@ -38,19 +38,19 @@
     },
     {
       "absolute_magnitude_h": 22.4,
-      "apparent_mag_estimate": 15.28399008355413,
+      "apparent_mag_estimate": 15.283978373502164,
       "approach_date": "2026-11-05T01:14:00+00:00",
       "designation": "2017 WJ2",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0377396629078451,
-      "distance_ld": 14.687235202781988,
+      "distance_au": 0.0377394593905357,
+      "distance_ld": 14.687155999462172,
       "full_name": "(2017 WJ2)",
       "neo": true,
       "orbit_class": "ATE",
       "pha": false,
       "spkid": "50789563",
-      "v_rel_km_s": 11.9612985581045,
+      "v_rel_km_s": 11.9612706992463,
       "visibility_bucket": "large_telescope"
     },
     {
