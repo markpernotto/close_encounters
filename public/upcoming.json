@@ -1,24 +1,7 @@
 {
   "count": 24,
-  "generated_at": "2026-11-02T06:48:58.438160+00:00",
+  "generated_at": "2026-11-03T06:42:20.368929+00:00",
   "items": [
-    {
-      "absolute_magnitude_h": 20.54,
-      "apparent_mag_estimate": 13.56280634668464,
-      "approach_date": "2026-11-02T19:10:00+00:00",
-      "designation": "524522",
-      "diameter_estimate_km": null,
-      "diameter_km": null,
-      "distance_au": 0.0402310409087608,
-      "distance_ld": 15.656810759612922,
-      "full_name": "524522 Zoozve (2002 VE68)",
-      "neo": true,
-      "orbit_class": "ATE",
-      "pha": true,
-      "spkid": "20524522",
-      "v_rel_km_s": 8.71731396049094,
-      "visibility_bucket": "large_telescope"
-    },
     {
       "absolute_magnitude_h": 26.88,
       "apparent_mag_estimate": 17.806157222432063,
@@ -34,6 +17,23 @@
       "pha": false,
       "spkid": "54216376",
       "v_rel_km_s": 11.1747381789748,
+      "visibility_bucket": "large_telescope"
+    },
+    {
+      "absolute_magnitude_h": 26.298,
+      "apparent_mag_estimate": 18.91866397256279,
+      "approach_date": "2026-11-04T14:53:00+00:00",
+      "designation": "2026 VC",
+      "diameter_estimate_km": null,
+      "diameter_km": null,
+      "distance_au": 0.0334297242690251,
+      "distance_ld": 13.009926037289981,
+      "full_name": "(2026 VC)",
+      "neo": true,
+      "orbit_class": "APO",
+      "pha": false,
+      "spkid": "54668866",
+      "v_rel_km_s": 11.6760726450637,
       "visibility_bucket": "large_telescope"
     },
     {
@@ -190,20 +190,20 @@
       "visibility_bucket": "large_telescope"
     },
     {
-      "absolute_magnitude_h": 23.584,
-      "apparent_mag_estimate": 16.045813308291873,
+      "absolute_magnitude_h": 23.604,
+      "apparent_mag_estimate": 16.06440889627408,
       "approach_date": "2026-11-19T22:19:00+00:00",
       "designation": "2026 TB84",
       "diameter_estimate_km": null,
       "diameter_km": null,
-      "distance_au": 0.0310715316231636,
-      "distance_ld": 12.092182544778847,
+      "distance_au": 0.0310514424320874,
+      "distance_ld": 12.084364386066346,
       "full_name": "(2026 TB84)",
       "neo": true,
       "orbit_class": "APO",
       "pha": false,
       "spkid": "54664028",
-      "v_rel_km_s": 9.88048317338847,
+      "v_rel_km_s": 9.87432553333352,
       "visibility_bucket": "large_telescope"
     },
     {
