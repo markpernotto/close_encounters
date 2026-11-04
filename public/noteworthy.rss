@@ -5,8 +5,16 @@
     <link>https://close-encounters.vercel.app/alerts</link>
     <description>Threshold-rule alerts: sizeable objects inside the lunar distance, very-close approaches, late-warning new objects. Append-only — corrections are emitted as new alerts.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 Nov 2026 06:42:20 +0000</lastBuildDate>
-    <pubDate>Tue, 03 Nov 2026 06:42:20 +0000</pubDate>
+    <lastBuildDate>Wed, 04 Nov 2026 06:42:38 +0000</lastBuildDate>
+    <pubDate>Wed, 04 Nov 2026 06:42:38 +0000</pubDate>
+    <item>
+      <title>Alert (short_arc_late_warning): 2026 UG4 — 2026-11-08</title>
+      <link>https://close-encounters.vercel.app/objects/54668914</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/192</guid>
+      <pubDate>Wed, 04 Nov 2026 06:41:55 +0000</pubDate>
+      <category>short_arc_late_warning</category>
+      <description>new object with 8-day observation arc; first close approach in 4 days</description>
+    </item>
     <item>
       <title>Alert (short_arc_late_warning): 2026 VC — 2026-11-04</title>
       <link>https://close-encounters.vercel.app/objects/54668866</link>
@@ -798,14 +806,6 @@
       <pubDate>Mon, 07 Sep 2026 07:02:55 +0000</pubDate>
       <category>short_arc_late_warning</category>
       <description>new object with 1-day observation arc; first close approach in 1 days</description>
-    </item>
-    <item>
-      <title>Alert (short_arc_late_warning): 2026 RV1 — 2026-09-10</title>
-      <link>https://close-encounters.vercel.app/objects/54652689</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/alerts/94</guid>
-      <pubDate>Mon, 07 Sep 2026 07:02:55 +0000</pubDate>
-      <category>short_arc_late_warning</category>
-      <description>new object with 1-day observation arc; first close approach in 3 days</description>
     </item>
   </channel>
 </rss>
