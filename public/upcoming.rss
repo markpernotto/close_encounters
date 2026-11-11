@@ -5,43 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Nov 2026 06:41:40 +0000</lastBuildDate>
-    <pubDate>Tue, 10 Nov 2026 06:41:40 +0000</pubDate>
-    <item>
-      <title>2026 VT3 — 2026-11-10 — 4.32 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54669654</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669654#2026-11-10T10:04:00+00:00</guid>
-      <pubDate>Tue, 10 Nov 2026 10:04:00 +0000</pubDate>
-      <description>Approach: 2026-11-10T10:04:00+00:00; distance 4.323 LD; velocity 9.8 km/s; orbit class APO; apparent magnitude ~17.4; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 VK1 — 2026-11-10 — 9.58 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54669247</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669247#2026-11-10T10:42:00+00:00</guid>
-      <pubDate>Tue, 10 Nov 2026 10:42:00 +0000</pubDate>
-      <description>Approach: 2026-11-10T10:42:00+00:00; distance 9.582 LD; velocity 9.1 km/s; orbit class APO; apparent magnitude ~18.8; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 VK5 — 2026-11-10 — 12.30 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54669894</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669894#2026-11-10T15:37:00+00:00</guid>
-      <pubDate>Tue, 10 Nov 2026 15:37:00 +0000</pubDate>
-      <description>Approach: 2026-11-10T15:37:00+00:00; distance 12.300 LD; velocity 9.8 km/s; orbit class APO; apparent magnitude ~18.5; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2012 YD7 — 2026-11-10 — 18.52 LD</title>
-      <link>https://close-encounters.vercel.app/objects/50621831</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/50621831#2026-11-10T20:05:00+00:00</guid>
-      <pubDate>Tue, 10 Nov 2026 20:05:00 +0000</pubDate>
-      <description>Approach: 2026-11-10T20:05:00+00:00; distance 18.524 LD; velocity 7.5 km/s; orbit class ATE; apparent magnitude ~17.7; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 VN4 — 2026-11-11 — 8.62 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54669872</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669872#2026-11-11T03:52:00+00:00</guid>
-      <pubDate>Wed, 11 Nov 2026 03:52:00 +0000</pubDate>
-      <description>Approach: 2026-11-11T03:52:00+00:00; distance 8.616 LD; velocity 3.6 km/s; orbit class APO; apparent magnitude ~18.9; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Wed, 11 Nov 2026 06:42:33 +0000</lastBuildDate>
+    <pubDate>Wed, 11 Nov 2026 06:42:33 +0000</pubDate>
     <item>
       <title>2023 VF3 — 2026-11-11 — 8.43 LD</title>
       <link>https://close-encounters.vercel.app/objects/54402986</link>
@@ -57,6 +22,13 @@
       <description>Approach: 2026-11-11T10:30:00+00:00; distance 18.315 LD; velocity 6.5 km/s; orbit class APO; apparent magnitude ~19.8; visible: large telescope</description>
     </item>
     <item>
+      <title>2026 VS8 — 2026-11-11 — 0.77 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54670226</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670226#2026-11-11T13:48:00+00:00</guid>
+      <pubDate>Wed, 11 Nov 2026 13:48:00 +0000</pubDate>
+      <description>Approach: 2026-11-11T13:48:00+00:00; distance 0.767 LD; velocity 14.3 km/s; orbit class APO; apparent magnitude ~16.4; visible: large telescope</description>
+    </item>
+    <item>
       <title>2026 VX1 — 2026-11-11 — 7.94 LD</title>
       <link>https://close-encounters.vercel.app/objects/54669261</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669261#2026-11-11T15:19:00+00:00</guid>
@@ -64,11 +36,25 @@
       <description>Approach: 2026-11-11T15:19:00+00:00; distance 7.936 LD; velocity 4.3 km/s; orbit class APO; apparent magnitude ~19.3; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 VY7 — 2026-11-12 — 11.68 LD</title>
+      <title>2026 VY7 — 2026-11-12 — 11.65 LD</title>
       <link>https://close-encounters.vercel.app/objects/54670135</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670135#2026-11-12T08:14:00+00:00</guid>
-      <pubDate>Thu, 12 Nov 2026 08:14:00 +0000</pubDate>
-      <description>Approach: 2026-11-12T08:14:00+00:00; distance 11.682 LD; velocity 20.0 km/s; orbit class APO; apparent magnitude ~16.7; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670135#2026-11-12T08:13:00+00:00</guid>
+      <pubDate>Thu, 12 Nov 2026 08:13:00 +0000</pubDate>
+      <description>Approach: 2026-11-12T08:13:00+00:00; distance 11.655 LD; velocity 20.0 km/s; orbit class APO; apparent magnitude ~16.7; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 VK8 — 2026-11-12 — 7.81 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54670218</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670218#2026-11-12T12:47:00+00:00</guid>
+      <pubDate>Thu, 12 Nov 2026 12:47:00 +0000</pubDate>
+      <description>Approach: 2026-11-12T12:47:00+00:00; distance 7.813 LD; velocity 22.7 km/s; orbit class APO; apparent magnitude ~16.7; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 VP8 — 2026-11-13 — 2.95 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54670223</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670223#2026-11-13T02:12:00+00:00</guid>
+      <pubDate>Fri, 13 Nov 2026 02:12:00 +0000</pubDate>
+      <description>Approach: 2026-11-13T02:12:00+00:00; distance 2.951 LD; velocity 6.2 km/s; orbit class ATE; apparent magnitude ~16.5; visible: large telescope</description>
     </item>
     <item>
       <title>2025 VG5 — 2026-11-13 — 18.13 LD</title>
@@ -82,28 +68,35 @@
       <link>https://close-encounters.vercel.app/objects/54669252</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669252#2026-11-13T05:59:00+00:00</guid>
       <pubDate>Fri, 13 Nov 2026 05:59:00 +0000</pubDate>
-      <description>Approach: 2026-11-13T05:59:00+00:00; distance 9.798 LD; velocity 14.2 km/s; orbit class APO; apparent magnitude ~16.8; visible: large telescope</description>
+      <description>Approach: 2026-11-13T05:59:00+00:00; distance 9.797 LD; velocity 14.2 km/s; orbit class APO; apparent magnitude ~16.8; visible: large telescope</description>
     </item>
     <item>
-      <title>2026 VV5 — 2026-11-13 — 15.15 LD</title>
+      <title>2026 VV5 — 2026-11-13 — 15.16 LD</title>
       <link>https://close-encounters.vercel.app/objects/54669965</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669965#2026-11-13T09:11:00+00:00</guid>
       <pubDate>Fri, 13 Nov 2026 09:11:00 +0000</pubDate>
-      <description>Approach: 2026-11-13T09:11:00+00:00; distance 15.147 LD; velocity 13.0 km/s; orbit class APO; apparent magnitude ~17.1; visible: large telescope</description>
+      <description>Approach: 2026-11-13T09:11:00+00:00; distance 15.158 LD; velocity 13.0 km/s; orbit class APO; apparent magnitude ~17.2; visible: large telescope</description>
     </item>
     <item>
       <title>2026 VB8 — 2026-11-13 — 14.26 LD</title>
       <link>https://close-encounters.vercel.app/objects/54670140</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670140#2026-11-13T15:34:00+00:00</guid>
-      <pubDate>Fri, 13 Nov 2026 15:34:00 +0000</pubDate>
-      <description>Approach: 2026-11-13T15:34:00+00:00; distance 14.260 LD; velocity 7.4 km/s; orbit class AMO; apparent magnitude ~19.8; visible: large telescope</description>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670140#2026-11-13T15:37:00+00:00</guid>
+      <pubDate>Fri, 13 Nov 2026 15:37:00 +0000</pubDate>
+      <description>Approach: 2026-11-13T15:37:00+00:00; distance 14.260 LD; velocity 7.4 km/s; orbit class AMO; apparent magnitude ~19.8; visible: large telescope</description>
     </item>
     <item>
       <title>2026 VF7 — 2026-11-14 — 9.53 LD</title>
       <link>https://close-encounters.vercel.app/objects/54670080</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670080#2026-11-14T17:58:00+00:00</guid>
       <pubDate>Sat, 14 Nov 2026 17:58:00 +0000</pubDate>
-      <description>Approach: 2026-11-14T17:58:00+00:00; distance 9.531 LD; velocity 7.4 km/s; orbit class APO; apparent magnitude ~16.9; visible: large telescope</description>
+      <description>Approach: 2026-11-14T17:58:00+00:00; distance 9.528 LD; velocity 7.4 km/s; orbit class APO; apparent magnitude ~17.0; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 VV8 — 2026-11-14 — 3.59 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54670229</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670229#2026-11-14T23:24:00+00:00</guid>
+      <pubDate>Sat, 14 Nov 2026 23:24:00 +0000</pubDate>
+      <description>Approach: 2026-11-14T23:24:00+00:00; distance 3.588 LD; velocity 6.3 km/s; orbit class APO; apparent magnitude ~16.1; visible: large telescope</description>
     </item>
     <item>
       <title>2026 VM3 — 2026-11-16 — 8.07 LD</title>
@@ -145,7 +138,7 @@
       <link>https://close-encounters.vercel.app/objects/54664028</link>
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54664028#2026-11-19T22:20:00+00:00</guid>
       <pubDate>Thu, 19 Nov 2026 22:20:00 +0000</pubDate>
-      <description>Approach: 2026-11-19T22:20:00+00:00; distance 12.085 LD; velocity 9.9 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
+      <description>Approach: 2026-11-19T22:20:00+00:00; distance 12.086 LD; velocity 9.9 km/s; orbit class APO; apparent magnitude ~16.2; visible: large telescope</description>
     </item>
     <item>
       <title>2026 VD6 — 2026-11-20 — 10.44 LD</title>
@@ -153,6 +146,13 @@
       <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669972#2026-11-20T10:35:00+00:00</guid>
       <pubDate>Fri, 20 Nov 2026 10:35:00 +0000</pubDate>
       <description>Approach: 2026-11-20T10:35:00+00:00; distance 10.441 LD; velocity 9.4 km/s; orbit class APO; apparent magnitude ~18.9; visible: large telescope</description>
+    </item>
+    <item>
+      <title>2026 VD9 — 2026-11-21 — 10.17 LD</title>
+      <link>https://close-encounters.vercel.app/objects/54670234</link>
+      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670234#2026-11-21T21:16:00+00:00</guid>
+      <pubDate>Sat, 21 Nov 2026 21:16:00 +0000</pubDate>
+      <description>Approach: 2026-11-21T21:16:00+00:00; distance 10.172 LD; velocity 4.7 km/s; orbit class APO; apparent magnitude ~17.3; visible: large telescope</description>
     </item>
     <item>
       <title>2026 VQ5 — 2026-11-25 — 5.20 LD</title>
