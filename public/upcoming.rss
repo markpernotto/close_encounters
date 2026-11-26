@@ -5,22 +5,8 @@
     <link>https://close-encounters.vercel.app</link>
     <description>Near-Earth objects forecast to pass close to Earth in the next 60 days. Sourced from NASA JPL CNEOS.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Nov 2026 06:46:52 +0000</lastBuildDate>
-    <pubDate>Wed, 25 Nov 2026 06:46:52 +0000</pubDate>
-    <item>
-      <title>2026 VV11 — 2026-11-25 — 16.15 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54670416</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54670416#2026-11-25T21:20:00+00:00</guid>
-      <pubDate>Wed, 25 Nov 2026 21:20:00 +0000</pubDate>
-      <description>Approach: 2026-11-25T21:20:00+00:00; distance 16.147 LD; velocity 8.7 km/s; orbit class APO; apparent magnitude ~17.8; visible: large telescope</description>
-    </item>
-    <item>
-      <title>2026 VQ5 — 2026-11-25 — 5.23 LD</title>
-      <link>https://close-encounters.vercel.app/objects/54669961</link>
-      <guid isPermaLink="false">https://close-encounters.vercel.app/objects/54669961#2026-11-25T21:21:00+00:00</guid>
-      <pubDate>Wed, 25 Nov 2026 21:21:00 +0000</pubDate>
-      <description>Approach: 2026-11-25T21:21:00+00:00; distance 5.227 LD; velocity 11.7 km/s; orbit class APO; apparent magnitude ~14.6; visible: large telescope</description>
-    </item>
+    <lastBuildDate>Thu, 26 Nov 2026 06:46:38 +0000</lastBuildDate>
+    <pubDate>Thu, 26 Nov 2026 06:46:38 +0000</pubDate>
     <item>
       <title>2026 VQ19 — 2026-11-26 — 3.94 LD</title>
       <link>https://close-encounters.vercel.app/objects/54671142</link>
