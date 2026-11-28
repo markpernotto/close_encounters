@@ -1,7 +1,24 @@
 {
-  "count": 23,
-  "generated_at": "2026-11-27T06:46:00.641983+00:00",
+  "count": 24,
+  "generated_at": "2026-11-28T06:42:27.114792+00:00",
   "items": [
+    {
+      "absolute_magnitude_h": 26.758,
+      "apparent_mag_estimate": 14.655030291993098,
+      "approach_date": "2026-11-28T10:50:00+00:00",
+      "designation": "2026 WK3",
+      "diameter_estimate_km": null,
+      "diameter_km": null,
+      "distance_au": 0.00379669804270827,
+      "distance_ld": 1.477570090738852,
+      "full_name": "(2026 WK3)",
+      "neo": true,
+      "orbit_class": "APO",
+      "pha": false,
+      "spkid": "54680049",
+      "v_rel_km_s": 9.23372390064645,
+      "visibility_bucket": "large_telescope"
+    },
     {
       "absolute_magnitude_h": 28.72,
       "apparent_mag_estimate": 21.308926677342942,
